@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: ${ENV:dev}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false # ?? ?? ??
+
+server:
+  port: ${SERVER_PORT:8080}

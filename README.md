@@ -24,7 +24,7 @@ JPA 의 N+1 문제, 동시성 문제 이해 및 해결 도전
 - Servlet 기반 BackEnd 시스템 → REST API 시스템으로 설계
 
 ## ERD
-![FruitShop ERD](https://www.erdcloud.com/d/7S9xt8SMDxY87zEFz)
+[FruitShop ERD](https://www.erdcloud.com/d/7S9xt8SMDxY87zEFz)
 
 
 

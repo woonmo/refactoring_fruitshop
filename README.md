@@ -60,6 +60,7 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 	- Spring Data JPA
 - 배포:
 	- Ubuntu 24.04
+ 	- Docker(Dockerfile 및 Docker compose 사용) 예정 
 
 
 ## 기술적 도전

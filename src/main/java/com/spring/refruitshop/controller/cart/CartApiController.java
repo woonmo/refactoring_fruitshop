@@ -27,4 +27,12 @@ public class CartApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(addItemResponse);
     }// end of public ResponseEntity<CartDTO> addCart(@RequestBody AddItemRequest request) ----------------------
 
+
+    // 장바구니 항목 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteItemCart(@PathVariable Long id) {
+        cartService.delete(id);
+
+        return ResponseEntity.ok().body("장바구니 항목이 삭제되었습니다.");
+    }// end of public ResponseEntity<Void> deleteItemCart(@PathVariable Long id) ---------------------
 }

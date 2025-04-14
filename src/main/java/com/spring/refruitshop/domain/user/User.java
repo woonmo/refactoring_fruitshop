@@ -31,7 +31,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="SEQ_USER_GENERATOR")
     private Long no;        // 유저번호, 시퀀스
 
-    @Column(name = "user_id", nullable = false, length = 20)
+    @Column(name = "user_id", nullable = false, length = 20, unique = true)
     private String userId;      // 아이디
 
     @Column(name = "password", nullable = false)
@@ -110,7 +110,6 @@ public class User {
                 ", point=" + point +
                 ", createdAt=" + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
                 ", lastPwdChangeDate=" + lastPwdChangeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
-                ", carts=" + carts +
                 ", status=" + status +
                 ", role=" + role +
                 '}';

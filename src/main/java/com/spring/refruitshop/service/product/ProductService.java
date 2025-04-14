@@ -32,7 +32,7 @@ public class ProductService {
         // 유저 검증
         User user = userRepository.findById(request.getUserNo())
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자입니다."));
-        log.info("Searched user: {}", user);
+        log.info("Searched user that before register product: {}", user);
 
         // 관리자 검증
         if (!"ADMIN".equalsIgnoreCase(user.getRole().toString())) {
@@ -47,6 +47,7 @@ public class ProductService {
 
         // 상품 등록
         Product product = productRepository.save(request.toEntity());
+        log.info("Saved product: {}", product);
 
         // 객체 반환
         return new ProductRegisterResponse(product);

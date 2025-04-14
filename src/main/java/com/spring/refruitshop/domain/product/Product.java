@@ -84,4 +84,20 @@ public class Product {
         }
         this.inventory -= quantity;
     }// end of public void decreaseInventory(int quantity) -----------------
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "no=" + no +
+                ", name='" + name + '\'' +
+                ", cost=" + cost +
+                ", price=" + price +
+                ", inventory=" + inventory +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", description='" + description + '\'' +
+                ", season=" + season +
+                '}';
+    }
 }

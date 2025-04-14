@@ -26,10 +26,10 @@ public class UserApiController {
     // 회원 가입
     @PostMapping
     public ResponseEntity<UserRegisterResponse> registerUser(@RequestBody @Validated UserRegisterRequest request) {
-        User user = userService.save(request);
+        UserRegisterResponse createdUser = userService.save(request);
 
-        // 회원 정보를 리턴
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserRegisterResponse(user));
+        // 가입된 회원 정보를 리턴
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }// end of public ResponseEntity<User> registerUser(@RequestBody UserRegisterRequest request) ---------------
 
 

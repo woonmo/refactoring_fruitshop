@@ -61,4 +61,17 @@ public class Cart {
         return price * quantity;
     }// end of public int sumPrice(int price, int quantity) ---------------------------
 
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "cartNo=" + cartNo +
+                ", userNo=" + user.getNo() +
+                ", userId=" + user.getUserId() +
+                ", userName=" + user.getName() +
+                ", productNo=" + product.getNo() +
+                ", productName=" + product.getName() +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

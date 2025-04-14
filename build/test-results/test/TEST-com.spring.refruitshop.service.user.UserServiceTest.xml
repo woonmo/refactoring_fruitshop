@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.spring.refruitshop.service.user.UserServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-04-12T13:27:45.332Z" hostname="MacBook-Pro.local" time="0.625">
-  <properties/>
-  <testcase name="userRegisterSuccess: 회원가입에 성공한다." classname="com.spring.refruitshop.service.user.UserServiceTest" time="0.625"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -3,8 +3,6 @@ package com.spring.refruitshop.domain.user;
 import com.spring.refruitshop.domain.cart.Cart;
 import com.spring.refruitshop.domain.common.Address;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,4 +93,26 @@ public class User {
         this.no = no;
     }
 
+
+    // logging
+    @Override
+    public String toString() {
+        return "User{" +
+                "no=" + no +
+                ", userId='" + userId + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", birthday=" + birthday +
+                ", tel='" + tel + '\'' +
+                ", email='" + email + '\'' +
+                ", address=" + address +
+                ", gender=" + gender +
+                ", point=" + point +
+                ", createdAt=" + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                ", lastPwdChangeDate=" + lastPwdChangeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                ", carts=" + carts +
+                ", status=" + status +
+                ", role=" + role +
+                '}';
+    }
 }

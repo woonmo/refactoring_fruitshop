@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserDTO {
+public class UserRegisterResponse {
 
     private Long userNo;        // 회원번호
 
@@ -40,7 +40,7 @@ public class UserDTO {
     private String createdAt;   // 가입일자
 
 
-    public UserDTO (User user) {
+    public UserRegisterResponse(User user) {
         this.userNo = user.getNo();
         this.userId = user.getUserId();
         this.name = user.getName();

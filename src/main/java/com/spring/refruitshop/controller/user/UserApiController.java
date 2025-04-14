@@ -1,6 +1,6 @@
 package com.spring.refruitshop.controller.user;
 
-import com.spring.refruitshop.controller.user.dto.UserDTO;
+import com.spring.refruitshop.controller.user.dto.UserRegisterResponse;
 import com.spring.refruitshop.controller.user.dto.UserRegisterRequest;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.service.user.UserService;
@@ -25,27 +25,11 @@ public class UserApiController {
 
     // 회원 가입
     @PostMapping
-    public ResponseEntity<UserDTO> registerUser(@RequestBody @Validated UserRegisterRequest request) {
+    public ResponseEntity<UserRegisterResponse> registerUser(@RequestBody @Validated UserRegisterRequest request) {
         User user = userService.save(request);
 
         // 회원 정보를 리턴
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserDTO(user));
-        /*
-            {
-                "userId": "hongildong1",
-                "name": "홍길동",
-                "birthday": "1993-02-12",
-                "tel": "010-2322-3211",
-                "email": "test@tes1t.com",
-                "zipcode": "12345",
-                "address": "안산시",
-                "detailAddress": "김김동",
-                "extraAddress": "아아동",
-                "gender": "남",
-                "point": 0,
-                "createdAt": "2025-04-13"
-            }
-         */
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserRegisterResponse(user));
     }// end of public ResponseEntity<User> registerUser(@RequestBody UserRegisterRequest request) ---------------
 
 

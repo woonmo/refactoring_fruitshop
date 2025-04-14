@@ -3,7 +3,6 @@ package com.spring.refruitshop.domain.cart;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,12 +45,20 @@ public class Cart {
         this.quantity = quantity;
     }
 
-    // 장바구니에 담긴 상품의 수량을 증가시키는 메소드
-    public void increaseQuantity(int quantity) {
+    // 장바구니에 담긴 상품의 수량을 수정 해주는 메소드
+    public void updateQuantity(int quantity) {
         if (quantity < 0) {
             throw new IllegalArgumentException("상품 수량은 1 이상이어야 합니다 !!");
         }
-        this.quantity += quantity;
-    }
+        this.quantity = quantity;
+    }// end of public void updateQuantity(int quantity) ---------------------
+
+    // 장바구니에 담은 상품의 가격 합계를 구해주는 메소드
+    public int sumPrice(int price, int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("상품 수량은 1 이상이어야 합니다 !!");
+        }
+        return price * quantity;
+    }// end of public int sumPrice(int price, int quantity) ---------------------------
 
 }

@@ -2,8 +2,6 @@ package com.spring.refruitshop.domain.product;
 
 import com.spring.refruitshop.domain.cart.Cart;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -31,32 +29,27 @@ public class Product {
     private Long no;    // 상품 번호
 
     @Column(name = "prod_name", nullable = false)
-    @NotNull
     private String name;    // 상품 명
 
     @Column(name = "prod_cost", nullable = false)
-    @NotNull
-    @Min(0)
     private int cost;   // 상품 원가
 
     @Column(name = "prod_price", nullable = false)
-    @NotNull
-    @Min(0)
     private int price;  // 상품가격
 
     @Column(name = "prod_inventory")
-    @NotNull
     @Builder.Default
-    @Min(0)
     private int inventory = 0;  // 재고량
 
     @CreatedDate
-    @Column(name = "prod_regidate")
-    private LocalDateTime createdAt;
+    @Column(name = "prod_regidate", updatable = false)
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();  // 등록일자
 
     @LastModifiedDate
     @Column(name = "prod_modidate")
-    private LocalDateTime updateAt;
+    @Builder.Default
+    private LocalDateTime updateAt = LocalDateTime.now();   // 수정일자
 
     @Column(name = "prod_thumbnail")
     private String thumbnail;   // 상품 썸네일
@@ -66,7 +59,7 @@ public class Product {
 
     @Column(name = "prod_season")
     @Enumerated(EnumType.STRING)
-    private ProductSeasons season;
+    private ProductSeasons season;  // 계절
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cart> carts;
@@ -79,7 +72,7 @@ public class Product {
     }
 
 
-    // 재고 감소 메소드
+    // 재고 감소 메소드 (주문 시)
     public void decreaseInventory(int quantity) {
         if (quantity <= 0) {
             // 주문량이 0 이하 일경우

@@ -38,6 +38,10 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 [FruitShop ERD](https://www.erdcloud.com/d/7S9xt8SMDxY87zEFz)
 
 
+## API 정의
+자세한 정보는 [API 정의서](docs/api-definition.md) 문서를 참조해주세요.
+
+
 ##  개발환경
 ### 기존 환경
 - **언어 / 프레임워크**:

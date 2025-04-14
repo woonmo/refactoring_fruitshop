@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="layout(title, css, script, content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- 바뀌는 title -->
+    <title th:replace="${title}">Title</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}" >
+
+    <!-- header & footer CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index/header.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index/footer.css}" />
+
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+    <!-- css 교체 -->
+    <style th:replace="${css}"></style>
+
+</head>
+<body>
+    <div id="container">
+        <!-- header 교체 -->
+        <div id="header" th:insert="~{fragment/header :: header}"></div>
+
+        <div id="content" th:insert="${content}"></div>
+
+        <div id="footer" th:insert="~{fragment/footer :: footer}"></div>
+    </div>
+
+    <!-- jQuery & bootstrap -->
+    <script type="text/javascript" th:src="@{/bootstrap-4.6.2-dist/js/jquery-3.7.1.min.js}" ></script>
+    <script type="text/javascript" th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}" ></script>
+
+    <!-- header js -->
+    <script type="text/javascript" th:src="@{/js/index/header.js}" ></script>
+
+    <!-- script 교체 -->
+    <script th:replace="${script}" type="text/javascript"></script>
+</body>
+</html>

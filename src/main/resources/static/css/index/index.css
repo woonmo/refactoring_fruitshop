@@ -1,0 +1,39 @@
+
+  /* 상품 a 태그 */
+  a.product {
+    color: black;
+  }
+  a.product:hover {
+    text-decoration-line: none;
+  }
+  
+  /* 메인페이지 계절 과일 폰트 */
+  div#categoty_season {
+  	font-family: 'Noto Sans KR', sans-serif;
+  	font-weight: 500;
+  }
+  
+  
+  /* 메인페이지 계절명 */
+  span.season {
+  	font-family: 'Noto Sans KR', sans-serif;
+  	font-weight: 400;
+  }
+  
+  /* 메인페이지 상품명 */
+  span.product {
+  	font-family: 'Noto Sans KR', sans-serif;
+  	font-weight: bold;
+  	cursor: pointer;
+  }
+  
+  
+  
+  /* 하트 아이콘 */
+  i.heart:hover {
+  	cursor: pointer;
+  }
+ div.wishbutton {
+ 	margin-left: auto;
+ 	margin-top: 6%;
+ }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>독독고 과일판매</title>
+</head>
+<body>
+    <div th:fragment="header">
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top mt-3 mb-5">
+            <!-- 슬라이드 메뉴 시작 -->
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a>Fruit Shop</a>
+                <a>Team Story</a>
+                <a>Community</a>
+                <br>
+
+                <a>Login</a>
+                <a>My Page</a>
+                <a>Order List</a>
+                <a>Cart</a>
+
+            </div>
+            <!-- 슬라이드 메뉴 끝 -->
+
+            <div style="margin-left: 0.22%;" class="container-fluid row">
+                <div class="col-md-5 navbar-collapse text-center" id="navbarSupportedContent" style="padding-right: 2%;">
+                    <ul class="navbar-nav mx-auto">
+                        <span style="font-size:20px;cursor:pointer; margin-top:1.25%" onclick="openNav()">&#9776;</span>
+                        <li class="nav-item active ml-4">
+                            <a class="nav-link menu">Fruit shop</a>
+                        </li>
+                        <li class="nav-item active ml-3">
+                            <a class="nav-link menu">Team Story</a>
+                        </li>
+                        <li class="nav-item active ml-3">
+                            <a class="nav-link menu">Community</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 로고 이미지 -->
+                <div class="col-md-2 navbar-collapse">
+                    <div class="mx-auto">
+                        <a th:href="@{/}"><img style="text-align: center;" th:src="@{/images/index/logo_header.png}" alt="헤더 로고"></a>
+                    </div>
+                </div>
+
+                <!-- 우측 메뉴 -->
+                <div class="col-md-5 navbar-collapse" >
+                    <ul class="navbar-nav mx-auto"> <!-- .mr-auto 는 css 의  margin-right: auto; 임. 즉, 가로축 미사용 공간 너비의 일부를 바깥 여백에 할당한다는 의미임. -->
+
+                        <li class="nav-item active mr-3">
+                            <a class="nav-link menu">Login</a>
+                        </li>
+
+                        <li class="nav-item active mr-3">
+                            <a class="nav-link menu">My Page</a>
+                        </li>
+                        <li class="nav-item active mr-3">
+                            <a class="nav-link menu">Order List</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a style="margin-top: 2%; cursor: pointer;" class="navbar-brand notification">
+                                <i class="fa-solid fa-basket-shopping"></i><span class="badge">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+
+</body>
+</html>

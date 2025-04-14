@@ -1,0 +1,172 @@
+<!doctype html>
+<html th:replace="~{layout/layout :: layout(~{::title}, ~{::style}, ~{::script}, ~{::section})}" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>메인 페이지</title>
+
+
+    <link th:fragment="style" rel="stylesheet" type="text/css" th:href="@{/css/index/index.css}" />
+
+</head>
+<body>
+    <section>
+        <!-- 메인페이지 캐러셀 시작 -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <a href="#" class="product"><img th:src="@{/images/index/main_delivery.png}" class="d-block w-100" alt="..."></a>
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <a href="#" class="product"><img th:src="@{/images/index/main_best.png}" class="d-block w-100" alt="..."></a>
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                    <a href="#" class="product"><img th:src="@{/images/index/main_pick.png}" class="d-block w-100" alt="..."></a>
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+            </div>
+
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <!-- 메인페이지 캐러셀 끝 -->
+
+        <!-- 계절테마 메뉴 시작 -->
+        <div style="width: 70%; margin: 0 auto;" class="my-5">
+            <div id="categoty_season" class="h2 mb-5">계절 과일</div>
+            <div style="display: flex;" data-aos="fade-up" data-aos-delay="0">
+                <div class="mx-auto">
+                    <a class="product"><!-- 계절 테마 조회(봄) -->
+                        <img th:src="@{/images/index/spring.png}" style="width: 158px; height: 157px; border-radius: 50%;">
+                        <span th:text="${'봄'}" style="display: block;" class="text-center h4 mt-3 season">계절명</span>
+                    </a>
+                </div>
+                <div class="mx-auto">
+                    <a class="product"><!-- 계절 테마 조회(여름) -->
+                        <img th:src="@{/images/index/summer.png}" style="width: 158px; height: 157px; border-radius: 50%;">
+                        <span th:text="${'여름'}" style="display: block;" class="text-center h4 mt-3 season">계절명</span>
+                    </a>
+                </div>
+                <div class="mx-auto">
+                    <a class="product"><!-- 계절 테마 조회(가을) -->
+                        <img th:src="@{/images/index/autumn.png}" style="width: 158px; height: 157px; border-radius: 50%;">
+                        <span th:text="${'가을'}" style="display: block;" class="text-center h4 mt-3 season">계절명</span>
+                    </a>
+                </div>
+                <div class="mx-auto">
+                    <a class="product"><!-- 계절 테마 조회(겨울) -->
+                        <img th:src="@{/images/index/winter.png}" style="width: 158px; height: 157px; border-radius: 50%;">
+                        <span th:text="${'겨울'}" style="display: block;" class="text-center h4 mt-3 season">계절명</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- 계절테마 메뉴 끝 -->
+
+        <!-- 신상품 메뉴 시작 -->
+        <div style="width: 70%; margin:0 auto;" class="my-5">
+            <div class="mb-5" style="display: flex;">
+                <div class="h2" style="font-family: 'Noto Sans KR', sans-serif; font-weight: 500;" >New Arrivals</div>
+                <div style="margin-left: auto;">
+                    <a><span class="btn btn-outline-secondary" style="font-family: 'Noto Sans KR', sans-serif;">상품보러가기&nbsp;&gt;</span></a>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div class="mx-auto" style="position: relative;" data-aos="fade-up" data-aos-delay="0">
+                    <img th:src="@{/images/product/thumbnail/grape.png}" style="width: 250px; height: 250px; cursor: pointer;" onclick="">
+
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 시작 -->
+<!--                                <img src="<%=request.getContextPath()%>/images/product/soldout.png" style="position: absolute; top: 0; left: 0; width: 37px; height: 20px; opacity: 1.0; cursor: pointer;" onclick="">-->
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 끝 -->
+
+                    <div style="display: flex;">
+                        <div class="mt-3">
+                            <span th:text="${'신상 포도'}" class="h5 mt-3 product">상품명</span>
+                        </div>
+                        <div class ="wishbutton">
+                            <span><i class="fa-solid fa-heart fa-lg heart mt-3"></i></span>
+                        </div>
+                    </div>
+                    <span th:text="|${#numbers.formatInteger(20000, 3, 'COMMA')} 원|" style="display: block; font-family: 'Noto Sans KR', sans-serif;" class="mt-3">상품 금액</span>
+                </div>
+                <div class="mx-auto" style="position: relative;" data-aos="fade-up" data-aos-delay="0">
+                    <img th:src="@{/images/product/thumbnail/kiwi.png}" style="width: 250px; height: 250px; cursor: pointer;" onclick="">
+
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 시작 -->
+                    <!--                                <img src="<%=request.getContextPath()%>/images/product/soldout.png" style="position: absolute; top: 0; left: 0; width: 37px; height: 20px; opacity: 1.0; cursor: pointer;" onclick="">-->
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 끝 -->
+
+                    <div style="display: flex;">
+                        <div class="mt-3">
+                            <span th:text="${'신상 그린키위'}" class="h5 mt-3 product">상품명</span>
+                        </div>
+                        <div class ="wishbutton">
+                            <span><i class="fa-solid fa-heart fa-lg heart mt-3"></i></span>
+                        </div>
+                    </div>
+                    <span th:text="|${#numbers.formatInteger(15000, 3, 'COMMA')} 원|" style="display: block; font-family: 'Noto Sans KR', sans-serif;" class="mt-3">상품 금액</span>
+                </div>
+                <div class="mx-auto" style="position: relative;" data-aos="fade-up" data-aos-delay="0">
+                    <img th:src="@{/images/product/thumbnail/melon.png}" style="width: 250px; height: 250px; cursor: pointer;" onclick="">
+
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 시작 -->
+                    <!--                                <img src="<%=request.getContextPath()%>/images/product/soldout.png" style="position: absolute; top: 0; left: 0; width: 37px; height: 20px; opacity: 1.0; cursor: pointer;" onclick="">-->
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 끝 -->
+
+                    <div style="display: flex;">
+                        <div class="mt-3">
+                            <span th:text="${'고당도 멜론 10kg'}" class="h5 mt-3 product">상품명</span>
+                        </div>
+                        <div class ="wishbutton">
+                            <span><i class="fa-solid fa-heart fa-lg heart mt-3"></i></span>
+                        </div>
+                    </div>
+                    <span th:text="|${#numbers.formatInteger(30000, 3, 'COMMA')} 원|" style="display: block; font-family: 'Noto Sans KR', sans-serif;" class="mt-3">상품 금액</span>
+                </div>
+                <div class="mx-auto" style="position: relative;" data-aos="fade-up" data-aos-delay="0">
+                    <img th:src="@{/images/product/thumbnail/grapefruit.png}" style="width: 250px; height: 250px; cursor: pointer;" onclick="">
+
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 시작 -->
+                    <!--                                <img src="<%=request.getContextPath()%>/images/product/soldout.png" style="position: absolute; top: 0; left: 0; width: 37px; height: 20px; opacity: 1.0; cursor: pointer;" onclick="">-->
+                    <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 끝 -->
+
+                    <div style="display: flex;">
+                        <div class="mt-3">
+                            <span th:text="${'레드자몽 대과 1박스'}" class="h5 mt-3 product">상품명</span>
+                        </div>
+                        <div class ="wishbutton">
+                            <span><i class="fa-solid fa-heart fa-lg heart mt-3"></i></span>
+                        </div>
+                    </div>
+                    <span th:text="|${#numbers.formatInteger(25000, 3, 'COMMA')} 원|" style="display: block; font-family: 'Noto Sans KR', sans-serif;" class="mt-3">상품 금액</span>
+                </div>
+
+            </div>
+        </div>
+        <!-- 신상품 메뉴 끝 -->
+
+
+    </section>
+
+    <script type="text/javascript" th:src="@{/js/index/index.js}"></script>
+</body>
+</html>

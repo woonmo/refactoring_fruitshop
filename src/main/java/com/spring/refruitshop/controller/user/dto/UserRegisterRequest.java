@@ -63,4 +63,8 @@ public class UserRegisterRequest {
                 .build();
     }
 
+    public void encryptPassword(String password) {
+        this.password = password;
+    }
+
 }

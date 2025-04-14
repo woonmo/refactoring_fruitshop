@@ -2,7 +2,6 @@ package com.spring.refruitshop.controller.user;
 
 import com.spring.refruitshop.controller.user.dto.UserRegisterResponse;
 import com.spring.refruitshop.controller.user.dto.UserRegisterRequest;
-import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layout :: layout(~{::title}, ~{::style}, ~{::script}, ~{::section})}" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인</title>
+    <link th:fragment="style" rel="stylesheet" type="text/css" th:href="@{/css/index/index.css}" />
+</head>
+<body>
+    <section>
+        <div class="container">
+            <form name="loginFrm" action="/login" method="POST">
+                <div style="width:450px; margin : 10px auto;">
+                    <div class="text-center" style="margin-top:100px; margin-bottom:50px;">
+                        <h2 style="font-weight:bold;">로그인</h2>
+                    </div>
+                    <div th:text="${loginFailMessage}" class="col-md-12 text-danger">로그인 실패 시 메시지</div>
+                    <div>
+                        <table style="margin : 10px auto;">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="userid" id="loginUserid" placeholder="아이디" style="width:450px; height:50px; line-height:50px; margin:5px 0; padding-left:10px; font-size: 16px;"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="password" name="password" id="loginPasswd" placeholder="비밀번호" style="width:450px; height:50px; line-height:50px; margin:5px 0; padding-left:10px; font-size: 16px;"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="error" id="error" style="color:red;"></div>
+
+                    <div style="margin : 0 auto;">
+                        <span class="" style="height:50px; line-height:50px;">
+                            <input type="checkbox" id="saveid" />&nbsp;<label for="saveid">아이디 저장</label>&nbsp;&nbsp;
+                            <img src="//img.echosting.cafe24.com/design/skin/default/member/ico_access.gif" alt="보안접속"> 보안접속
+                        </span>
+                        <span class="btn float-right"  style="height:50px; line-height:40px;">
+                            <a id="idFind" style="color:black;">아이디찾기</a> /
+                            <a id="passwdFind" style="color:black;">비밀번호찾기</a>
+                        </span>
+                    </div>
+
+                    <div class="text-center" style="margin-bottom:100px;" >
+                        <button type="button" id="btnLogin" class="h5" style="width:450px; height:50px; margin:10px 0; display:inline-block; line-height:50px; background-color:#000000; color:white;">로그인</button>
+                        <button type="button" id="btnRegister" class="h5" style="width:450px; height:50px; margin:10px 0; display:inline-block; line-height:50px; background-color:#000000; color:white;">회원가입</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script th:fragment="script" th:src="@{/js/user/login.js}"></script>
+</body>
+</html>

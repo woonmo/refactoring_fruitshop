@@ -94,7 +94,7 @@ public class User implements UserDetails {
     }
 
 
-    // 스프링 시큐리티
+    // === 스프링 시큐리티 시작 === //
     @Override   // 권한 반환
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("user"));
@@ -140,7 +140,7 @@ public class User implements UserDetails {
         // 계정이 사용 가능한지 확인하는 로직
         return true; // true -> 사용 가능
     }
-
+    // === 스프링 시큐리티 끝 === //
 
     // logging
     @Override

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/layout :: layout(~{::title}, ~{::style}, ~{::script}, ~{::section})}" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/layout :: layout(~{::title}, ~{::style}, ~{::script}, ~{::section})}" lang="en" xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -10,7 +11,7 @@
 <body>
     <section>
         <div class="container">
-            <form name="loginFrm" action="/login" method="POST">
+            <form name="loginFrm" th:action="@{/login}" method="POST">
                 <div style="width:450px; margin : 10px auto;">
                     <div class="text-center" style="margin-top:100px; margin-bottom:50px;">
                         <h2 style="font-weight:bold;">로그인</h2>

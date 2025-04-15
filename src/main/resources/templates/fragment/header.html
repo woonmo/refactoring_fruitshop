@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,7 +17,12 @@
                 <a>Community</a>
                 <br>
 
-                <a>Login</a>
+                <!-- Login & Logout -->
+                <a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
+                <form name="logout" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                    <a onclick="document.logout.submit()">Logout</a>
+                </form>
+
                 <a>My Page</a>
                 <a>Order List</a>
                 <a>Cart</a>
@@ -52,7 +58,11 @@
                     <ul class="navbar-nav mx-auto"> <!-- .mr-auto 는 css 의  margin-right: auto; 임. 즉, 가로축 미사용 공간 너비의 일부를 바깥 여백에 할당한다는 의미임. -->
 
                         <li class="nav-item active mr-3">
-                            <a th:href="@{/login}" class="nav-link menu">Login</a>
+<!--                            <a th:${session != null} th:href="@{/login}" class="nav-link menu">Login</a>--> <!-- 시큐리티 미사용 -->
+                            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link menu">Login</a>
+                            <form name="logout" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                                <a style="color: black;" class="nav-link menu" onclick="document.logout.submit()">Logout</a>
+                            </form>
                         </li>
 
                         <li class="nav-item active mr-3">

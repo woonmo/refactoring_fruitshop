@@ -7,14 +7,12 @@ import com.spring.refruitshop.util.Pagination;
 import com.spring.refruitshop.util.PagingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/products")
@@ -32,10 +30,12 @@ public class ProductViewController {
     public String viewProducts(Model model, ProductSearchRequest request) {
         Page<ProductSearchResponse> productPage = productService.pagingProductList(request);      // 페이징 처리 된 상품리스트
 
-        Pagination pagination = PagingUtil.getPagination(productPage, 5);   // 페이징 바 블럭 5개
+        Pagination pagination = PagingUtil.getPagination(productPage, 5);   // 페이징 정보 생성
 
         model.addAttribute("productList", productPage.getContent());    // 상품 조회 내용
         model.addAttribute("pagination", pagination);
+
+        log.info("전체상품조회 생성한 페이지바 정보: {}", pagination);
 
         return "product/productList";
     }// end of public String viewProducts(Model model) ----------------------
@@ -47,10 +47,12 @@ public class ProductViewController {
         request.setSeason(season);  // 검색한 계절
         Page<ProductSearchResponse> productPage = productService.pagingProductListBySeason(request);
 
-        Pagination pagination = PagingUtil.getPagination(productPage, 5);   // 페이징 바 블럭 5개
+        Pagination pagination = PagingUtil.getPagination(productPage, 5);   // 페이징 정보 생성
 
         model.addAttribute("productList", productPage.getContent());
         model.addAttribute("pagination", pagination);
+
+        log.info("계절상품조회 생성한 페이지바 정보: {}", pagination);
 
         return "product/productList";
     }// end of public String viewProductsSeason(Model model, @PathVariable("season") String season, ProductSearchRequest request) -----------------------

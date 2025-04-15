@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="pagination(pageInfo)">
+        <div class="pagination">
+            <!-- 처음: 1페이지면 비활성화 -->
+            <a th:href="@{|?page=1|}" th:classappend="${pageInfo.currentPage == 1} ? 'disabled'" th:text="'&laquo;'">처음</a>
+
+            <!-- 이전: 총 페이지가 블럭 수보다 많으면 -->
+            <a th:if="${pageInfo.totalPages > pageInfo.blockSize}" th:text="'&lsaquo;'">이전</a>
+
+
+            <!-- 페이지블럭 -->
+            <!-- 시작 페이지부터 끝 페이지까지 반복, ?page=2 URL 추가, 현재 페이지에 active 클래스 추가 -->
+            <a  th:each="i: ${#numbers.sequence(pageInfo.startPage, pageInfo.endPage)}"
+                th:href="@{|?page=${i}|}" th:text="${i}"
+                th:classappend="${i == pageInfo.currentPage} ? 'active'">페이지블럭</a>
+
+
+            <!-- 다음: 총 페이지가 블럭 수보다 많으면 -->
+            <a th:if="${pageInfo.totalPages > pageInfo.blockSize}" th:text="'&lsaquo;'">다음</a>
+
+            <!-- 마지막: 총 페이지로 이동, 마지막 페이지 시 비활성화 -->
+            <a th:href="@{|?page=${pageInfo.totalPages}|}" th:classappend="${pageInfo.currentPage == pageInfo.totalPages} ? 'disabled'" th:text="'&raquo;'">마지막</a>
+
+            <!--
+                <div>Debug: <span th:text="|currentPage: ${pageInfo.currentPage}|"></span></div>
+                <div>Debug: <span th:text="|totalPages: ${pageInfo.totalPages}|"></span></div>
+                <div>Debug: <span th:text="|startPage: ${pageInfo.startPage}|"></span></div>
+                <div>Debug: <span th:text="|endPage: ${pageInfo.endPage}|"></span></div>
+                <div>Debug: <span th:text="|blockSize: ${pageInfo.blockSize}|"></span></div>
+            -->
+        </div>
+    </div>
+</body>
+</html>

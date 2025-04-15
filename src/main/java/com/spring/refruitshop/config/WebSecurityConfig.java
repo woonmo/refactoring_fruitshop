@@ -41,9 +41,9 @@ public class WebSecurityConfig {
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests((auth) -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/", "/login", "/signup", "/product/**", "/api/users").permitAll()
-                        .requestMatchers(toH2Console()).permitAll()
-//                        .requestMatchers("/static/**","/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/products/**", "/api/users").permitAll()
+//                        .requestMatchers(toH2Console()).permitAll()
+                        .requestMatchers("/adimin/**", "/api/admin/**").hasRole("ADMIN")    // 관리자만 접근 가능하도록
                         .anyRequest().authenticated()
                 )
                 .formLogin((login) -> login

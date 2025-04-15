@@ -39,6 +39,7 @@ public class LoginHistory {
                 ", userid=" + user.getUserId() +
                 ", userName=" + user.getName() +
                 ", userEmail=" + user.getEmail() +
+                ", userRole=" + user.getAuthorities() +
                 ", clientIp='" + clientIp + '\'' +
                 '}';
     }

@@ -2,15 +2,19 @@ package com.spring.refruitshop.service.product;
 
 import com.spring.refruitshop.controller.product.dto.ProductRegisterRequest;
 import com.spring.refruitshop.controller.product.dto.ProductRegisterResponse;
+import com.spring.refruitshop.controller.product.dto.ProductSearchRequest;
+import com.spring.refruitshop.controller.product.dto.ProductSearchResponse;
 import com.spring.refruitshop.domain.product.Product;
+import com.spring.refruitshop.domain.product.ProductSeasons;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.repository.product.ProductRepository;
 import com.spring.refruitshop.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -52,4 +56,67 @@ public class ProductService {
         // 객체 반환
         return new ProductRegisterResponse(product);
     }// end of public ProductRegisterResponse save(ProductRegisterRequest request) -----------------------------
+
+
+    // 페이징 처리 된 상품리스트
+    public Page<ProductSearchResponse> pagingProductList(ProductSearchRequest request) {
+
+        log.info("전체 상품조회 요청 정보: {}", request);
+        Pageable pageable;
+        Page<ProductSearchResponse> page;   // 초기화
+        String searchProduct = request.getProduct();
+
+        // 검색 키워드가 있을 경우 와 없을 경우를 분기
+        if (searchProduct != null && !searchProduct.isEmpty()) {
+            log.info("전체 상품 조회 검색 키워드: {}", searchProduct);
+
+            pageable = request.toPageable(ProductSearchRequest.SORT_FIELD_NATIVE);   // LIKE 연산자 사용 시 네이티브 쿼리 사용해야
+            // 검색 키워드가 있을 경우
+            page = productRepository.findByNameContaining(searchProduct, pageable)
+                    .map(product -> new ProductSearchResponse(product)); // 검색 키워드와 페이징 처리로 조회
+        }
+        else {
+            // 검색 키워드가 없을 경우
+            log.info("전체 상품 조회");
+            pageable = request.toPageable(ProductSearchRequest.SORT_FIELD_JPQL);
+            page = productRepository.findAll(pageable)
+                    .map(product -> new ProductSearchResponse(product));
+        }
+        log.info("전체 상품 조회 결과: {}", page.getContent());
+        return page;
+    }// end of public Page<Product> pagingProductList(ProductSearchRequest request) -----------------
+
+
+    // 페이징 처리 된 계절별 조회 상품리스트
+    public Page<ProductSearchResponse> pagingProductListBySeason(ProductSearchRequest request) {
+        log.info("계절별 상품조회 요청 정보: {}", request);
+
+        Pageable pageable;
+        Page<ProductSearchResponse> page;   // 초기화
+        String season = request.getSeason();
+        String searchProduct = request.getProduct();
+
+        // 지정한 계절 이외의 것을 조회요청 했을 경우 전체 조회
+        if (season == null || season.isEmpty()) {
+            return pagingProductList(request);
+        }
+
+        // 검색 키워드가 있을 경우 와 없을 경우를 분기
+        if (searchProduct != null && !searchProduct.isEmpty()) {
+            log.info("계절별 검색: {}, 검색 키워드: {}", season, searchProduct);
+            // 검색 키워드가 있을 경우
+            pageable = request.toPageable(ProductSearchRequest.SORT_FIELD_NATIVE);
+            page = productRepository.findBySeasonAndNameContaining(searchProduct, season, pageable)
+                    .map(product -> new ProductSearchResponse(product)); // 검색 키워드와 페이징 처리로 조회  네이티브 쿼리 쓰면 enum 타입 변수로 사용 불가..
+        }
+        else {
+            log.info("계절별 조회: {}", season);
+            // 검색 키워드가 없을 경우
+            pageable = request.toPageable(ProductSearchRequest.SORT_FIELD_JPQL);
+            page = productRepository.findBySeason(ProductSeasons.valueOf(season), pageable)
+                    .map(product -> new ProductSearchResponse(product));
+        }
+        log.info("계절별 상품 조회 결과: {}", page.getContent());
+        return page;
+    }// end of public Page<ProductSearchResponse> pagingProductListBySeason(ProductSearchRequest request) -------------------
 }

@@ -1,6 +1,4 @@
 
-console.log(window.customButton123);
-
 const customButton123 = document.getElementById("customButton123");
 
 if (customButton123) {

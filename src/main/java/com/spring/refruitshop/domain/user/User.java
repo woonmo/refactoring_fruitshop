@@ -97,7 +97,7 @@ public class User implements UserDetails {
     // === 스프링 시큐리티 시작 === //
     @Override   // 권한 반환
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));     // 스프링 시큐리티는 ROLE_권한을 탐색하므로 꼭 "ROLE_" 를 붙여줘야 함.
     }
 
     // 사용자의 id를 반환(고유한 값)

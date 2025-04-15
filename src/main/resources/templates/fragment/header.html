@@ -12,7 +12,7 @@
             <!-- 슬라이드 메뉴 시작 -->
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a>Fruit Shop</a>
+                <a th:href="@{/products}">Fruit Shop</a>
                 <a>Team Story</a>
                 <a>Community</a>
                 <br>
@@ -23,7 +23,10 @@
                     <a onclick="document.logout.submit()">Logout</a>
                 </form>
 
-                <a>My Page</a>
+                <!-- MyPage & AdminPage -->
+                <a sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="nav-link menu">Admin Page</a>
+                <a sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-link menu">My Page</a>
+
                 <a>Order List</a>
                 <a>Cart</a>
 
@@ -35,7 +38,7 @@
                     <ul class="navbar-nav mx-auto">
                         <span style="font-size:20px;cursor:pointer; margin-top:1.25%" onclick="openNav()">&#9776;</span>
                         <li class="nav-item active ml-4">
-                            <a class="nav-link menu">Fruit shop</a>
+                            <a th:href="@{/products}" class="nav-link menu">Fruit shop</a>
                         </li>
                         <li class="nav-item active ml-3">
                             <a class="nav-link menu">Team Story</a>
@@ -61,17 +64,20 @@
 <!--                            <a th:${session != null} th:href="@{/login}" class="nav-link menu">Login</a>--> <!-- 시큐리티 미사용 -->
                             <a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link menu">Login</a>
                             <form name="logout" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-                                <a style="color: black;" class="nav-link menu" onclick="document.logout.submit()">Logout</a>
+                                <a style="color: black;" class="nav-link menu" onclick="this.parentNode.submit()">Logout</a><!-- this.parentNode: 현재 태그의 부모 태그 -->
                             </form>
                         </li>
 
                         <li class="nav-item active mr-3">
-                            <a class="nav-link menu">My Page</a>
+                            <a sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="nav-link menu">Admin Page</a>
+                            <a sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-link menu">My Page</a>
+<!--                            <div>Debug: <span sec:authentication="name"></span></div>-->
+<!--                            <div>Debug: <span sec:authentication="authorities"></span></div>-->
                         </li>
-                        <li class="nav-item active mr-3">
+                        <li sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-item active mr-3">
                             <a class="nav-link menu">Order List</a>
                         </li>
-                        <li class="nav-item active">
+                        <li sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-item active">
                             <a style="margin-top: 2%; cursor: pointer;" class="navbar-brand notification">
                                 <i class="fa-solid fa-basket-shopping"></i><span class="badge">0</span>
                             </a>
@@ -82,6 +88,5 @@
             </div>
         </nav>
     </div>
-
 </body>
 </html>

@@ -1,0 +1,405 @@
+@charset "UTF-8";
+
+
+/* 상품상세페이지 전체 틀 */
+div#container {
+    width: 80%;
+    margin: 4% auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    /* 	border: solid 1px red; */
+}
+
+
+/* 상품 정보 틀 */
+div#detailWrap {
+    margin: 0 auto;
+    /*  	border: solid 2px blue;  */
+}
+
+
+/* 상품 상세페이지 이미지 썸네일  */
+div#prod_thumnail {
+    /* 	border: solid 2px green; */
+}
+
+
+/* 상품 상세페이지 상품 정보 틀 */
+div#prod_info {
+    padding-left: 4%;
+    /* 	border: solid 2px red; */
+}
+
+/* 상품 상세페이지 각 상품 정보  */
+div#prod_info div {
+    margin-bottom: 2%;
+}
+
+
+/* 상품 상세페이지 span, li*/
+span, li, p {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 배송비 금액 부분 */
+span.deliveryCost {
+    margin-left: 12%;
+}
+
+
+/* 수량 전체 */
+span.quantity {
+    display: flex;
+    height: 34px;
+    width: auto;
+    margin-left: 15%;
+}
+
+/* 플러스 / 마이너스 버튼 */
+span.quantity > button {
+    border: solid 1px black;
+    background: white;
+    color: #979797;
+    width: 34px;
+    height: 34px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-align: center;
+    box-sizing: border-box;
+    transition: background-color .3s;
+}
+
+/* 플러스 / 마이너스 버튼 마우스 올라 갔을 때 색상 변경 */
+span.quantity button:hover:not(.minus),
+span.quantity button:hover:not(.plus) {
+    background-color: black;
+    color: white;
+}
+
+
+/* 수량 */
+span.quantity > input {
+    border-right: none;
+    border-left: none;
+    border-top: solid 1px black;
+    border-bottom: solid 1px black;
+    width: 50px;
+    height: 34px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12pt;
+    text-align: center;
+    outline: none;
+}
+
+
+/* 장바구니 버튼 */
+div.cart {
+    border: solid 1px black;
+    background-color: white;
+    cursor: pointer;
+}
+
+div.cart span {
+    color: #666666;
+    font-size: 11pt;
+}
+/* 장바구니 버튼 끝 */
+
+
+
+/* 구매 버튼 */
+div.purchase {
+    border: none;
+    background-color: black;
+    cursor: pointer;
+}
+
+div.purchase span {
+    color: white;
+    font-size: 11pt;
+}
+/* 구매 버튼 끝 */
+
+
+
+/* SOLD OUT */
+div.soldout {
+    border: none;
+    background-color: black;
+    cursor: context-menu;
+}
+
+div.soldout span {
+    color: white;
+    font-size: 11pt;
+}
+/* SOLD OUT 끝 */
+
+
+
+/* 상세 정보 시작 */
+
+/* 상세정보(상세이미지,이용안내,이용후기,문의사항) 틀 */
+div#detailWrap2 {
+    margin: 3% auto;
+}
+
+/* 상세정보(상세이미지,이용안내,이용후기,문의사항) 개별 틀 */
+div#detailInfo,
+div#guideInfo,
+div#prdReview,
+div#prdInquire {
+    margin-top: 8%;
+}
+
+
+/* 상세정보/이용안내/상품후기/문의사항 바 */
+div#detailInfo ul,
+div#guideInfo ul,
+div#prdReview ul,
+div#prdInquire ul {
+    border: none;
+    list-style-type: none; /* 기본 점 표시 없애기 */
+    padding: 0;
+    margin: 0;
+    justify-content: space-evenly; /* 간격 균등하게 사용  */
+    height: 52px;
+    position: sticky;
+    top: 106px;
+    overflow: hidden;
+    /*  background-color: white; */
+}
+
+/* 상세정보/이용안내/상품후기/문의사항 바 li */
+div#detailInfo ul li,
+div#guideInfo ul li,
+div#prdReview ul li,
+div#prdInquire ul li {
+    border: none;
+    flex: 1;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12pt;
+}
+
+/* 상세정보/이용안내/상품후기/문의사항 바 li 강조 */
+div#detailInfo ul > li.detail,
+div#guideInfo ul > li.guide,
+div#prdReview ul > li.review,
+div#prdInquire ul > li.inquire {
+    font-weight: bold;
+    border-bottom: solid 2px black;
+}
+
+/* 상세정보/이용안내/상품후기/문의사항 p */
+div#detailInfo p,
+div#prdReview p,
+div#prdInquire p {
+    margin-top: 2%;
+    text-align: center;
+}
+
+
+/* 이용 안내 text 전체 */
+div#guideInfo div.guideText {
+    margin-top: 2%;
+    text-align: left;
+    background-color: #eeeeee;
+    padding: 3% 0 3% 2%;
+}
+
+
+/* 이용안내 text 제목 */
+div#guideInfo > div.guideText > span.paymentTextTitle,
+div#guideInfo > div.guideText > span.shippingTextTitle,
+div#guideInfo > div.guideText > span.changeTextTitle,
+div#guideInfo > div.guideText > span.serviceTextTitle {
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+/* 이용안내 text 내용  */
+div#guideInfo > div.guideText > span.paymentTextContetns,
+div#guideInfo > div.guideText > span.shippingTextContetns,
+div#guideInfo > div.guideText > span.changeTextContetns,
+div#guideInfo > div.guideText > span.serviceTextContetns  {
+    font-size: 10pt;
+}
+
+
+
+/* 상품 후기 문의 하기 table  */
+table {
+    /* border: solid 1px #DADADA; */
+    border-collapse: collapse; /* 경계선 없애기  */
+}
+
+
+th, td {
+    text-align: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12pt;
+}
+
+td {
+    line-height: 2.4em;
+}
+
+td.reviewTitle {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 두 줄까지만 표시 */
+    -webkit-box-orient: vertical;
+    overflow: hidden; /* 넘치는 부분을 숨김 */
+    text-overflow: ellipsis; /* 넘치는 부분에 "..." 표시 */
+    line-height: 2.4em; /* 줄 간격 */
+}
+
+
+tr.reviewInfo:hover {
+    cursor: pointer
+}
+
+
+tr.qnaInfo:hover {
+    cursor: pointer
+}
+
+
+/* 상품 후기 내용란 전체 */
+div#prdReview div.reviewBoard {
+    margin-top: 5%;
+}
+
+
+/* 문의 하기 전체 틀  */
+div#prdInquire {
+    margin-bottom: 15%;
+}
+
+/* 문의 하기 내용란 전체 */
+div#prdInquire div.inquireBoard {
+    margin-top: 5%;
+}
+
+
+
+
+/* 상품후기 후기 쓰기 및 상품문의 하기 버튼 */
+div.reveiwBtn,
+div.inquireBtn {
+    border: none;
+    background-color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+div.reveiwBtn span,
+div.inquireBtn span {
+    color: white;
+    font-size: 11pt;
+}
+/* 상품후기 후기 쓰기 및 상품문의 하기 버튼 끝 */
+
+
+/* 상품후기 및 상품문의 모두보기 버튼 */
+div.reveiwAllsee,
+div.inquireAllsee {
+    border: solid 1px black;
+    background-color: white;
+    cursor: pointer;
+}
+
+div.reveiwAllsee span,
+div.inquireAllsee span {
+    color:  #666666;
+    font-size: 11pt;
+}
+/* 상품후기 및 상품문의 모두보기 끝 */
+
+/* 상세 정보 끝 */
+
+
+
+
+/* 상품 상세페이지 상품 후기 수량 텍스트 */
+span.reviewCnt {
+    margin-left: 1.5%;
+    width: 35px;
+    height: 25px;
+    background-color: black;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 10pt;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+
+
+/* 상품 상세 페이지 a태그 */
+a
+    /* a.reveiwBtn,
+    a.reveiwAllsee,
+    a.inquireBtn
+    a.inquireAllsee */ {
+    color: black;
+}
+
+a.detailBar {
+    width: 100%;
+    height: 52px;
+    line-height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a:hover
+    /* a.reveiwBtn:hover,
+    a.reveiwAllsee:hover,
+    a.inquireBtn:hover,
+    a.inquireAllsee:hover */ {
+    color: black;
+    text-decoration-line: none;
+}
+
+
+/* 바 위치 이동을 위한 빈 DIV 시작 */
+div.detailEmptyDiv {
+    position: absolute;
+    width: 100px;
+    height: 0px;
+    background: none;
+    border: solid 0px red;
+}
+
+
+div.guideEmptyDiv {
+    position: absolute;
+    width: 100px;
+    height: 0px;
+    background: none;
+    border: solid 0px red;;
+}
+
+
+div.reviewEmptyDiv {
+    position: absolute;
+    width: 100px;
+    height: 0px;
+    background: none;
+    border: solid 0px red;;
+}
+
+
+
+div.inquireEmptyDiv {
+    position: absolute;
+    width: 100px;
+    height: 0px;
+    background: none;
+    border: solid 0px red;;
+}

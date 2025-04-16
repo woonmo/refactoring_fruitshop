@@ -158,12 +158,14 @@ div.pagination a {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 12pt;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 div.pagination a.active {
     background-color: black;
     color: white;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 div.pagination a:hover:not(.active) {

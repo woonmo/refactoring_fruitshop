@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" th:fragment="layout(title, css, script, content)" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<html lang="en" th:fragment="layout(title, css, script, content)" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <!-- Required meta tags -->
@@ -18,9 +17,9 @@
     <!-- Sweet Alert -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.16.1/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Header -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index/header.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common/header.css}" />
     <!-- Footer -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index/footer.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common/footer.css}" />
     <!-- Page Bar -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/common/pageBar.css}" />
 
@@ -47,7 +46,7 @@
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.16.1/dist/sweetalert2.all.min.js"></script>
     <!-- Header -->
-    <script type="text/javascript" th:src="@{/js/index/header.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/common/header.js}" ></script>
 
     <!-- script 교체 -->
     <th:block th:replace="${script}"></th:block>

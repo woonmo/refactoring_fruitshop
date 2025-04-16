@@ -1,9 +1,6 @@
 package com.spring.refruitshop.service.product;
 
-import com.spring.refruitshop.controller.product.dto.ProductRegisterRequest;
-import com.spring.refruitshop.controller.product.dto.ProductRegisterResponse;
-import com.spring.refruitshop.controller.product.dto.ProductSearchRequest;
-import com.spring.refruitshop.controller.product.dto.ProductSearchResponse;
+import com.spring.refruitshop.controller.product.dto.*;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.product.ProductSeasons;
 import com.spring.refruitshop.domain.user.User;
@@ -36,7 +33,6 @@ public class ProductService {
         // 유저 검증
         User user = userRepository.findById(request.getUserNo())
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자입니다."));
-        log.info("Searched user that before register product: {}", user);
 
         // 관리자 검증
         if (!"ADMIN".equalsIgnoreCase(user.getRole().toString())) {
@@ -51,7 +47,7 @@ public class ProductService {
 
         // 상품 등록
         Product product = productRepository.save(request.toEntity());
-        log.info("Saved product: {}", product);
+        log.info("상품 등록 완료, 등록한 회원: {}, 등록된 상품: {}", user, product);
 
         // 객체 반환
         return new ProductRegisterResponse(product);
@@ -116,7 +112,20 @@ public class ProductService {
             page = productRepository.findBySeason(ProductSeasons.valueOf(season), pageable)
                     .map(product -> new ProductSearchResponse(product));
         }
+
         log.info("계절별 상품 조회 결과: {}", page.getContent());
         return page;
     }// end of public Page<ProductSearchResponse> pagingProductListBySeason(ProductSearchRequest request) -------------------
+
+
+    // 상품 한개의 정보를 가져오는 메소드
+    public ProductDetailResponse findById(Long no) {
+        ProductDetailResponse productDetail =  productRepository.findById(no)
+                .map(product -> new ProductDetailResponse(product))
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 상품정보 입니다."));
+
+        return productDetail;
+    }// end of public ProductDetailResponse findById (Long no) ---------------------------
+
+
 }

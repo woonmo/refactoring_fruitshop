@@ -1,5 +1,6 @@
 package com.spring.refruitshop.controller.product;
 
+import com.spring.refruitshop.controller.product.dto.ProductDetailResponse;
 import com.spring.refruitshop.controller.product.dto.ProductSearchRequest;
 import com.spring.refruitshop.controller.product.dto.ProductSearchResponse;
 import com.spring.refruitshop.service.product.ProductService;
@@ -11,11 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/products")
 @Slf4j
 public class ProductViewController {
 
@@ -26,7 +25,7 @@ public class ProductViewController {
     }
 
     // 전체 상품 목록 조회
-    @GetMapping
+    @GetMapping("/products")
     public String viewProducts(Model model, ProductSearchRequest request) {
         Page<ProductSearchResponse> productPage = productService.pagingProductList(request);      // 페이징 처리 된 상품리스트
 
@@ -44,7 +43,7 @@ public class ProductViewController {
 
 
     // 계절 상품 목록 조회
-    @GetMapping("/{season}")
+    @GetMapping("/products/{season}")
     public String viewProductsSeason(Model model, @PathVariable("season") String season, ProductSearchRequest request) {
         request.setSeason(season);  // 검색한 계절
         Page<ProductSearchResponse> productPage = productService.pagingProductListBySeason(request);
@@ -62,5 +61,14 @@ public class ProductViewController {
     }// end of public String viewProductsSeason(Model model, @PathVariable("season") String season, ProductSearchRequest request) -----------------------
 
 
+
+    // 상품 상세 조회
+    @GetMapping("/product/{no}")
+    public String viewProduct(Model model, @PathVariable("no") Long no) {
+        ProductDetailResponse product =  productService.findById(no);
+        model.addAttribute("product", product);
+
+        return "/product/productDetail";
+    }// end of public String viewProduct(Model model, @PathVariable("no") String no) -----------------------
 
 }

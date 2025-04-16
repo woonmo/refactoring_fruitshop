@@ -3,6 +3,7 @@ let qty = window.productData.inventory > 0 ? 1 : 0; // 초기 수량 (재고가 
 const prodInventory = window.productData.inventory; // 재고량
 const prodPrice = window.productData.price;         // 상품 가격
 const prodNo = window.productData.prodNo;           // 상품 번호
+const isLogin = window.productData.isLogin;         // 로그인 여부
 const qtyInput = document.querySelector("input.qty");   // 수량 input 태그
 const totalPriceSpan = document.getElementById("totalPrice");       // 총 가격, 수량을 나타내주는 태그
 
@@ -58,9 +59,49 @@ function updateTotalPrice() {
 }
 
 
+// 장바구니 추가
 const addCartButton = document.getElementById("addCart");
 if (addCartButton) {
     addCartButton.addEventListener("click", function () {
-       alert("장바구니담기, 수량, 상품번호: "+ qty + ", " +prodNo );
+       if (!isLogin) {
+           // 로그인을 안 한 경우
+           Swal.fire({
+               title: "로그인 후 이용 가능합니다!",
+               icon: "warning",
+           })
+           .then((result) => {
+               window.location.href = "/login";
+           });
+       }
+       else {
+           // 로그인을 한 경우
+           fetch("/api/carts", {
+               method: "POST",
+               headers: {
+                   "Content-Type": "application/json"
+               },
+               body: JSON.stringify({
+                   "productNo" : prodNo,
+                   "quantity": qty
+               })
+           })
+               .then((response) => {
+                   if (response.status === 200 || response.status === 201) {
+                       Swal.fire({
+                           title: "상품을 장바구니에 담았습니다!",
+                           icon: "success",
+                           confirmButtonText: "장바구니 보러가기",
+                           showCancelButton: true,
+                           cancelButtonText: "계속 쇼핑"
+                       })
+                           .then((result) => {
+                               if (result.isConfirmed) {
+                                   alert("장바구니 보러 가기!"); // 추후 페이지 제작
+                               }
+                           });
+                   }
+               });// end of fetch("/api/carts", {}) -----------------
+       }
+
     });
-}
+}// end of if (addCartButton) -------------------

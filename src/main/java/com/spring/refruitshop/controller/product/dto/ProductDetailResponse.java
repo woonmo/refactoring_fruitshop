@@ -26,4 +26,16 @@ public class ProductDetailResponse {
         this.price = product.getPrice();
         this.inventory = product.getInventory();
     }
+
+    @Override
+    public String toString() {
+        return "ProductDetailResponse{" +
+                "no=" + no +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", inventory=" + inventory +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

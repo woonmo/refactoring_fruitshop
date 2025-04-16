@@ -123,7 +123,7 @@ public class ProductService {
         ProductDetailResponse productDetail =  productRepository.findById(no)
                 .map(product -> new ProductDetailResponse(product))
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 상품정보 입니다."));
-
+        log.info("조회한 상품 정보: {}", productDetail);
         return productDetail;
     }// end of public ProductDetailResponse findById (Long no) ---------------------------
 

@@ -9,10 +9,6 @@ import lombok.Setter;
 @Setter
 public class AddItemRequest {
 
-    // 장바구니 상품 추가 요청 DTO
-    @NotNull(message = "회원 정보는 필수입니다 !!")
-    private Long userNo;        // 유저 번호
-
     @NotNull(message = "상품 정보는 필수입니다 !!")
     private Long productNo;     // 상품번호
 

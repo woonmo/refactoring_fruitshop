@@ -37,8 +37,6 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 
         // 로그인 한 유저 정보를 가져온다.
         User loginUser = (User) authentication.getPrincipal();  // 로그인 한 유저 객체, UserDetails 객체 UserDetailService 에서 구현했음
-        session.setAttribute("loginUser", loginUser);
-
 
         String redirectUrl = (String)session.getAttribute("prevURLPage");
 

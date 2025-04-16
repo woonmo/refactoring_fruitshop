@@ -18,7 +18,7 @@
             <div id="detailWrap" style="display: flex; max-width: 1400px;">
                 <!-- 썸네일 -->
                 <div id="prod_thumnail" style="flex: 1; max-width: 700px;">
-                    <img th:src="@{/images/product/thumnail/${product.thumbnail}}" style="width: 700px; height: 700px;">
+                    <img th:src="@{'/images/product/thumbnail/'+${product.thumbnail}}" style="width: 700px; height: 700px;">
                 </div>
 
                 <!-- 상품정보 -->
@@ -316,6 +316,7 @@
                 // 0 은 기본값으로 ${product.price}를 찾지 못할 때 0으로 넘긴다.
                 // JS 에서 이 값을 파싱할 때 타입은 원본 유지된다. price, inventory 의 경우 int 타입이므로 JS 에서 number 타입이 된다.
                 // 문자열의 경우 /*[[...]]*/ '' 로 작성하며 자동으로 따옴표를 만들어준다 '사과'
+                isLogin: /*[[${loginUser != null}]]*/ false,
                 prodNo: /*[[${product.no}]]*/ 0,
                 price: /*[[${product.price}]]*/ 0,
                 inventory: /*[[${product.inventory}]]*/ 0

@@ -36,34 +36,31 @@ public class CartService {
 
     // 장바구니에 상품 & 수정 추가 메소드
     @Transactional
-    public AddItemResponse save(AddItemRequest dto) {
-        // 유효한 유저인지 검증
-        User user = userRepository.findById(dto.getUserNo())
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자입니다."));
+    public AddItemResponse save(AddItemRequest dto, User loginUser) {
 
         // 유효한 상품인지 검증
         Product product = productRepository.findById(dto.getProductNo())
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 상품입니다."));
 
         // 먼저 등록한 상품인지 확인 후 있으면 update, 없으면 insert 한다
-        Optional<Cart> existCart = cartRepository.findByUserNoAndProductNo(dto.getUserNo(), dto.getProductNo());
-
-        Cart cart;
-        if (existCart.isPresent()) {
-            // 장바구니에 담은 것이 있으면
-            cart = existCart.get();
-            cart.updateQuantity(dto.getQuantity());   // 수량 업데이트
-            log.info("Updated Cart info: {}", cart);
-        }
-        else {
-            // 없으면 새로 카트 생성
-            cart = Cart.builder()
-                    .user(user)
-                    .product(product)
-                    .quantity(dto.getQuantity())
-                    .build();
-            log.info("Add Cart info: {}", cart);
-        }
+        Cart cart = cartRepository.findByUserNoAndProductNo(loginUser.getNo(), dto.getProductNo())
+                .map(existCart -> {
+                    // map 은 Optional 에서 정보가 있으면 실행
+                    // 하나의 메소드이며 지금 Cart 객체로 리턴하므로 해당 객체를 리턴해줘야 함
+                    existCart.updateQuantity(dto.getQuantity());
+                    log.info("Updated Cart info: {}", existCart);
+                    return existCart;
+                })
+                .orElseGet(() -> {
+                    // orElse 는 Optional 에서 값이 없으면 실행
+                    Cart newCart = Cart.builder()
+                        .user(loginUser)
+                        .product(product)
+                        .quantity(dto.getQuantity())
+                        .build();
+                    log.info("Add Cart info: {}", newCart);
+                    return newCart;
+                });
 
         // 카트 저장
         cart = cartRepository.save(cart);

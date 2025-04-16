@@ -44,6 +44,7 @@ public class UserViewController {
 
         if("true".equals(loginFail)) {
             String loginFailMessage = "아이디 또는 비밀번호를 확인하세요";
+            session.setAttribute("prevURLPage", "/");
             request.setAttribute("loginFailMessage", loginFailMessage);
         }
 

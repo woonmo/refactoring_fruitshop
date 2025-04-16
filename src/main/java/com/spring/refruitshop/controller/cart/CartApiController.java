@@ -2,6 +2,7 @@ package com.spring.refruitshop.controller.cart;
 
 import com.spring.refruitshop.controller.cart.dto.AddItemRequest;
 import com.spring.refruitshop.controller.cart.dto.AddItemResponse;
+import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.service.cart.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,11 @@ public class CartApiController {
 
     // 장바구니에 추가 & 수정
     @PostMapping
-    public ResponseEntity<AddItemResponse> addItemCart(@RequestBody @Validated AddItemRequest request) {
-        AddItemResponse addItemResponse = cartService.save(request);
+    public ResponseEntity<AddItemResponse> addItemCart(@RequestBody @Validated AddItemRequest request,
+                                                       @ModelAttribute("loginUser") User loginUser) {
+
+
+        AddItemResponse addItemResponse = cartService.save(request, loginUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(addItemResponse);
     }// end of public ResponseEntity<CartDTO> addCart(@RequestBody AddItemRequest request) ----------------------

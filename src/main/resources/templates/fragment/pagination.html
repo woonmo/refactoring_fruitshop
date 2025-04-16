@@ -11,7 +11,9 @@
             <a th:href="@{|?page=1|}" th:classappend="${pageInfo.currentPage == 1} ? 'disabled'" th:text="'&laquo;'">처음</a>
 
             <!-- 이전: 총 페이지가 블럭 수보다 많으면 -->
-            <a th:if="${pageInfo.totalPages > pageInfo.blockSize}" th:text="'&lsaquo;'">이전</a>
+            <a th:if="${pageInfo.totalPages > pageInfo.blockSize}"
+               th:href="@{|?page=${pageInfo.currentPage - 1}|}" th:text="'&lsaquo;'"
+               th:classappend="${pageInfo.currentPage == 1} ? 'disabled'">이전</a>
 
 
             <!-- 페이지블럭 -->
@@ -22,7 +24,9 @@
 
 
             <!-- 다음: 총 페이지가 블럭 수보다 많으면 -->
-            <a th:if="${pageInfo.totalPages > pageInfo.blockSize}" th:text="'&lsaquo;'">다음</a>
+            <a th:if="${pageInfo.totalPages > pageInfo.blockSize}"
+               th:href="@{|?page=${pageInfo.currentPage + 1}|}" th:text="'&rsaquo;'"
+               th:classappend="${pageInfo.currentPage == pageInfo.totalPages} ? 'disabled'">다음</a>
 
             <!-- 마지막: 총 페이지로 이동, 마지막 페이지 시 비활성화 -->
             <a th:href="@{|?page=${pageInfo.totalPages}|}" th:classappend="${pageInfo.currentPage == pageInfo.totalPages} ? 'disabled'" th:text="'&raquo;'">마지막</a>

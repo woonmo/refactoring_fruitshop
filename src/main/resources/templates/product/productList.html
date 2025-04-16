@@ -43,11 +43,8 @@
 
                 <!-- 검색창 시작 -->
                 <div id="fruitSearch">
-                    <form name="fruit_search_frm">
-                        <input type="text" name="searchFruit" placeholder="과일명으로 검색하기" maxlength="50" />
-                        <input type="text" style="display: none;" />
-                        <i class="fa-solid fa-magnifying-glass searchIcon" onclick="goSearch()"></i>
-                    </form>
+                    <input id="productSearch" type="text" name="product" th:value="${product}" placeholder="과일명으로 검색하기" maxlength="50" />
+                    <i id="searchIcon" class="fa-solid fa-magnifying-glass searchIcon"></i>
                 </div>
                 <!-- 검색창 끝 -->
 
@@ -55,9 +52,9 @@
             <!-- 상품 정렬 방식 끝 -->
 
             <!-- 상품 본문 -->
-            <div class="product-list" style="display: grid; grid-template-columns: repeat(4, 1fr);"> <!-- 한 줄에 4개씩 출력 -->
+            <div th:if="${not #lists.isEmpty(productList)}" class="product-list" style="display: grid; grid-template-columns: repeat(4, 1fr);"> <!-- 한 줄에 4개씩 출력 -->
 
-                <!-- 상품 시작 -->
+                <!-- 개별 상품 출력 시작 -->
                 <div th:each="product : ${productList}" class="product-item" data-aos="fade-up" data-aos-delay="0">
                     <div class="my-5" style="position: relative;">
                         <img th:src="@{/images/product/thumbnail/kiwi.png}" class="thumnail" style="width: 100%; height: auto;" onclick="">
@@ -76,14 +73,20 @@
 
                         <span th:text="|${#numbers.formatInteger(25000, 3, 'COMMA')} 원|" tyle="display: block;" class="mt-3 price">상품 금액</span>
                     </div>
-
                 </div>
-
+                <!-- 개별 상품 출력 끝 -->
             </div>
-
         </div>
 
-        <div th:replace="~{fragment/pagination :: pagination(${pagination})}"></div>
+        <div th:if="${not #lists.isEmpty(productList)}" id="pageBar">
+            <div th:replace="~{fragment/pagination :: pagination(${pagination})}"></div>
+        </div>
+
+        <!-- 검색된 상품이 없을 경우 -->
+        <div th:if="${#lists.isEmpty(productList)}" id="nodata" style="text-align:center;">
+            <span class="nodata">검색 결과가 없습니다.</span>
+        </div>
+
     </section>
 
     <!-- JS -->

@@ -31,7 +31,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      */
     @Query(
             value = "SELECT * FROM products p WHERE UPPER(p.prod_name) LIKE CONCAT('%', :searchProduct, '%')",
-            countQuery = "SELECT COUNT(*) FROM tbl_product p WHERE UPPER(p.prod_name) LIKE CONCAT('%', :searchProduct, '%')",
+            countQuery = "SELECT COUNT(*) FROM products p WHERE UPPER(p.prod_name) LIKE CONCAT('%', :searchProduct, '%')",
             nativeQuery = true
     )
     Page<Product> findByNameContaining(@Param("searchProduct") String searchProduct, Pageable pageable);  // 전체 상품에서 검색

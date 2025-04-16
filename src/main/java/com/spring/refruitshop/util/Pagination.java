@@ -25,6 +25,8 @@ public class Pagination {
                 ", currentPage=" + currentPage +
                 ", totalPages=" + totalPages +
                 ", blockSize=" + blockSize +
+                ", hasPrev=" + hasPrev +
+                ", hasNext=" + hasNext +
                 '}';
     }
 }

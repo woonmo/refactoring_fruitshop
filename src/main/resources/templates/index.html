@@ -8,7 +8,13 @@
     <title>독독고 과일판매</title>
 
 
-    <link th:fragment="style" rel="stylesheet" type="text/css" th:href="@{/css/index/index.css}" />
+    <!-- CSS -->
+    <th:block th:fragment="style">
+        <!-- AOS -->
+        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" >
+        <!-- Custom -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/index/index.css}" />
+    </th:block>
 
 </head>
 <body>
@@ -167,6 +173,14 @@
 
     </section>
 
-    <script type="text/javascript" th:src="@{/js/index/index.js}"></script>
+    <th:block th:fragment="script">
+        <!-- AOS -->
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <!-- AOS Custom -->
+        <script type="text/javascript" th:src="@{/js/common/aos.js}"></script>
+        <!-- Custom -->
+        <script type="text/javascript" th:src="@{/js/index/index.js}"></script>
+    </th:block>
+
 </body>
 </html>

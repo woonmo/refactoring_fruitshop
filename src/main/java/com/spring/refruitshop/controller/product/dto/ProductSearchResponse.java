@@ -13,6 +13,7 @@ public class ProductSearchResponse {
     private int price;          // 상품가격
     private String thumbnail;   // 상품 썸네일
     private String season;      // 계절
+    private int inventory;      // 재고량
 
     public ProductSearchResponse(Product product) {
         this.no = product.getNo();
@@ -20,6 +21,7 @@ public class ProductSearchResponse {
         this.price = product.getPrice();
         this.thumbnail = product.getThumbnail();
         this.season = product.getSeason().toString();
+        this.inventory = product.getInventory();
     }
 
     @Override
@@ -30,6 +32,7 @@ public class ProductSearchResponse {
                 ", price=" + price +
                 ", thumbnail='" + thumbnail + '\'' +
                 ", season='" + season + '\'' +
+                ", inventory=" + inventory +
                 '}';
     }
 }

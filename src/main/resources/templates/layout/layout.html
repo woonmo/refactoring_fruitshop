@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" th:fragment="layout(title, css, script, content)" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <!-- Required meta tags -->
@@ -9,28 +9,28 @@
     <!-- 바뀌는 title -->
     <title th:replace="${title}">Title</title>
 
+
+    <!-- CSS -->
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-4.6.2-dist/css/bootstrap.min.css}" >
-
-    <!-- Header & Footer CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index/header.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index/footer.css}" />
-
     <!-- Font Awesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-
     <!-- Sweet Alert -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.16.1/dist/sweetalert2.min.css" rel="stylesheet">
-
-    <!-- Page Bar CSS -->
+    <!-- Header -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index/header.css}" />
+    <!-- Footer -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index/footer.css}" />
+    <!-- Page Bar -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/common/pageBar.css}" />
 
+
     <!-- css 교체 -->
-    <style th:replace="${css}"></style>
+    <th:block th:replace="${css}"></th:block>
 
 </head>
 <body>
-    <div id="container">
+    <div>
         <!-- header 교체 -->
         <div id="header" th:insert="~{fragment/header :: header}"></div>
 
@@ -39,17 +39,17 @@
         <div id="footer" th:insert="~{fragment/footer :: footer}"></div>
     </div>
 
+    <!-- JS -->
     <!-- jQuery -->
     <script type="text/javascript" th:src="@{/bootstrap-4.6.2-dist/js/jquery-3.7.1.min.js}" ></script>
     <!-- Bootstrap -->
     <script type="text/javascript" th:src="@{/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js}" ></script>
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.16.1/dist/sweetalert2.all.min.js"></script>
-
-    <!-- header js -->
+    <!-- Header -->
     <script type="text/javascript" th:src="@{/js/index/header.js}" ></script>
 
     <!-- script 교체 -->
-    <script th:replace="${script}" type="text/javascript"></script>
+    <th:block th:replace="${script}"></th:block>
 </body>
 </html>

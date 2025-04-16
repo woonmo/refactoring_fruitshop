@@ -3,15 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>상품 목록</title>
-    <link th:fragment="style" rel="stylesheet" type="text/css" th:href="@{/css/product/productList.css}" />
+
+
+    <!-- CSS -->
+    <th:block th:fragment="style">
+        <!-- AOS -->
+        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" >
+        <!-- Custom -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/product/productList.css}" />
+    </th:block>
+
 </head>
 <body>
     <section>
-        상품리스트
+        <div id="container">
+            <div id="title" style="text-align:center;">
+                <a th:href="@{/products}" class="product">
+                    <span class="title">SING SING FRUIT</span>
+                </a>
+            </div>
+
+            <!-- 상품 정렬 방식 시작 -->
+            <div id="seasonList" style="display: flex; justify-content: center; margin: 0 auto;">
+                <div>
+                    <a th:href="@{/products}" class="season"><span class="seasonList">전 체</span></a>
+                </div>
+                <div>
+                    <a th:href="@{/products/SPRING}" class="season"><span class="seasonList">봄 과일</span></a>
+                </div>
+                <div>
+                    <a th:href="@{/products/SUMMER}" class="season"><span class="seasonList">여름 과일</span></a>
+                </div>
+                <div>
+                    <a th:href="@{/products/AUTUMN}" class="season"><span class="seasonList">가을 과일</span></a>
+                </div>
+                <div>
+                    <a th:href="@{/products/WINTER}" class="season"><span class="seasonList">겨울 과일</span></a>
+                </div>
+
+                <!-- 검색창 시작 -->
+                <div id="fruitSearch">
+                    <form name="fruit_search_frm">
+                        <input type="text" name="searchFruit" placeholder="과일명으로 검색하기" maxlength="50" />
+                        <input type="text" style="display: none;" />
+                        <i class="fa-solid fa-magnifying-glass searchIcon" onclick="goSearch()"></i>
+                    </form>
+                </div>
+                <!-- 검색창 끝 -->
+
+            </div>
+            <!-- 상품 정렬 방식 끝 -->
+
+            <!-- 상품 본문 -->
+            <div class="product-list" style="display: grid; grid-template-columns: repeat(4, 1fr);"> <!-- 한 줄에 4개씩 출력 -->
+
+                <!-- 상품 시작 -->
+                <div th:each="product : ${productList}" class="product-item" data-aos="fade-up" data-aos-delay="0">
+                    <div class="my-5" style="position: relative;">
+                        <img th:src="@{/images/product/thumbnail/kiwi.png}" class="thumnail" style="width: 100%; height: auto;" onclick="">
+                        <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 -->
+                        <img th:if="${product.inventory == 0}" th:src="@{/images/product/soldout.png}" style="position: absolute; top: 0; left: 0; width: 37px; height: 20px; opacity: 1.0; cursor: pointer;" onclick="">
+
+                        <div style="display: flex;">
+                            <div>
+                                <span th:text="${product.name}" class="mt-3 product" onclick="">상품명</span>
+                            </div>
+
+                            <div class="ml-auto">
+                                <span><i class="fa-regular fa-heart fa-lg heart mt-3"></i></span>
+                            </div>
+                        </div>
+
+                        <span th:text="|${#numbers.formatInteger(25000, 3, 'COMMA')} 원|" tyle="display: block;" class="mt-3 price">상품 금액</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <div th:replace="~{fragment/pagination :: pagination(${pagination})}"></div>
     </section>
 
-    <script th:fragment="script" th:src="@{/js/user/login.js}"></script>
+    <!-- JS -->
+    <th:block th:fragment="script">
+        <!-- AOS -->
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <!-- AOS Custom -->
+        <script type="text/javascript" th:src="@{/js/common/aos.js}"></script>
+        <!-- Custom -->
+        <script th:src="@{/js/product/productList.js}"></script>
+    </th:block>
+
 </body>
 </html>

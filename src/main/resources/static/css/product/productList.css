@@ -1,0 +1,190 @@
+@charset "UTF-8";
+
+
+
+/* 상품페이지 타이틀 화면 */
+div#title {
+    margin-top: 0%;
+    margin-bottom: 2%;
+}
+
+/* 상품페이지 전체 틀 */
+div#container {
+    width: 80%;
+    margin: 0 auto;
+    /* 	border: solid 1px red; */
+}
+
+
+/* 상품 카테고리 메뉴(+검색창) 전체 틀 */
+div#seasonList {
+    /* 	border: solid 2px blue; */
+}
+
+
+/* 상품 각각 카테고리 */
+div#seasonList div {
+    margin: 0% 2%;
+}
+
+
+/* 상품 검색창 시작 */
+div#fruitSearch {
+    /* 	border: solid 2px red; */
+    display: flex;
+    align-items: center;
+}
+
+div#fruitSearch input {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12pt;
+    border: 1px solid #ccc;
+    padding-left: 14px;
+    border-radius: 20px;
+    outline: none;
+}
+
+
+div#fruitSearch input::placeholder {
+    color: #979797;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12pt;
+}
+
+/* 상품 검색창 끝 */
+
+/* 그리드 전체 */
+div.product-list {
+    gap: 50px; /* 그리드 항목 간 간격을 일정하게 설정 */
+    margin: 0 auto;
+    /*     border: solid 2px blue; */
+}
+
+
+
+/* 각 그리드 */
+div.product-item {
+    margin: 0 auto;
+    /* 	border:solid 1px red;  */
+}
+
+
+/* 상품페이지 제목명 */
+span.title {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 24pt;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* 상품 정렬 카테고리 텍스트 EX) 전체, 계절이름 */
+span.seasonList {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12pt;
+    /* 	font-weight: bold; */
+    cursor: pointer;
+}
+
+/* 상품페이지 이미지 썸네일 */
+img.thumnail {
+    cursor: pointer;
+}
+
+
+/* 상품페이지 상품명 */
+span.product {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 상품페이지 상품 가격 */
+span.price {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12pt;
+}
+
+
+/* 상품페이지 a태그 */
+a.product, .season {
+    color: black;
+}
+a.product:hover, .season:hover {
+    color: black;
+    text-decoration-line: none;
+}
+
+
+/* 하트 이미지 */
+i.heart:hover {
+    cursor: pointer;
+}
+
+
+
+/* 검색 돋보기 아이콘 */
+i.searchIcon {
+    cursor: pointer;
+    font-size: 14pt;
+    color: #333;
+    margin-left: 10px;
+}
+
+i.searchIcon:hover {
+    color: red;
+}
+/* 검색 돋보기 아이콘 끝 */
+
+
+
+/* 페이지 바 */
+div#pageBar {
+    text-align: center;
+}
+
+div.pagination {
+    display: inline-block;
+}
+
+
+div.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12pt;
+    border-radius: 5px;
+}
+
+div.pagination a.active {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+
+div.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+/* 페이지 바 끝 */
+
+
+
+
+
+/* 검색 결과 없을 때 div */
+div#nodata {
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+
+/* 검색 결과 없을 때 text  */
+span.nodata {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20pt;
+}

@@ -17,7 +17,7 @@ public class ProductSearchRequest {
     private String season;  // 계절명
 
     private int page = 1;       // 현재 페이지 번호
-    private int size = 16;      // 페이지당 보여줄 개수
+    private int size = 12;      // 페이지당 보여줄 개수
 
     public void setProduct(String product) {
         this.product = product == null ? "" : product.trim().toUpperCase();

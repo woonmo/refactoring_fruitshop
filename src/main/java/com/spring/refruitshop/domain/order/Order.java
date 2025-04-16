@@ -41,7 +41,10 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;    // 주문일자
 
-    @Column(name = "order_tprice")
+    @Column(name = "order_request")
+    private String request;     // 요청사항
+
+    @Column(name = "order_tprice", nullable = false)
     private Long orderTprice;   // 주문총액
 
     @Column(name = "order_status")

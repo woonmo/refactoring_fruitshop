@@ -34,8 +34,8 @@ public class CartApiController {
 
     // 장바구니 항목 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteItemCart(@PathVariable Long id) {
-        cartService.delete(id);
+    public ResponseEntity<String> deleteItemCart(@PathVariable Long id, @ModelAttribute("loginUser") User loginUser) {
+        cartService.delete(id, loginUser);
 
         return ResponseEntity.ok().body("장바구니 항목이 삭제되었습니다.");
     }// end of public ResponseEntity<Void> deleteItemCart(@PathVariable Long id) ---------------------

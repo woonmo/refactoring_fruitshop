@@ -2,22 +2,19 @@ package com.spring.refruitshop.service.cart;
 
 import com.spring.refruitshop.controller.cart.dto.AddItemRequest;
 import com.spring.refruitshop.controller.cart.dto.AddItemResponse;
-import com.spring.refruitshop.controller.user.dto.LoginUser;
+import com.spring.refruitshop.controller.cart.dto.CartItemResponse;
 import com.spring.refruitshop.domain.cart.Cart;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.repository.cart.CartRepository;
 import com.spring.refruitshop.repository.product.ProductRepository;
 import com.spring.refruitshop.repository.user.UserRepository;
-import com.spring.refruitshop.util.SessionUtil;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
 
-import java.nio.file.AccessDeniedException;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -71,33 +68,54 @@ public class CartService {
 
     // 장바구니 항목 삭제
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, User loginUser) {
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 장바구니입니다."));
 
         // 본인 장바구니인지 검증
-        authorizeCartOwner(cart);
+        if (cart.getUser().getNo() != loginUser.getNo()) {
+            throw new IllegalArgumentException("다른 회원의 장바구니입니다.");
+        }
 
         // 삭제 진행
         cartRepository.delete(cart);
     }// end of public void delete(Long id) ----------------------
 
 
-    // 본인의 장바구니가 맞는지 확인
-    private void authorizeCartOwner(Cart cart) {
-        // 세션 가져오기
-        HttpSession session = SessionUtil.getSession();
+    // 회원의 장바구니 목록을 가져온다.
+    @Transactional(readOnly = true) // Select 용
+    // 엔티티에서 fetch 지연 로딩을 사용할 경우 한 트랜잭션 내에 있어야 정보 조회가 가능 -> 실제 값에 접근할 때 데이터베이스에 접근하기 때문
+    public List<CartItemResponse> findAll(User loginUser) {
+        List<Cart> cartList = cartRepository.findAllByUserNo(loginUser.getNo());
+        log.info("장바구니 항목 개수: {}", cartList.size());
 
-        LoginUser loginuser = (LoginUser) session.getAttribute("user");
+        return cartList
+                .stream()
+                .map(this::addCartItemResponseWithValidation)     // 이 클래스의 addCartItemResponse 메소드 실행 (메소드 참조) 데이터 무결성 검사
+                .collect(Collectors.toList());
+    }// end of public List<CartItemResponse> findAll(User loginUser) -----------------------
 
-        // 추후 스프링 시큐리티 적용시 수정해야 함
-        User user = userRepository.findById(cart.getUser().getNo())
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 유저입니다."));
 
-        if (loginuser.getUserNo() != user.getNo()) {
-            // 회원번호가 같지 않다면(다른 회원의 장바구니를 삭제 시도)
-            throw new IllegalArgumentException("다른 회원의 장바구니입니다.");
+    // 조회한 장바구니 목록의 유효여부 검사
+    private CartItemResponse addCartItemResponseWithValidation(Cart cart) {
+        if (cart == null) {
+            throw new IllegalArgumentException("존재하지 않는 장바구니 입니다.");
+        }
+        if (cart.getUser() == null) {
+            throw new IllegalStateException("유효하지 않은 회원입니다.");
+        }
+        if (cart.getProduct() == null) {
+            throw new IllegalStateException("존재하지 않은 상품입니다.");
+        }
+        if (cart.getQuantity() <= 0) {
+            throw new IllegalStateException("수량 정보가 유하지 않습니다. 수량: "+ cart.getQuantity());
+        }
+        if (cart.getProduct().getPrice() < 0) {
+            throw new IllegalStateException("가격 정보가 유하지 않습니다. 가격: "+ cart.getProduct().getPrice());
         }
 
-    }// end of private void authorizeCartOwner(Cart cart) --------------------------
+        return new CartItemResponse(cart);
+    }// end of private CartItemResponse addCartItemResponse(Cart cart) ------------------
+
+
 }

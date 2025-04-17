@@ -3,7 +3,6 @@ let qty = window.productData.inventory > 0 ? 1 : 0; // 초기 수량 (재고가 
 const prodInventory = window.productData.inventory; // 재고량
 const prodPrice = window.productData.price;         // 상품 가격
 const prodNo = window.productData.prodNo;           // 상품 번호
-const isLogin = window.productData.isLogin;         // 로그인 여부
 const qtyInput = document.querySelector("input.qty");   // 수량 input 태그
 const totalPriceSpan = document.getElementById("totalPrice");       // 총 가격, 수량을 나타내주는 태그
 

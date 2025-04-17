@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layout :: layout(~{::title}, ~{::style}, ~{::script}, ~{::section})}" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+
+    <!-- CSS -->
+    <th:block th:fragment="style">
+        <!-- Custom -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/cart/cartList.css}" />
+    </th:block>
+</head>
+<body>
+
+    <section>
+        <div class="container" style="margin-top: 2%;">
+            <div class="titleArea">
+                <h3>Cart <i class="bi bi-cart2"></i></h3>
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(cartItemList)}" class="cart-items">
+                <div th:each="cartItem : ${cartItemList}" class="cart_item" style="display: flex; align-items: center; padding: 2% 0; border-bottom: solid 1px #ccc; border-top: solid 1px #ccc; margin-top: 2%;">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- JS -->
+    <th:block th:fragment="script">
+        <!-- Custom -->
+        <script th:src="@{/js/product/productList.js}"></script>
+    </th:block>
+</body>
+</html>

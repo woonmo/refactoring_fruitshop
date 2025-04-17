@@ -12,3 +12,9 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
+
+const isLogin = loginData.isLogin;
+
+// console.log(isLogin);
+
+

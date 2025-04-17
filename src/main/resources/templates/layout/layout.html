@@ -39,6 +39,13 @@
     </div>
 
     <!-- JS -->
+    <script th:inline="javascript">
+        // 로그인 정보
+        loginData = {
+            isLogin : /*[[${loginUser != null}]]*/ false    // loginUser 는 config.GlobalControllerAdvice 에서 @ModelAttribute 로 지정한 유저정보 (스프링 시큐리티 사용)
+        }
+    </script>
+
     <!-- jQuery -->
     <script type="text/javascript" th:src="@{/bootstrap-4.6.2-dist/js/jquery-3.7.1.min.js}" ></script>
     <!-- Bootstrap -->
@@ -46,7 +53,9 @@
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.16.1/dist/sweetalert2.all.min.js"></script>
     <!-- Header -->
-    <script type="text/javascript" th:src="@{/js/common/header.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/common/header.js}"></script>
+
+
 
     <!-- script 교체 -->
     <th:block th:replace="${script}"></th:block>

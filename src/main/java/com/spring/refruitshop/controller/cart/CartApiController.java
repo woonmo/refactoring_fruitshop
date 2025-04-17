@@ -24,8 +24,6 @@ public class CartApiController {
     @PostMapping
     public ResponseEntity<AddItemResponse> addItemCart(@RequestBody @Validated AddItemRequest request,
                                                        @ModelAttribute("loginUser") User loginUser) {
-
-
         AddItemResponse addItemResponse = cartService.save(request, loginUser);
 
         return ResponseEntity.status(HttpStatus.OK).body(addItemResponse);

@@ -74,7 +74,7 @@ document.querySelectorAll("button.minus").forEach(button => {
                 .then(response => {
                     if (response.status === 200 || response.status === 201) {
                         $input.value = quantity;    // 다시 값 넣어주기
-                        updateItemTotal(e.target.closest('div.cart_item')); // 상품 총액 업데이트 함수 호출 현재 div 태그를 파라미터로 넘겨줌
+                        updateItemTotal(e.target.closest('div.cart_item')); // 이벤트가 발생한 태그에서 가장 상위에 있는 'div.cart_item' 태그를 찾아줌 return: element 즉 <div class='cart_item'>...</div> 를 넘겨주는 것임.
                         updateCartSummary();    // 전체 수량 업데이트
                     }
                 })

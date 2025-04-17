@@ -28,7 +28,7 @@ public class CartApiController {
 
         AddItemResponse addItemResponse = cartService.save(request, loginUser);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(addItemResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(addItemResponse);
     }// end of public ResponseEntity<CartDTO> addCart(@RequestBody AddItemRequest request) ----------------------
 
 

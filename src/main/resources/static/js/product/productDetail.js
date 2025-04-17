@@ -95,7 +95,7 @@ if (addCartButton) {
                        })
                            .then((result) => {
                                if (result.isConfirmed) {
-                                   alert("장바구니 보러 가기!"); // 추후 페이지 제작
+                                   window.location.replace("/carts");
                                }
                            });
                    }

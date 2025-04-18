@@ -57,27 +57,29 @@ document.querySelectorAll("button.minus").forEach(button => {
     button.addEventListener("click", e => {
         const $input = e.target.nextElementSibling;     // 수량 input 태그
         let quantity = parseInt($input.value) || 0;     // input 태그 값을 가져옴
-        const productNo = parseInt(e.target.value);     // 상품 번호
+        const productNo = parseInt(e.target.value) || 0;     // 상품 번호
 
         if (quantity > 1) {
-            // DB 수량을 변경
-            fetch("/api/carts", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    productNo: productNo,
-                    quantity: --quantity,
-                })
+
+            let body = JSON.stringify({
+                productNo: productNo,
+                quantity: --quantity
             })
-                .then(response => {
-                    if (response.status === 200 || response.status === 201) {
-                        $input.value = quantity;    // 다시 값 넣어주기
-                        updateItemTotal(e.target.closest('div.cart_item')); // 이벤트가 발생한 태그에서 가장 상위에 있는 'div.cart_item' 태그를 찾아줌 return: element 즉 <div class='cart_item'>...</div> 를 넘겨주는 것임.
-                        updateCartSummary();    // 전체 수량 업데이트
-                    }
+
+            function success() {
+                $input.value = quantity;    // 다시 값 넣어주기
+                updateItemTotal(e.target.closest('div.cart_item')); // 이벤트가 발생한 태그에서 가장 상위에 있는 'div.cart_item' 태그를 찾아줌 return: element 즉 <div class='cart_item'>...</div> 를 넘겨주는 것임.
+                updateCartSummary();    // 전체 수량 업데이트
+            }
+
+            function fail() {
+                Swal.fire({
+                    icon: "error",
+                    title: "수량 변경에 실패했습니다."
                 })
+            }
+
+            httpRequest("/api/carts", "POST", body, success, fail);
         }
     });
 });
@@ -85,10 +87,10 @@ document.querySelectorAll("button.minus").forEach(button => {
 // 상품수량 증가 (+) 버튼 클릭 시
 document.querySelectorAll("button.plus").forEach(button => {
     button.addEventListener("click", e => {
-        const inventory = parseInt(e.target.nextElementSibling.value);  // 상품의 재고량
+        const inventory = parseInt(e.target.nextElementSibling.value) || 0;  // 상품의 재고량
         const $input = e.target.previousElementSibling;     // 수량 input 태그
         let quantity = parseInt($input.value) || 0;     // input 태그 값을 가져옴
-        const productNo = parseInt(e.target.value);     // 상품 번호
+        const productNo = parseInt(e.target.value) || 0;     // 상품 번호
 
         if (quantity == inventory) {
             Swal.fire({
@@ -102,24 +104,25 @@ document.querySelectorAll("button.plus").forEach(button => {
                 })
         }
         else {
-            // DB 수량을 변경
-            fetch("/api/carts", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    productNo: productNo,
-                    quantity: ++quantity,
-                })
+
+            const body = JSON.stringify({
+                productNo: productNo,
+                quantity: ++quantity,
             })
-                .then(response => {
-                    if (response.status === 200 || response.status === 201) {
-                        $input.value = quantity;    // 다시 값 넣어주기
-                        updateItemTotal(e.target.closest('div.cart_item')); // 상품 총액 업데이트 함수 호출 현재 div 태그를 파라미터로 넘겨줌
-                        updateCartSummary();    // 전체 수량 업데이트
-                    }
+
+            function success() {
+                $input.value = quantity;    // 다시 값 넣어주기
+                updateItemTotal(e.target.closest('div.cart_item')); // 상품 총액 업데이트 함수 호출 현재 div 태그를 파라미터로 넘겨줌
+                updateCartSummary();    // 전체 수량 업데이트
+            }
+
+            function fail() {
+                Swal.fire({
+                    icon: "error",
+                    title: "수량 변경에 실패했습니다."
                 })
+            }
+            httpRequest("/api/carts", "POST", body, success, fail);
         }
     });
 });
@@ -131,20 +134,44 @@ document.querySelectorAll("button.removeItem").forEach(button => {
 
         const cartNo = parseInt(e.target.value);
 
-        // DB 먼저 제거한다.
-        fetch(`/api/carts/${cartNo}`, {
-            method: "DELETE",
-        })
-            .then(response => {
-               if (response.ok || response.status === 200) {
-                   const cartItem = e.target.closest('div.cart_item');   // 속한 div 태그를
-                   cartItem.remove();    // DOM 에서 제거
-                   updateCartSummary();  // 상품 합계 수정
-               }
-            });
+        function success() {
+            const cartItem = e.target.closest('div.cart_item');   // 속한 div 태그를
+            cartItem.remove();    // DOM 에서 제거
+            updateCartSummary();  // 상품 합계 수정
+        }
+
+        function fail() {
+            Swal.fire({
+                icon: "error",
+                title: "수량 변경에 실패했습니다."
+            })
+        }
+
+        httpRequest(`/api/carts/${cartNo}`, "DELETE", null, success, fail);
    });
 });
 
+
+
+// 데이터베이스에 접근히여 장바구니 정보를 변경하는 함수
+function httpRequest(url, method, body, success, fail) {
+
+    fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: body
+    })
+        .then(response => {
+            if (response.status === 200 || response.status === 201) {
+                return success();
+            }
+            else {
+                return fail();
+            }
+        });
+}// end of function httpRequest(url, method, body, success, fail) -------------------------
 
 
 // 상품 페이지로 이동하는 함수
@@ -153,3 +180,37 @@ function viewProduct(prodNo){
 }// end of function viewProduct(prodNo) --------------------
 
 
+// 회원의 장바구니를 비워주는 함수
+function emptyCart() {
+    Swal.fire({
+        icon: "question",
+        title: "장바구니를 비우시겠습니까?",
+        confirmButtonText: "비우기",
+        showCancelButton: true,
+        cancelButtonText: "취소"
+    })
+        .then((result) => {
+            if (result.isConfirmed) {
+                function success() {
+                    Swal.fire({
+                        icon: "success",
+                        title: "장바구니를 비웠습니다.",
+                        confirmButtonText: "확인",
+                    })
+                        .then((result) => {
+                            window.location.reload();
+                        })
+
+                }
+
+                function fail() {
+                    Swal.fire({
+                        icon: "error",
+                        title: "장바구니를 비우는 중 오류가 발생했습니다.",
+                        confirmButtonText: "확인",
+                    });
+                }
+                httpRequest("/api/carts", "DELETE", null, success, fail);
+            }
+        });
+}// end of function emptyCart() -------------------

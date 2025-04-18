@@ -31,7 +31,7 @@
 
                         <!-- 상품 이미지 -->
                         <div class="img" style="flex: 1; text-align: center;">
-                            <img th:src="@{'/images/product/thumnail/'+ ${cartItem.productThumbnail}}" style="width: 120px; height: auto; cursor: pointer;" th:onclick="|viewProduct(${cartItem.productNo})|">
+                            <img th:src="@{'/images/product/thumbnail/'+ ${cartItem.productThumbnail}}" style="width: 120px; height: auto; cursor: pointer;" th:onclick="|viewProduct(${cartItem.productNo})|">
                         </div>
 
                         <!-- 상품 정보 -->
@@ -82,9 +82,9 @@
 
 
                 <div class="ec-base-button gColumn">
-                    <a href="#" onclick="Orderpick();" class="btnpick">선택상품 주문하기</a>
-                    <a href="#" onclick="OrderAll();" class="btnSubmit">전체상품 주문하기</a>
-                    <a href="#" onclick="CartDeleteAll(); return false;" class="btnremove">장바구니 비우기</a>
+                    <a href="#" onclick="Orderpick()" class="btnpick">선택상품 주문하기</a>
+                    <a href="#" onclick="OrderAll()" class="btnSubmit">전체상품 주문하기</a>
+                    <a href="#" th:onclick="emptyCart()" class="btnremove">장바구니 비우기</a>
                 </div>
 
                 <!-- 장바구니가 비어있을 경우 -->

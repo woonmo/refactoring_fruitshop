@@ -1,12 +1,20 @@
 package com.spring.refruitshop.config;
 
 import com.spring.refruitshop.domain.user.User;
+import com.spring.refruitshop.repository.cart.CartRepository;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
+
+    private final CartRepository cartRepository;
+
+    public GlobalControllerAdvice(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
 
     // Controller Advice 는 컨트롤러가 동작하기 전에 먼저 동작한다.
     // 공통 예외처리가 필요하거나(@ExceptionHandler), 공통 데이터바인딩을 하거나(@InitBinder) 공통 모델 속성 추가(@ModelAttribute)를 할 때 사용한다.
@@ -20,5 +28,15 @@ public class GlobalControllerAdvice {
         }
         return (User) authentication.getPrincipal();
     }// end of public User loginUser(Authentication authentication) ------------
+
+
+    // 로그인 한 회원의 장바구니 개수
+    @ModelAttribute("cartCount")
+    public int cartCount(@AuthenticationPrincipal User user) {
+        if (user != null && user.getNo() != null) {
+            return cartRepository.countByUserNo(user.getNo());
+        }
+        return 0;
+    }// end of public int cartCount(@AuthenticationPrincipal User user) ------------------
 
 }

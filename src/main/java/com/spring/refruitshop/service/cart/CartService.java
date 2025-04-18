@@ -118,4 +118,17 @@ public class CartService {
     }// end of private CartItemResponse addCartItemResponse(Cart cart) ------------------
 
 
+    // 회원의 장바구니를 비운다.
+    @Transactional
+    public void deleteAll(User loginUser) {
+
+        if (loginUser == null) {
+            log.error("로그인 정보가 없습니다.");
+            throw new IllegalArgumentException("로그인 정보가 없습니다.");
+        }
+
+        log.info("회원번호 {}번의 장바구니를 비웠습니다. ", loginUser.getNo());
+        cartRepository.deleteByUserNo(loginUser.getNo());
+
+    }// end of public void deleteAll(User loginUser) ------------------------
 }

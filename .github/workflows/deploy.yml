@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4 # 깃허브 레포지토리의 코드를 현재 워크플로우에 복사
+        with:
+          fetch-depth: 0    # 전체 브랜치와 커밋 히스토리 이력을 불러와서 태그/브랜치 확인
 
       - name: Validate tag is on main branch
         run: |

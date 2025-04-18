@@ -60,7 +60,7 @@ jobs:
             -t $IMAGE_NAME:$VERSION \  # 시간 기반 버전 태그 (예: username/fruitshop:20240419.1825)
             -t $IMAGE_NAME:latest \   # latest 태그도 함께 부여
             -f deploy/Dockerfile \    # Dockerfile 경로 설정
-            --push .  # 빌드 후 Docker Hub에 push (이미지 업로드)
+            --push .
           
       - name: Deploy to Oracle Cloud
         uses: appleboy/ssh-action@v1.0.0

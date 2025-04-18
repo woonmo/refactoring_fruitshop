@@ -259,6 +259,7 @@ gradle-app.setting
 target/
 *.sql
 .DS_Store
-.env
+deploy/.env
 .env.*
 .idea
+/libs

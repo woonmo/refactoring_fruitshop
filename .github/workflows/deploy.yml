@@ -1,0 +1,72 @@
+# Git Hub 'main' 브랜치에 push 될 때 자동으로 실행
+name: Docker Build & Deploy
+
+# 실행 조건
+on:
+  push:
+    tags:
+      - 'v*'  # v0.1 과 같은 버전 태그가 붙었을 때만 워크플로우 동작
+#    branches:
+#      - main  # main 브랜치에만 push 되었을 때 작동
+
+# 전체 워크플로우에서 사용할 공통 환경 변수 설정
+env:
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/fruitshop
+
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # 깃허브 액션에서 사용할 가상환경 OS
+    if: startsWith(github.ref, 'refs/tags/v') # v* 태그일 때만 실행
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4 # 깃허브 레포지토리의 코드를 현재 워크플로우에 복사
+
+      - name: Validate tag is on main branch
+        run: |
+          BRANCH=$(git branch -r --contains ${{github.sha}} | grep origin/main || true)
+          echo "Found in: $BRANCH"
+          if [ -z "$BRANCH" ]; then
+            echo "main branch 가 아니므로 배포를 중단합니다."
+            exit 1
+          fi
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4 # 워크플로우 테스트 Java 환경 설정
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3 # 도커 빌드 확장 도구(멀티 플랫폼 빌드용)
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3  # 도커허브 로그인
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}  # GitHub Secret 에 등록한 사용자명
+          password: ${{ secrets.DOCKER_PASSWORD }}  # GitHub Secret 에 등록한 비밀번호(Access Token)
+
+      - name: Set version tag (git tag)
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV   # 깃헙 태그명을 버전명으로 설정 (ex: v0.1)
+#        run: echo "VERSION=$(date +%Y%m%d.%H%M)" >> $GITHUB_ENV  # 현재 날짜와 시간 기준으로 VERSION 환경 변수 설정 (ex: 20240419.1825)
+
+      - name: Build and push Docker image
+        run: |  # sh 명령어를 여러 줄로 적겠다는 의미
+          # amd64 아키텍처 기준으로 빌드
+          docker buildx build --platform linux/amd64 \
+            -t $IMAGE_NAME:$VERSION \  # 시간 기반 버전 태그 (예: username/fruitshop:20240419.1825)
+            -t $IMAGE_NAME:latest \   # latest 태그도 함께 부여
+            -f deploy/Dockerfile \    # Dockerfile 경로 설정
+            --push .  # 빌드 후 Docker Hub에 push (이미지 업로드)
+          
+      - name: Deploy to Oracle Cloud
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}        # 인스턴스 IP 주소
+          username: ${{ secrets.SERVER_USER }}    # 인스턴스 USERNAME (ubuntu)
+          key: ${{ secrets.SERVER_SSH_KEY }}      # ssh 인증 키 (.pem or .key)
+          script: |
+            cd /home/ubuntu/deploy  # 서버에서 docker-compose.yml 파일이 있는 경로
+            docker compose pull
+            docker compose up -d --remove-orphans   # 이전 컨테이너가 남지 않도록 실행

@@ -1,0 +1,47 @@
+# Docker Compose 버전 지정: 최신 안정 버전(3.8은 ubuntu 24.04와 호환)
+version: '3.8'
+# 실행할 서비스(컨테이너) 목록 정의
+services:
+  # 스프링 애플리케이션 정의
+  fruitshop:
+    # 컨테이너 실행 시 이름
+    container_name: fruitshop
+    # 사용할 docker 이미지명, 도커허브아이디/이미지명:버전
+    image: wonmo151/fruitshop:latest
+    # 이미지 빌드 설정: Dockerfile 위치와 빌드 컨텍스트 지정
+    build:
+      # 빌드 컨텍스트: 프로젝트 루트 폴더(Dockerfile 의 빌드 단계 COPY . . 에 사용)
+      context: ../
+      # 사용할 Dockerfile 경로
+      dockerfile: deploy/Dockerfile
+    # 호스트와 컨테이너 간 포트 매핑
+    ports:
+      - "8080:8080" # 호스트 8080 -> 컨테이너 8080
+    # 환경 변수 설정
+    env_file:
+      - .env
+    mem_limit: 512m
+    cpus: 0.5
+
+
+  # Nginx 서비스 정의
+  nginx:
+    # 컨테이너 실행 시 이름
+    container_name: nginx
+    # 공식 nginx 이미지 사용
+    image: nginx:latest
+    # 호스트와 컨테이너 간 포트 매핑 (HTTP, HTTPS)
+    ports:
+      - "80:80"     # 호스트 80  -> 컨테이너 80  (HTTP)
+      - "443:443"   # 호스트 443 -> 컨테이너 443 (HTTPS)
+    # 로컬 설정 파일과 SSL 인증서를 컨테이너에 마운트
+    volumes:
+      # Nginx 설정 파일: deploy/nginx/nginx.conf 를 컨테이너에 복사
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      # SSL 인증서 저장 경로: 배포 후 생성
+      - /etc/letsencrypt:/etc/letsencrypt:ro # Certbot 인증서 마운트, ro: 읽기 전용
+    # 의존성: Nginx 는 스프링 앱 시작 후 실행
+    depends_on:
+      - fruitshop
+    mem_limit: 128m
+    cpus: 0.2

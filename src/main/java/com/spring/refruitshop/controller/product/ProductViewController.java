@@ -68,7 +68,7 @@ public class ProductViewController {
         ProductDetailResponse product =  productService.findById(no);
         model.addAttribute("product", product);
 
-        return "/product/productDetail";
+        return "product/productDetail";
     }// end of public String viewProduct(Model model, @PathVariable("no") String no) -----------------------
 
 }

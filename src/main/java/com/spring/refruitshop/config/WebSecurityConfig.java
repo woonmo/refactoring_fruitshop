@@ -28,7 +28,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
-                .requestMatchers(toH2Console())         // 데이터 베이스
+//                .requestMatchers(toH2Console())         // 데이터 베이스
                 .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/bootstrap-4.6.2-dist/**");       // static 아래
     }
 

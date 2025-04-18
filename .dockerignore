@@ -1,0 +1,15 @@
+# Git 관련 파일 제외
+.git
+.gitignore
+# 프로젝트 문서 제외
+*.md
+# 빌드 결과 제외
+build/
+# IDE 설정 제외
+.idea/
+*.iml
+# 로컬 개발 환경 제외: 임시파일, 로그 등
+*.log
+target/
+.DS_Store
+.gradle

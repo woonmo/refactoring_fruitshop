@@ -1,16 +1,10 @@
 package com.spring.refruitshop.controller.user;
 
-import com.spring.refruitshop.controller.user.dto.LoginRequest;
-import com.spring.refruitshop.controller.user.dto.LoginUser;
-import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserViewController {
@@ -48,7 +42,7 @@ public class UserViewController {
             request.setAttribute("loginFailMessage", loginFailMessage);
         }
 
-        return "/user/login";
+        return "user/login";
     }
 
     // 로그인 처리

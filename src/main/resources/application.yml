@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${ENV:dev}
+    active: prod
 
   jpa:
     hibernate:
@@ -16,3 +16,4 @@ spring:
 
 server:
   port: ${SERVER_PORT:8080}
+  forward-headers-strategy: framework # X-forwarded-* 헤더 기반으로 HTTPS 인식(배포 시 NPE 방지)

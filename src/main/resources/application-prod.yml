@@ -5,7 +5,7 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: oracle.jdbc.OracleDriver
+    driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 5
       maximum-pool-size: 10
@@ -21,7 +21,7 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false # 성능 하락 방지
-    database-platform: org.hibernate.dialect.OracleDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: ${SERVER_PORT:8080}

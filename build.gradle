@@ -13,9 +13,9 @@ java {
     }
 }
 
-dependencies {
-    runtimeOnly files('libs/ojdbc8.jar')
-}
+//dependencies {
+//    runtimeOnly files('libs/ojdbc8.jar')
+//}
 
 configurations {
     compileOnly {
@@ -44,6 +44,9 @@ dependencies {
 
     // H2
     implementation 'com.h2database:h2:2.2.224'
+
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
 
     // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'

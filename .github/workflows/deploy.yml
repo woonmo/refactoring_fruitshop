@@ -54,13 +54,7 @@ jobs:
 #        run: echo "VERSION=$(date +%Y%m%d.%H%M)" >> $GITHUB_ENV  # 현재 날짜와 시간 기준으로 VERSION 환경 변수 설정 (ex: 20240419.1825)
 
       - name: Build and push Docker image
-        run: |# sh 명령어를 여러 줄로 적겠다는 의미
-          docker buildx build --platform linux/amd64 \
-          -t $IMAGE_NAME:$VERSION \  # 시간 기반 버전 태그 (예: username/fruitshop:20240419.1825)
-          -t $IMAGE_NAME:latest \   # latest 태그도 함께 부여
-          -f deploy/Dockerfile \    # Dockerfile 경로 설정
-          --push \                  # . 은 컨텍스트 패스로 따로 마지막줄에 써야 공백으로 인식 안함
-          .
+        run: docker buildx build --platform linux/amd64 -t $IMAGE_NAME:$VERSION -t $IMAGE_NAME:latest -f deploy/Dockerfile --push .
 
       - name: Deploy to Oracle Cloud
         uses: appleboy/ssh-action@v1.0.0

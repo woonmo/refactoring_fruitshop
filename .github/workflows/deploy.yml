@@ -61,8 +61,8 @@ jobs:
             -t $IMAGE_NAME:latest \   # latest 태그도 함께 부여
             -f deploy/Dockerfile \    # Dockerfile 경로 설정
             --push \                  # . 은 컨텍스트 패스로 따로 마지막줄에 써야 공백으로 인식 안함
-            .
-          
+          .
+
       - name: Deploy to Oracle Cloud
         uses: appleboy/ssh-action@v1.0.0
         with:

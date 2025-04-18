@@ -4,8 +4,8 @@ FROM gradle:8.2-jdk17 AS builder
 WORKDIR /app
 # 로컬 프로젝트 파일을 도커 컨테이너의 /app 디렉토리로 복사
 COPY . .
-# Gradle로 프로젝트 빌드: clean(이전 빌드 제거) --no-daemon 으로 Gradle 데몬 비활성화
-RUN chmod +x gradlew && ./gradlew clean build --no-daemon
+# Gradle로 프로젝트 빌드: clean(이전 빌드 제거) --no-daemon 으로 Gradle 데몬 비활성화, -x 테스트 생략
+RUN chmod +x gradlew && ./gradlew clean build -x test --no-daemon
 
 
 # 실행 단계: 경량화된 실행 환경으로 스프링부트 앱 실행

@@ -57,10 +57,10 @@ jobs:
         run: |  # sh 명령어를 여러 줄로 적겠다는 의미
           # amd64 아키텍처 기준으로 빌드
           docker buildx build --platform linux/amd64 \
-            -t $IMAGE_NAME:$VERSION \  # 시간 기반 버전 태그 (예: username/fruitshop:20240419.1825)
-            -t $IMAGE_NAME:latest \   # latest 태그도 함께 부여
-            -f deploy/Dockerfile \    # Dockerfile 경로 설정
-            --push \                  # . 은 컨텍스트 패스로 따로 마지막줄에 써야 공백으로 인식 안함
+          -t $IMAGE_NAME:$VERSION \  # 시간 기반 버전 태그 (예: username/fruitshop:20240419.1825)
+          -t $IMAGE_NAME:latest \   # latest 태그도 함께 부여
+          -f deploy/Dockerfile \    # Dockerfile 경로 설정
+          --push \                  # . 은 컨텍스트 패스로 따로 마지막줄에 써야 공백으로 인식 안함
           .
 
       - name: Deploy to Oracle Cloud

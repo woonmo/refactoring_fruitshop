@@ -52,6 +52,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
       # SSL 인증서 저장 경로: 배포 후 생성
       - /etc/letsencrypt:/etc/letsencrypt:ro # Certbot 인증서 마운트, ro: 읽기 전용
+      - /etc/localtime:/etc/localtime:ro  # 호스트의 시간대 파일 마운트
     # 의존성: Nginx 는 스프링 앱 시작 후 실행
     depends_on:
       - fruitshop

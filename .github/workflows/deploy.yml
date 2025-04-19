@@ -17,10 +17,10 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # 깃허브 액션에서 사용할 가상환경 OS
-    if: startsWith(github.ref, 'refs/tags/v') # v* 태그일 때만 실행
+    if: startsWith(github.ref, 'refs/tags/v') # v* 태그일 때만 실행, 레포지토리 조건 추가 시 : github.repository == 'SSANGYONG/fruitshop' && startsWith(github.ref, 'refs/tags/v')
 
     steps:
-      - name: Checkout source
+      - name: Checkout
         uses: actions/checkout@v4 # 깃허브 레포지토리의 코드를 현재 워크플로우에 복사
         with:
           fetch-depth: 0    # 전체 브랜치와 커밋 히스토리 이력을 불러와서 태그/브랜치 확인

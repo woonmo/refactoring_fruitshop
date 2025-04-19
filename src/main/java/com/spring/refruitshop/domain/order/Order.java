@@ -71,6 +71,13 @@ public class Order {
 
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    // mappedBy: 양방향 연관관계에서 주인이 아님을 표현(orderItem 에서 외래키를 관리)
+    // fetch: 지연 로딩 방식 사용 Order 엔티티를 조회할 때 orderItems는 즉시 로딩되지 않고 orderItems 를 조회할 때만 데이터베이스에 접근 -> 성능 최적화
+    // cascade: Order 엔티티의 모든 영속성 작업이 연관된 OrderItem 에도 자동으로 적용(Order 엔티티를 저장하면 연결된 모든 orderItem도 함께 저장, 삭제도 마찬가지)
+    // orphanRemoval: Order 엔티티에서 orderItems 컬렉션에서 특정 orderItem 엔티티를 제거하면 그 엔티티는 데이터베이스에서도 삭제된다
+    // 부모 자식 관계에서 연결이 끊어진 객체를 자동으로 제거해해줌(주문내역 일부 삭제 등에 사용)
+    // 상품-장바구니 처럼 하위 항목을 가지는 경우가 아니라면 cascade = CascadeType.ALL, orphanRemoval = true 속성은 적절하지 않음
+
     private List<OrderItem> orderItems;
 
     @PrePersist

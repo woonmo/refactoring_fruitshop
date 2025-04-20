@@ -1,4 +1,4 @@
-package com.spring.refruitshop.controller.user.dto;
+package com.spring.refruitshop.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;

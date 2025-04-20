@@ -1,8 +1,8 @@
 package com.spring.refruitshop.service.cart;
 
-import com.spring.refruitshop.controller.cart.dto.AddItemRequest;
-import com.spring.refruitshop.controller.cart.dto.AddItemResponse;
-import com.spring.refruitshop.controller.cart.dto.CartItemResponse;
+import com.spring.refruitshop.dto.cart.AddItemRequest;
+import com.spring.refruitshop.dto.cart.AddItemResponse;
+import com.spring.refruitshop.dto.cart.CartItemResponse;
 import com.spring.refruitshop.domain.cart.Cart;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.user.User;

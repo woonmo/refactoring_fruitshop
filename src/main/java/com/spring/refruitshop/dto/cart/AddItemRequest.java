@@ -1,4 +1,4 @@
-package com.spring.refruitshop.controller.cart.dto;
+package com.spring.refruitshop.dto.cart;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

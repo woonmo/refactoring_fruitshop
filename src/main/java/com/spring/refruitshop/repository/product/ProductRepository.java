@@ -1,6 +1,5 @@
 package com.spring.refruitshop.repository.product;
 
-import com.spring.refruitshop.controller.product.dto.ProductSearchResponse;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.product.ProductSeasons;
 import jakarta.validation.constraints.Min;
@@ -11,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.nio.channels.FileChannel;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {

@@ -72,6 +72,15 @@ public class Product {
     }
 
 
+    // 개수를 받아 주문 상품의 가격을 구하는 메소드
+    public int getTotalPrice(Integer quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("수량은 1 이상이어야 합니다.");
+        }
+        return this.price * quantity;
+    }
+
+
     // 재고 감소 메소드 (주문 시)
     public void decreaseInventory(int quantity) {
         if (quantity <= 0) {

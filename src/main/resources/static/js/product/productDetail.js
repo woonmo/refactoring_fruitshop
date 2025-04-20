@@ -104,3 +104,52 @@ if (addCartButton) {
 
     });
 }// end of if (addCartButton) -------------------
+
+
+
+// 주문하기 버튼 클릭 시 상풍번호, 상품 수량을 만들어서 넘겨준다.
+// 주문서를 응답받아 문제가 없을 경우 주문서 페이지로 redirect
+const checkoutButton = document.getElementById("checkout");
+if (checkoutButton) {
+    checkoutButton.addEventListener("click", function () {
+       const quantity = parseInt(qtyInput.value) || 0;
+       if (quantity === 0) {
+           Swal.fire({
+               icon: "warning",
+               title: "최소 주문수량은 1개 입니다!!",
+               confirmButtonText: "확인"
+           })
+           return;
+       }
+       else {
+           fetch("/api/orders/initiate", {
+               method: "POST",
+               headers: {
+                    "Content-Type": "application/json"
+               },
+               body: JSON.stringify({
+                   "productNo" : prodNo,
+                   "quantity": quantity
+               })
+           })
+               .then(response => {
+                   if (response.status === 400) {
+                       Swal.fire({
+                           icon: "error",
+                           title: "처리 도중 에러가 발생했습니다..",
+                           confirmButtonText: "확인"
+                       })
+                       return null;
+                   }
+                   else {
+                       return response.json();
+                   }
+               })
+               .then(result => {
+                   if (result === null) {return};
+                   const draftId = result.draftId;
+                   window.location.replace(`/orders/draft/${draftId}`);
+               })
+       }
+    });
+}// end of if (checkoutButton) --------------------

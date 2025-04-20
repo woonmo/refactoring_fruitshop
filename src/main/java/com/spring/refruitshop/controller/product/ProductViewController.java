@@ -1,8 +1,8 @@
 package com.spring.refruitshop.controller.product;
 
-import com.spring.refruitshop.controller.product.dto.ProductDetailResponse;
-import com.spring.refruitshop.controller.product.dto.ProductSearchRequest;
-import com.spring.refruitshop.controller.product.dto.ProductSearchResponse;
+import com.spring.refruitshop.dto.product.ProductDetailResponse;
+import com.spring.refruitshop.dto.product.ProductSearchRequest;
+import com.spring.refruitshop.dto.product.ProductSearchResponse;
 import com.spring.refruitshop.service.product.ProductService;
 import com.spring.refruitshop.util.Pagination;
 import com.spring.refruitshop.util.PagingUtil;

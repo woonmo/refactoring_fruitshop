@@ -1,4 +1,4 @@
-package com.spring.refruitshop.controller.cart.dto;
+package com.spring.refruitshop.dto.cart;
 
 import com.spring.refruitshop.domain.cart.Cart;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.spring.refruitshop.controller.cart;
 
-import com.spring.refruitshop.controller.cart.dto.AddItemRequest;
-import com.spring.refruitshop.controller.cart.dto.AddItemResponse;
+import com.spring.refruitshop.dto.cart.AddItemRequest;
+import com.spring.refruitshop.dto.cart.AddItemResponse;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.service.cart.CartService;
 import org.springframework.http.HttpStatus;

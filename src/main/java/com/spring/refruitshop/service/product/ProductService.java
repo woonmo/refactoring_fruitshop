@@ -1,9 +1,9 @@
 package com.spring.refruitshop.service.product;
 
-import com.spring.refruitshop.controller.product.dto.*;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.product.ProductSeasons;
 import com.spring.refruitshop.domain.user.User;
+import com.spring.refruitshop.dto.product.*;
 import com.spring.refruitshop.repository.product.ProductRepository;
 import com.spring.refruitshop.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -128,4 +130,18 @@ public class ProductService {
     }// end of public ProductDetailResponse findById (Long no) ---------------------------
 
 
+    // 단일 Product Entity 객체를 반환하는 메소드 (비즈니스 로직용)
+    public Product getEntityById(Long productNo) {
+        return productRepository.findById(productNo)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 상품정보 입니다."));
+    }// end of public Product getEntityById(Long productNo) ---------------
+
+
+    // 복수 Product Entity 객체를 반환하는 메소드 (비즈니스 로직용)
+    public List<Product> getEntityListByIds(List<Long> productNos) {
+        if (productNos == null || productNos.isEmpty()) {
+            throw new IllegalArgumentException("유효하지 않은 상품정보 요청입니다.");
+        }
+        return productRepository.findAllById(productNos);
+    }// end of public List<Product> getEntityListByIds(List<Long> productNos) ------------------------
 }

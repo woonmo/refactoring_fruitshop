@@ -1,17 +1,14 @@
-package com.spring.refruitshop.controller.user.dto;
+package com.spring.refruitshop.dto.user;
 
 import com.spring.refruitshop.domain.user.User;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserRegisterResponse {
+public class LoginUser {
 
     private Long userNo;        // 회원번호
 
@@ -39,8 +36,7 @@ public class UserRegisterResponse {
 
     private String createdAt;   // 가입일자
 
-
-    public UserRegisterResponse(User user) {
+    public LoginUser(User user) {
         this.userNo = user.getNo();
         this.userId = user.getUserId();
         this.name = user.getName();
@@ -55,5 +51,4 @@ public class UserRegisterResponse {
         this.point = user.getPoint();
         this.createdAt = user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
-
 }

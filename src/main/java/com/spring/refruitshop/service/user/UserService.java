@@ -1,9 +1,9 @@
 package com.spring.refruitshop.service.user;
 
-import com.spring.refruitshop.controller.user.dto.LoginRequest;
-import com.spring.refruitshop.controller.user.dto.LoginUser;
-import com.spring.refruitshop.controller.user.dto.UserRegisterRequest;
-import com.spring.refruitshop.controller.user.dto.UserRegisterResponse;
+import com.spring.refruitshop.dto.user.LoginRequest;
+import com.spring.refruitshop.dto.user.LoginUser;
+import com.spring.refruitshop.dto.user.UserRegisterRequest;
+import com.spring.refruitshop.dto.user.UserRegisterResponse;
 import com.spring.refruitshop.domain.user.LoginHistory;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.repository.user.LoginHistoryRepository;

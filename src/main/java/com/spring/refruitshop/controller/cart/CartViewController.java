@@ -1,6 +1,6 @@
 package com.spring.refruitshop.controller.cart;
 
-import com.spring.refruitshop.controller.cart.dto.CartItemResponse;
+import com.spring.refruitshop.dto.cart.CartItemResponse;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.service.cart.CartService;
 import org.springframework.stereotype.Controller;

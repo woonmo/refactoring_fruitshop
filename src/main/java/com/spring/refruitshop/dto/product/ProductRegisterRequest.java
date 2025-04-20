@@ -1,4 +1,4 @@
-package com.spring.refruitshop.controller.product.dto;
+package com.spring.refruitshop.dto.product;
 
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.product.ProductSeasons;

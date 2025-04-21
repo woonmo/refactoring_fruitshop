@@ -1,15 +1,14 @@
 package com.spring.refruitshop.controller.user;
 
+import com.spring.refruitshop.domain.user.User;
+import com.spring.refruitshop.dto.user.LoginUser;
 import com.spring.refruitshop.dto.user.UserRegisterResponse;
 import com.spring.refruitshop.dto.user.UserRegisterRequest;
 import com.spring.refruitshop.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -31,5 +30,11 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }// end of public ResponseEntity<User> registerUser(@RequestBody UserRegisterRequest request) ---------------
 
+
+    // 로그인 한 회원의 정보를 반환하는 메소드
+    @GetMapping("/me")
+    public ResponseEntity<LoginUser> getMyInfo(@ModelAttribute("loginUser") User loginUser) {
+        return ResponseEntity.ok().body(new LoginUser(loginUser));
+    }// end of public ResponseEntity<LoginUser> getMyInfo(@ModelAttribute("loginUser") User loginUser) ----------------
 
 }

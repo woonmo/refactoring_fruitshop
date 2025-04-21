@@ -38,7 +38,7 @@ public class Order {
     private User user;   // 회원
 
     @CreatedDate
-    @Column(name = "order_date")
+    @Column(name = "order_date", updatable = false)
     private LocalDateTime orderDate;    // 주문일자
 
     @Column(name = "order_request")
@@ -59,6 +59,9 @@ public class Order {
     @Builder.Default
     private int orderDiscount = 0;     // 할인액
 
+    @Column(name = "order_payprice")
+    private int paymentPrice;   // 결제 금액
+
 
     @AttributeOverrides({
             @AttributeOverride(name = "zipcode", column = @Column(name = "receive_zipcode")),
@@ -77,15 +80,9 @@ public class Order {
     // orphanRemoval: Order 엔티티에서 orderItems 컬렉션에서 특정 orderItem 엔티티를 제거하면 그 엔티티는 데이터베이스에서도 삭제된다
     // 부모 자식 관계에서 연결이 끊어진 객체를 자동으로 제거해해줌(주문내역 일부 삭제 등에 사용)
     // 상품-장바구니 처럼 하위 항목을 가지는 경우가 아니라면 cascade = CascadeType.ALL, orphanRemoval = true 속성은 적절하지 않음
+    @Builder.Default
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    private List<OrderItem> orderItems;
-
-    @PrePersist
-    public void prePersist() {
-        if (orderItems == null) {
-            orderItems = new ArrayList<>();
-        }
-    }
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);

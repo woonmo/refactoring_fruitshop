@@ -26,7 +26,8 @@ public class UserViewController {
     public String login(HttpServletRequest request) {
         // 로그인 시 이전 페이지로 돌아갈 수 있게끔 URL 저장
         String referer = request.getHeader("referer");
-        if(referer.endsWith("/security/member/login") || referer.endsWith("/security/member/login?loginFail=true")) {
+
+        if(referer.endsWith("/login") || referer.endsWith("/login?loginFail=true")) {
             referer = "/";
         }
 

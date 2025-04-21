@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layout :: layout(~{::title}, ~{::style}, ~{::script}, ~{::section})}" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문</title>
+
+    <!-- CSS -->
+    <th:block th:fragment="style">
+        <!-- Custom -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/order/orderDraft.css}" />
+    </th:block>
+</head>
+<body>
+    <section>
+        <div id="container">
+            <!-- 주문/결제 타이틀 -->
+            <div style="background-color: black; color: white;" class="text-center">
+                <span id="order_title">주문/결제</span>
+            </div>
+
+            <!-- 배송지 입력 정보 선택 시작 -->
+            <div id="shipInput_selector">
+                <div class="shipInput_title active">
+                    기본 배송지
+                </div>
+                <div class="shipInput_title">
+                    회원 정보 사용
+                </div>
+                <div id="selectShip" class="shipInput_title" data-toggle="modal" data-target="#userShipInfo" data-dismiss="modal">
+                    배송지 선택
+                </div>
+                <div class="shipInput_title">
+                    직접 입력
+                </div>
+            </div>
+            <!-- 배송지 입력 정보 선택 끝 -->
+
+
+            <!-- 주문정보 확인 및 결제 시작 -->
+            <div id="shipInfo_place">
+                <span id="input_guide">* 표시는 필수 입력 사항입니다.</span><br>
+
+                <!-- 회원정보 입력 시작 -->
+                <label class="text-left" style="margin-top: 2%; margin-left: 1%; width: 15%;">받는사람 &nbsp;*</label><input id="name" style="width:80%" type="text" name="name"/><br>
+
+                <!-- 주소 -->
+                <label class="text-left" style="margin-top: 2%; margin-left: 1%; width: 15%;">주소 &nbsp;*</label><input style="width:10%" type="text" name="postcode" id="postcode" size="6" maxlength="5" placeholder="우편번호" readonly/>
+                <span style="width: 90px; height: 30px; font-size: 12px; margin-left: 1%; margin-bottom: 0.3%;" class="btn btn-outline-secondary">우편번호찾기</span>
+
+                <input style="margin-top: 0.75%; margin-left: 16%; width: 80%;" name="address" id="address" size="40" maxlength="200" placeholder="주소" readonly/>
+                <input style="margin-top: 1.25%; margin-left: 16%; width: 39%;" type="text" name="detailaddress" id="detailAddress" size="40" maxlength="200" placeholder="상세주소" />
+                <input style="margin-left: 2%; width: 39%;" type="text" name="extraaddress" id="extraAddress" size="40" maxlength="200" readonly />
+                <!-- 주소 -->
+
+                <label class="text-left" style="margin-left: 1%; width: 14.5%;">연락처 &nbsp;*</label>
+                <input style="margin-top: 2%; width:10%" type="text" name="hp1" id="hp1" size="6" maxlength="3" value="010" readonly /> &nbsp;-&nbsp;
+                <input style="width: 10%;" type="text" name="hp2" id="hp2" size="6" maxlength="4" />&nbsp;-&nbsp;
+                <input style="width: 10%;" type="text" name="hp3" id="hp3" size="6" maxlength="4" /><span style="margin-left: 2%;" class="error">휴대폰 형식이 아닙니다.</span><br>
+
+                <label class="text-left" style="margin-left: 1%; width: 14.5%;">이메일 &nbsp;*</label>
+                <input th:value="${draft.email}" style="margin-top: 2%; width: 57%" type="text" name="email" id="email" maxlength="60" class="requiredInfo" readonly />
+                <span style="margin-left: 2%;" class="error">이메일 형식에 맞지 않습니다.</span><br>
+
+                <label class="text-left" style="margin-left: 1%; width: 15%;">요청사항 &nbsp;</label><input style="margin-top: 2%; width:80%" type="text" name="order_request" value="빠른 배송 부탁드립니다."/>
+
+
+                <label for="setDefaultShip" class="text-left" style="cursor: pointer; margin-left: 1%; width: 15%;">기본배송지 설정 &nbsp;</label>
+                <input id="setDefaultShip" style="margin-top: 2%;" type="checkbox" />
+
+                <!-- 회원정보 입력 끝 -->
+
+
+                <!-- 주문정보 확인 시작 -->
+                <div style="margin-left: 1%;" class="h6 mt-5">주문 상품 정보</div>
+                <hr style="border: solid 1px black;">
+
+                <div>
+                    <table id="orderList" class="table table-border text-center">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th style="width: 50%">상품명</th>
+                                <th>수량</th>
+                                <th>가격</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:if="${draft != null}">
+                                <tr th:each="product : ${draft.getItems()}" class="productRow">
+                                    <td>
+<!--                                        <input type="hidden" id="prod_no" name="prod_no" value="${cartItem.prod_no}" />-->
+                                        <img style= "width: 50px; heigth: 30px;" th:src="@{'/images/product/thumbnail/'+${product.thumbnail}}" />
+                                    </td>
+                                    <td class ="prod_name" th:text="${product.name}">상품명</td>
+                                    <td class="prod_count quantity" th:text="${product.quantity}">수량</td>
+                                    <td class="prod_count price" th:text="|${#numbers.formatInteger( (product.price * product.quantity) , 3, 'COMMA')} 원|">가격</td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 주문정보 확인 끝 -->
+
+
+                <!-- 쿠폰 사용 정보 시작 -->
+                <div style="margin-left: 1%;" class="h6 mt-5">쿠폰 적용</div>
+                <hr style="border: solid 1px black;">
+                <div style="width: 90%; margin: 0 auto;">
+                    <span data-toggle="modal" data-target="#userCouponInfo" data-dismiss="modal" class="btn btn-success"style="font-size: 14px; width: 60px; heigth:20px; float: right">선택</span><br><br>
+                    <table id="couponSelect" class="table table-border text-center">
+                        <thead>
+                        <tr>
+                            <th>쿠폰명</th>
+                            <th style="width: 50%">만료일자</th>
+                            <th>할인액</th>
+                            <th>삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="coupon_name"></td>
+                            <td id="coupon_expdate"></td>
+                            <td id="coupon_discount"></td>
+                            <td><span style="width:45px; height: 25px; font-size: 10px;" class="btn btn-outline-danger">제거</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 쿠폰 사용 정보 끝 -->
+
+
+                <!-- 결제 정보 확인 시작 -->
+                <div style="margin-left: 1%;" class="h6 mt-5">결제 정보</div>
+                <hr style="border: solid 1px black;">
+                <div style="width: 90%; margin: 0 auto;">
+                    <span>주문상품</span><span id="total_oprice" style="float: right"></span><br><br>
+                    <span>배송비</span><span style="float: right">2,500 원</span><br><br>
+                    <span>할인액</span><span id="discount" style="float: right"></span><br>
+                </div>
+
+                <hr>
+                <!-- 결제 정보 확인 끝 -->
+
+                <div style="width: 90%; margin: 0 auto;">
+                    <span>결제예정금액</span><span class="total_price" style="float: right"></span><br><br>
+                    <span>적립예정금액</span><span id="point" style="float: right"></span>
+                </div>
+
+                <button id="payments" type="button" class="btn btn-primary" th:onclick="paymentInit()"><span class="total_price"></span> 결제하기</button>
+
+            </div>
+            <!-- 주문정보 확인 및 결제 끝 -->
+
+        </div>
+    </section>
+
+
+    <!-- JS -->
+    <th:block th:fragment="script">
+        <!-- Kakao Address -->
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <!-- 포트원 결제 스크립트 -->
+        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+        <!-- Custom -->
+        <script th:src="@{/js/order/orderDraft.js}"></script>
+    </th:block>
+
+</body>
+</html>

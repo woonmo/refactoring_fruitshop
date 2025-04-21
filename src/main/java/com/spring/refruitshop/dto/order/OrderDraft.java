@@ -20,6 +20,8 @@ public class OrderDraft {
     // 1. 회원정보
     private Long userNo;    // 회원번호
     private String email;   // 주문자 이메일 (결제완료 메일 발송)
+    private String name;    // 주문자 이름
+    private String tel;     // 주문자 연락처
 
     // 2. 상품정보
     private List<OrderDraftItem> items;
@@ -33,10 +35,38 @@ public class OrderDraft {
     private String extraAddress;    // 참고사항
 
     // 4. 가격정보 (프론트에서 진행)
-//    private int totalPrice;     // 주문총액
-//    private int discount;       // 할인액
-//    private int finalPrice;     // 최종결제예정금액
+    private int totalPrice;     // 주문총액
+    private int discount;       // 할인액
+    private int finalPrice;     // 최종결제예정금액
+    private int point;          // 적립금
 
     // 5. 배송요청사항
     private String requestNote;
+
+    // 6. 기본 배송지 설정 여부
+    private String isDefaultShip;
+
+    @Override
+    public String toString() {
+        return "OrderDraft{" +
+                "draftId='" + draftId + '\'' +
+                ", userNo=" + userNo +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", tel='" + tel + '\'' +
+                ", items=" + items +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverTel='" + receiverTel + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", address='" + address + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", extraAddress='" + extraAddress + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", discount=" + discount +
+                ", finalPrice=" + finalPrice +
+                ", point=" + point +
+                ", requestNote='" + requestNote + '\'' +
+                ", isDefaultShip='" + isDefaultShip + '\'' +
+                '}';
+    }
 }

@@ -1,5 +1,9 @@
 package com.spring.refruitshop.service.order;
 
+import com.spring.refruitshop.domain.common.Address;
+import com.spring.refruitshop.domain.order.Order;
+import com.spring.refruitshop.domain.order.OrderItem;
+import com.spring.refruitshop.domain.order.OrderStatus;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.dto.order.CartItemRequest;
@@ -8,22 +12,23 @@ import com.spring.refruitshop.dto.order.OrderDraftItem;
 import com.spring.refruitshop.dto.order.OrderInitRequest;
 import com.spring.refruitshop.repository.order.OrderRepository;
 import com.spring.refruitshop.service.product.ProductService;
+import com.spring.refruitshop.service.user.UserService;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductService productService;
-
-    public OrderService(OrderRepository orderRepository, ProductService productService) {
-        this.orderRepository = orderRepository;
-        this.productService = productService;
-    }
+    private final UserService userService;
 
 
     // 결제 전 주문서를 생성하는 비즈니스 로직
@@ -47,9 +52,9 @@ public class OrderService {
                     .draftId(UUID.randomUUID().toString())
                     .userNo(loginUser.getNo())
                     .email(loginUser.getEmail())
+                    .name(loginUser.getName())
+                    .tel(loginUser.getTel())
                     .items(List.of(orderDraftItem))        // 불변 LIST 써도 문제? 없을듯 어차피 보여주는 것이니까
-                    .receiverName(loginUser.getUsername())
-                    .receiverTel(loginUser.getTel())
                     .zipCode(loginUser.getAddress().getZipcode())
                     .address(loginUser.getAddress().getAddress())
                     .detailAddress(loginUser.getAddress().getDetailAddress())
@@ -89,9 +94,9 @@ public class OrderService {
                     .draftId(UUID.randomUUID().toString())
                     .userNo(loginUser.getNo())
                     .email(loginUser.getEmail())
+                    .name(loginUser.getName())
+                    .tel(loginUser.getTel())
                     .items(productList)        // 불변 LIST 써도 문제? 없을듯 어차피 보여주는 것이니까
-                    .receiverName(loginUser.getUsername())
-                    .receiverTel(loginUser.getTel())
                     .zipCode(loginUser.getAddress().getZipcode())
                     .address(loginUser.getAddress().getAddress())
                     .detailAddress(loginUser.getAddress().getDetailAddress())
@@ -101,4 +106,42 @@ public class OrderService {
         }
         return null;
     }// end of public OrderDraft prepareOrder(OrderInitRequest request, User loginUser) ------------------------
+
+
+    // 주문확인 후 주문데이터를 처리하는 비즈니스 로직
+    @Transactional
+    public Order confirmOrder(OrderDraft draft, User loginUser) {
+
+        // 주문 처리 시 해야할 것
+        // 상품 재고 차감, 회원 포인트 증가, 주문 정보 저장 주문 상세 저장, 결제 정보 저장, 배송지 변경 혹은 생성(추후 확장)
+
+        // 1. 회원 정보 조회
+        User user = userService.getEntityById(loginUser.getNo());
+        user.increasePoint(draft.getPoint());   // 회원의 포인트 증가
+
+        // 2. 주문 정보 생성
+        Address address = new Address(draft.getZipCode(), draft.getAddress(), draft.getDetailAddress(), draft.getExtraAddress());
+        Order order = Order.builder()
+                .user(loginUser)
+                .orderDate(LocalDateTime.now())
+                .request(draft.getRequestNote())
+                .orderTprice((long) draft.getTotalPrice())
+                .orderStatus(OrderStatus.COMPLETED)
+                .orderChangeDate(LocalDateTime.now())
+                .orderDiscount(draft.getDiscount())
+                .paymentPrice(draft.getFinalPrice())
+                .receiveAddress(address)
+                .build();
+
+        // 3. 주문 상품 추가
+        for (OrderDraftItem item : draft.getItems()) {
+            Product product = productService.getEntityById(item.getNo());   // 상품 하나의 정보 조회
+            OrderItem orderItem = OrderItem.createOrderItem(order, product, item.getQuantity(), item.getPrice());   // 주문 상세 row 한 개 정보
+            order.addOrderItem(orderItem);
+            product.decreaseInventory(item.getQuantity());      // 재고 감소
+        }// end of for() --------------
+
+
+        return orderRepository.save(order);
+    }// end of public Long confirmOrder(OrderDraft draft, User loginUser) -------------------------
 }

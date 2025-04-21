@@ -112,44 +112,56 @@ if (addCartButton) {
 const checkoutButton = document.getElementById("checkout");
 if (checkoutButton) {
     checkoutButton.addEventListener("click", function () {
-       const quantity = parseInt(qtyInput.value) || 0;
-       if (quantity === 0) {
-           Swal.fire({
-               icon: "warning",
-               title: "최소 주문수량은 1개 입니다!!",
-               confirmButtonText: "확인"
-           })
-           return;
-       }
-       else {
-           fetch("/api/orders/initiate", {
-               method: "POST",
-               headers: {
-                    "Content-Type": "application/json"
-               },
-               body: JSON.stringify({
-                   "productNo" : prodNo,
-                   "quantity": quantity
-               })
-           })
-               .then(response => {
-                   if (response.status === 400) {
-                       Swal.fire({
-                           icon: "error",
-                           title: "처리 도중 에러가 발생했습니다..",
-                           confirmButtonText: "확인"
-                       })
-                       return null;
-                   }
-                   else {
-                       return response.json();
-                   }
-               })
-               .then(result => {
-                   if (result === null) {return};
-                   const draftId = result.draftId;
-                   window.location.replace(`/orders/draft/${draftId}`);
-               })
-       }
+        if (!isLogin) {
+            // 로그인을 안 한 경우
+            Swal.fire({
+                title: "로그인 후 이용 가능합니다!",
+                icon: "warning",
+            })
+                .then((result) => {
+                    window.location.href = "/login";
+                });
+        }
+        else{
+            const quantity = parseInt(qtyInput.value) || 0;
+            if (quantity === 0) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "최소 주문수량은 1개 입니다!!",
+                    confirmButtonText: "확인"
+                })
+                return;
+            }
+            else {
+                fetch("/api/orders/initiate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "productNo" : prodNo,
+                        "quantity": quantity
+                    })
+                })
+                    .then(response => {
+                        if (response.status === 400) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "처리 도중 에러가 발생했습니다..",
+                                confirmButtonText: "확인"
+                            })
+                            return null;
+                        }
+                        else {
+                            return response.json();
+                        }
+                    })
+                    .then(result => {
+                        if (result === null) {return};
+                        const draftId = result.draftId;
+                        window.location.replace(`/orders/draft/${draftId}`);
+                    })
+            }
+        }
     });
 }// end of if (checkoutButton) --------------------

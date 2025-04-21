@@ -25,4 +25,15 @@ public class OrderDraftItem {
         this.thumbnail = product.getThumbnail();
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDraftItem{" +
+                "no=" + no +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", thumbnail='" + thumbnail + '\'' +
+                '}';
+    }
 }

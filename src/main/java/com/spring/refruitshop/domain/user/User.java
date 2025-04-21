@@ -142,6 +142,12 @@ public class User implements UserDetails {
     }
     // === 스프링 시큐리티 끝 === //
 
+
+    // 주문 시 회원의 포인트를 증가시키는 메소드
+    public void increasePoint(int point) {
+        this.point += point;
+    }
+
     // logging
     @Override
     public String toString() {

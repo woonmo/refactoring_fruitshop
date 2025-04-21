@@ -93,4 +93,12 @@ public class UserService {
         log.info("Login : {}", loginHistory);
 
     }// end of public void addLoginHistory(User loginUser) ----------------------
+
+
+    // 회원 엔티티를 반환하는 메소드(비즈니스 로직용)
+    public User getEntityById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원입니다."));
+    }// end of public User getEntityById(Long id) --------------------
+
 }

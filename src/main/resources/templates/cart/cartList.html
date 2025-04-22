@@ -26,7 +26,7 @@
                     <div th:each="cartItem : ${cartItemList}" class="cart_item" style="display: flex; align-items: center; padding: 2% 0; border-bottom: solid 1px #ccc; border-top: solid 1px #ccc; margin-top: 2%;">
                         <!-- 상품 체크박스 -->
                         <div style="flex: 0.1; text-align: center;">
-                            <input type="checkbox" th:id="${cartItem.cartNo}" name="selectedItems" th:value="${cartItem.cartNo}">
+                            <input type="checkbox" th:id="${cartItem.cartNo}" name="selectedItems" th:value="${cartItem.productNo}">
                         </div>
 
                         <!-- 상품 이미지 -->
@@ -82,8 +82,8 @@
 
 
                 <div class="ec-base-button gColumn">
-                    <a href="#" onclick="Orderpick()" class="btnpick">선택상품 주문하기</a>
-                    <a href="#" onclick="OrderAll()" class="btnSubmit">전체상품 주문하기</a>
+                    <a href="#" onclick="pickOrder()" class="btnpick">선택상품 주문하기</a>
+                    <a href="#" onclick="pickAll()" class="btnSubmit">전체상품 주문하기</a>
                     <a href="#" th:onclick="emptyCart()" class="btnremove">장바구니 비우기</a>
                 </div>
 

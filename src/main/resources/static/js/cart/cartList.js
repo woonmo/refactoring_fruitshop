@@ -214,3 +214,73 @@ function emptyCart() {
             }
         });
 }// end of function emptyCart() -------------------
+
+
+// 선택한 일부 상품을 주문하는 함수
+function pickOrder() {
+    const selected = document.querySelectorAll("input[name='selectedItems']:checked");
+    initiateOrder(selected);
+}// end of function pickOrder() --------------------
+
+
+
+// 전체 상품을 주문하는 함수
+function pickAll() {
+    const selected = document.querySelectorAll("input[name='selectedItems']");
+    initiateOrder(selected);
+}// end of function pickAll() -----------------------
+
+
+
+// 주문서 작성하기
+function initiateOrder(selected) {
+
+    const cartItemList = [];
+    selected.forEach(checkbox => {
+        const cartItemDiv = checkbox.closest("div.cart_item");
+
+        const prodNo = checkbox.value;
+        const quantityInput = cartItemDiv.querySelector("input.prodcount");
+        const quantity = parseInt(quantityInput.value) || 0;
+
+        cartItemList.push({
+            productNo: parseInt(prodNo),
+            quantity: quantity
+        });
+    })
+
+    if (cartItemList.length === 0) {
+        Swal.fire({
+            icon: "warning",
+            title: "주문할 상품을 선택하세요!"
+        })
+        return;
+    }
+
+    fetch("/api/orders/initiate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "cartItemList": cartItemList
+        })
+    })
+        .then(response => {
+            if (response.status === 400) {
+                Swal.fire({
+                    icon: "error",
+                    title: "처리 도중 에러가 발생했습니다..",
+                    confirmButtonText: "확인"
+                })
+                return null;
+            }
+            else {
+                return response.json();
+            }
+        })
+        .then(data => {
+           const draftId = data.draftId;
+           window.location.replace(`/orders/draft/${draftId}`);
+        });
+}// end of function initiateOrder() ------------------------

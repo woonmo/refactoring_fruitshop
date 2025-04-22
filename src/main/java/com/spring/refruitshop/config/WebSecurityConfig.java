@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
-//                .requestMatchers(toH2Console())         // 데이터 베이스
+                .requestMatchers(toH2Console())         // 데이터 베이스
                 .requestMatchers("/favicon.png","/static/**", "/css/**", "/js/**", "/images/**", "/bootstrap-4.6.2-dist/**");       // static 아래
     }
 
@@ -43,9 +43,9 @@ public class WebSecurityConfig {
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests((auth) -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/", "/login", "/signup", "/api/users").permitAll()
+                        .requestMatchers("/", "/login", "/signUp", "/api/users", "/iframe/agree.html", "/api/users/duplicate").permitAll()
                         .requestMatchers("/products/**", "/product/**").permitAll()
-                        .requestMatchers("/adimin/**", "/api/admin/**").hasRole("ADMIN")    // 관리자만 접근 가능하도록
+                        .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")    // 관리자만 접근 가능하도록
                         .anyRequest().authenticated()
                 )
                 .formLogin((login) -> login

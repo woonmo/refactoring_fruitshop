@@ -153,27 +153,6 @@ document.querySelectorAll("button.removeItem").forEach(button => {
 
 
 
-// 데이터베이스에 접근히여 장바구니 정보를 변경하는 함수
-function httpRequest(url, method, body, success, fail) {
-
-    fetch(url, {
-        method: method,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: body
-    })
-        .then(response => {
-            if (response.status === 200 || response.status === 201) {
-                return success();
-            }
-            else {
-                return fail();
-            }
-        });
-}// end of function httpRequest(url, method, body, success, fail) -------------------------
-
-
 // 상품 페이지로 이동하는 함수
 function viewProduct(prodNo){
     window.location.replace(`/product/${prodNo}`);
@@ -258,30 +237,20 @@ function initiateOrder(selected) {
         return;
     }
 
-    fetch("/api/orders/initiate", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "cartItemList": cartItemList
+
+    function success(data) {
+        const draftId = data.draftId;
+        window.location.replace(`/orders/draft/${draftId}`);
+    }
+
+    function fail(err) {
+        Swal.fire({
+            icon: "error",
+            title: "처리 도중 에러가 발생했습니다..",
+            text: err,
         })
-    })
-        .then(response => {
-            if (response.status === 400) {
-                Swal.fire({
-                    icon: "error",
-                    title: "처리 도중 에러가 발생했습니다..",
-                    confirmButtonText: "확인"
-                })
-                return null;
-            }
-            else {
-                return response.json();
-            }
-        })
-        .then(data => {
-           const draftId = data.draftId;
-           window.location.replace(`/orders/draft/${draftId}`);
-        });
+    }
+
+    httpRequest("/api/orders/initiate", "POST", JSON.stringify({"cartItemList": cartItemList}), success, fail);
+
 }// end of function initiateOrder() ------------------------

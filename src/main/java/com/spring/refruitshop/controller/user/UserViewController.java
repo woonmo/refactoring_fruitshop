@@ -46,14 +46,11 @@ public class UserViewController {
         return "user/login";
     }
 
-    // 로그인 처리
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginUser> login(HttpServletRequest request, @RequestBody LoginRequest loginRequest) {
-//        // 로그인 기록 DB 에 남기기
-//        LoginUser user = userService.login(request, loginRequest);
-//        return ResponseEntity.ok(user);
-//    }// end of public String login(HttpServletRequest request, LoginRequest loginRequest) ----------------------
-
+    // 회원가입 페이지
+    @GetMapping("/signUp")
+    public String signUp() {
+        return "user/signUp";
+    }// end of public String signUp() ------------
 
     // 휴면 복구 페이지
     @GetMapping("/idle")

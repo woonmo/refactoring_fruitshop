@@ -1,10 +1,9 @@
 package com.spring.refruitshop.controller.user;
 
 import com.spring.refruitshop.domain.user.User;
-import com.spring.refruitshop.dto.user.LoginUser;
-import com.spring.refruitshop.dto.user.UserRegisterResponse;
-import com.spring.refruitshop.dto.user.UserRegisterRequest;
+import com.spring.refruitshop.dto.user.*;
 import com.spring.refruitshop.service.user.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@Slf4j
 public class UserApiController {
 
     private final UserService userService;
@@ -36,5 +36,16 @@ public class UserApiController {
     public ResponseEntity<LoginUser> getMyInfo(@ModelAttribute("loginUser") User loginUser) {
         return ResponseEntity.ok().body(new LoginUser(loginUser));
     }// end of public ResponseEntity<LoginUser> getMyInfo(@ModelAttribute("loginUser") User loginUser) ----------------
+
+
+    // 아이디 & 이메일 중복검사
+    @PostMapping("/duplicate")
+    public ResponseEntity<UserDuplicateResponse> userDuplicateCheck(@RequestBody UserDuplicateRequest request) {
+        UserDuplicateResponse duplicateResponse = userService.duplicateCheckUserIdAndEmail(request);
+
+        log.info("아이디 & 이메일 중복 여부: {}", duplicateResponse);
+
+        return ResponseEntity.ok().body(duplicateResponse);
+    }// end of public ResponseEntity<UserDuplicateResponse> userDuplicateCheck(@RequestBody UserDuplicateRequest request) ------------------
 
 }

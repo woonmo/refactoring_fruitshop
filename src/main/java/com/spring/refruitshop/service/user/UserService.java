@@ -1,9 +1,6 @@
 package com.spring.refruitshop.service.user;
 
-import com.spring.refruitshop.dto.user.LoginRequest;
-import com.spring.refruitshop.dto.user.LoginUser;
-import com.spring.refruitshop.dto.user.UserRegisterRequest;
-import com.spring.refruitshop.dto.user.UserRegisterResponse;
+import com.spring.refruitshop.dto.user.*;
 import com.spring.refruitshop.domain.user.LoginHistory;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.repository.user.LoginHistoryRepository;
@@ -13,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -101,4 +100,23 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원입니다."));
     }// end of public User getEntityById(Long id) --------------------
 
+
+    // 회원가입 시 userid, email 중복 검사
+    @Transactional(readOnly = true)
+    public UserDuplicateResponse duplicateCheckUserIdAndEmail(UserDuplicateRequest request) {
+
+        String userId = request.getUserId() == null ? "" : request.getUserId();
+        String email  = request.getEmail()  == null ? "" : request.getEmail();
+
+        log.info("중복검사 입력 userId: {}, email: {}", userId, email);
+
+        List<UserIdEmailOnly> resultList = userRepository.findByUserIdOrEmail(userId, email);
+
+        boolean userIdExist = resultList.stream()
+                .anyMatch(result -> userId.equals(result.getUserId()));
+        boolean emailExist = resultList.stream()
+                .anyMatch(result -> email.equals(result.getEmail()));
+
+        return new UserDuplicateResponse(userIdExist, emailExist);
+    }// end of public UserDuplicateResponse duplicateCheckUserIdAndEmail(UserDuplicateRequest request) -----------------
 }

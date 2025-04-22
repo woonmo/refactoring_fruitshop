@@ -52,6 +52,9 @@ public class OrderDraft {
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    // 8. 장바구니 통한 주문 여부
+//    private boolean isFromCart;
+
 
 
     // 클라이언트의 주문서 입력 정보를 업데이트하는 메소드

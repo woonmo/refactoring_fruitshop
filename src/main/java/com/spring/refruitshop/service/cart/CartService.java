@@ -9,6 +9,7 @@ import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.repository.cart.CartRepository;
 import com.spring.refruitshop.repository.product.ProductRepository;
 import com.spring.refruitshop.repository.user.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,7 @@ public class CartService {
 
     // 장바구니에 상품 & 수정 추가 메소드
     @Transactional
-    public AddItemResponse save(AddItemRequest dto, User loginUser) {
+    public AddItemResponse save(AddItemRequest dto, User loginUser, HttpSession session) {
 
         // 유효한 상품인지 검증
         Product product = productRepository.findById(dto.getProductNo())
@@ -62,13 +63,15 @@ public class CartService {
         // 카트 저장
         cart = cartRepository.save(cart);
 
+        session.setAttribute("cartCount", getCountByUserNo(loginUser.getNo()));
+
         return new AddItemResponse(cart);   // 카트 정보 반환
     }// end of public CartDTO save(AddItemRequest dto) ---------------------------------
 
 
     // 장바구니 항목 삭제
     @Transactional
-    public void delete(Long id, User loginUser) {
+    public void delete(Long id, User loginUser, HttpSession session) {
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 장바구니입니다."));
 
@@ -79,6 +82,7 @@ public class CartService {
 
         // 삭제 진행
         cartRepository.delete(cart);
+        session.setAttribute("cartCount", getCountByUserNo(loginUser.getNo()));
     }// end of public void delete(Long id) ----------------------
 
 
@@ -120,15 +124,30 @@ public class CartService {
 
     // 회원의 장바구니를 비운다.
     @Transactional
-    public void deleteAll(User loginUser) {
+    public void deleteAll(User loginUser, HttpSession session) {
 
         if (loginUser == null) {
             log.error("로그인 정보가 없습니다.");
             throw new IllegalArgumentException("로그인 정보가 없습니다.");
         }
 
+
+
         log.info("회원번호 {}번의 장바구니를 비웠습니다. ", loginUser.getNo());
         cartRepository.deleteByUserNo(loginUser.getNo());
 
+        session.setAttribute("cartCount", getCountByUserNo(loginUser.getNo()));
     }// end of public void deleteAll(User loginUser) ------------------------
+
+
+    // 회원 번호로 회원의 장바구니 개수를 가져오는 메소드
+    public int getCountByUserNo(Long userNo) {
+        return cartRepository.countByUserNo(userNo);
+    }// end of public int getCountByUserNo(Long userNo) --------------------
+
+
+    // 장바구니 통한 주문 시 장바구니에 담긴 상품을 지우는 메소드
+    public void deleteByUserAndProduct(Long userNo, Long prodNo) {
+        cartRepository.deleteByUserNoAndProductNo(userNo, prodNo);
+    }// end of public void deleteByUserAndProduct(Long userNo, Long prodNo) ----------------------
 }

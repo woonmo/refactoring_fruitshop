@@ -23,4 +23,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     void deleteByUserNo(@Param("userNo") Long no);   // 장바구니 비우기
 
     int countByUserNo(Long no); // 로그인한 회원의 장바구니 개수 정보
+
+    void deleteByUserNoAndProductNo(Long userNo, Long prodNo);  // 장바구니 통한 주문 시 상품 데이터 삭제
 }

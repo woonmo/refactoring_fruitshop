@@ -61,7 +61,7 @@ public class OrderApiController {
 
         log.info("최종 주문 요청 정보: {}", draft);
 
-        Order order = orderService.confirmOrder(draft, loginUser);
+        Order order = orderService.confirmOrder(draft, loginUser, session);
 
         session.removeAttribute("draft");
 

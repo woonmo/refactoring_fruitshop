@@ -17,4 +17,5 @@ public class OrderInitRequest {
 
     // 장바구니 페이지에서 주문 요청 시
     private List<CartItemRequest> cartItemList;    // 장바구니에 담긴 상품정보
+//    private boolean isFromCart;
 }

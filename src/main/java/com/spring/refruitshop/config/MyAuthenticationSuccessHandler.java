@@ -2,6 +2,7 @@ package com.spring.refruitshop.config;
 
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.domain.user.UserStatus;
+import com.spring.refruitshop.service.cart.CartService;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import static com.spring.refruitshop.util.IpUtil.getClientIp;
 public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private final UserService userService;
+    private final CartService cartService;
 
 
     // 로그인을 성공했을 시 처리 핸들러
@@ -39,6 +41,8 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         User loginUser = (User) authentication.getPrincipal();  // 로그인 한 유저 객체, UserDetails 객체 UserDetailService 에서 구현했음
 
         String redirectUrl = (String)session.getAttribute("prevURLPage");
+        int cartCount = cartService.getCountByUserNo(loginUser.getNo());
+        session.setAttribute("cartCount", cartCount);
 
         // 로그인 기록 테이블에 저장, 휴면, 비번변경 여부 판단
         if (loginUser.getStatus() == UserStatus.IDLE) {

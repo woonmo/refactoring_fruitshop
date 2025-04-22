@@ -245,7 +245,8 @@ function initiateOrder(selected) {
 
         cartItemList.push({
             productNo: parseInt(prodNo),
-            quantity: quantity
+            quantity: quantity,
+            isFromCart: true
         });
     })
 

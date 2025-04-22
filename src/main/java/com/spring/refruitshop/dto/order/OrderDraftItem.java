@@ -15,15 +15,17 @@ public class OrderDraftItem {
     private int price;          // 상품가격
     private int quantity;       // 상품수량
     private String thumbnail;   // 상품이미지
+    private boolean isFromCart; // 장바구니 주문 여부
 
 
 
-    public OrderDraftItem(Product product, int quantity) {
+    public OrderDraftItem(Product product, int quantity, boolean isFromCart) {
         this.no = product.getNo();
         this.name = product.getName();
         this.price = product.getPrice();
         this.thumbnail = product.getThumbnail();
         this.quantity = quantity;
+        this.isFromCart = isFromCart;
     }
 
     @Override
@@ -34,6 +36,7 @@ public class OrderDraftItem {
                 ", price=" + price +
                 ", quantity=" + quantity +
                 ", thumbnail='" + thumbnail + '\'' +
+                ", isFromCart=" + isFromCart +
                 '}';
     }
 }

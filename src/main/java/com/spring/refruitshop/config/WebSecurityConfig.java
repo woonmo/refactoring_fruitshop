@@ -1,5 +1,6 @@
 package com.spring.refruitshop.config;
 
+import com.spring.refruitshop.service.cart.CartService;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final CartService cartService;
 
     // 스프링 시큐리티 기능 비활성화
     @Bean
@@ -52,7 +54,7 @@ public class WebSecurityConfig {
                         .passwordParameter("password")
 //                        .loginProcessingUrl("login")    // 로그인 데이터 처리를 위함
                         .failureUrl("/login?loginFail=true")    // 로그인 실패 시
-                        .successHandler(myAuthenticationSuccessHandler(userService))
+                        .successHandler(myAuthenticationSuccessHandler(userService, cartService))
                 )
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")
@@ -68,8 +70,8 @@ public class WebSecurityConfig {
 
     // == login을 성공하면 연이어서 처리해야할 작업을 해주는 bean 생성하기 == //
     @Bean
-    public MyAuthenticationSuccessHandler myAuthenticationSuccessHandler(UserService userService) {
-        return new MyAuthenticationSuccessHandler(userService);
+    public MyAuthenticationSuccessHandler myAuthenticationSuccessHandler(UserService userService, CartService cartService) {
+        return new MyAuthenticationSuccessHandler(userService, cartService);
     }
 
     @Bean

@@ -79,7 +79,7 @@
                         </li>
                         <li sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-item active">
                             <a th:href="@{/carts}" style="margin-top: 2%; cursor: pointer;" class="navbar-brand notification">
-                                <i class="fa-solid fa-basket-shopping"></i><span class="badge" th:text="${cartCount}"></span>
+                                <i class="fa-solid fa-basket-shopping"></i><span class="badge" th:text="${session.cartCount}"></span>
                             </a>
                         </li>
                     </ul>

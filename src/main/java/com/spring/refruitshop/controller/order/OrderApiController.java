@@ -57,28 +57,7 @@ public class OrderApiController {
         }
 
         // 클라이언트 입력 정보를 주문서에 업데이트
-
-        // 배송지 주소관련
-        draft.setZipCode(request.getZipCode());
-        draft.setAddress(request.getAddress());
-        draft.setDetailAddress(request.getDetailAddress());
-        draft.setExtraAddress(request.getExtraAddress());
-
-        // 결제 금액 관련
-        draft.setTotalPrice(request.getTotalPrice());
-        draft.setDiscount(request.getDiscount());
-        draft.setFinalPrice(request.getFinalPrice());
-        draft.setPoint(request.getPoint());
-
-        // 수신인 관련
-        draft.setReceiverName(request.getReceiverName());
-        draft.setReceiverTel(request.getReceiverTel());
-
-        // 요청 사항
-        draft.setRequestNote(request.getRequestNote());
-
-        // 기본 배송지 설정 여부
-        draft.setIsDefaultShip(request.getIsDefaultShip());
+        draft.updateDraft(request);
 
         log.info("최종 주문 요청 정보: {}", draft);
 
@@ -90,7 +69,7 @@ public class OrderApiController {
         User updatedUser = userService.getEntityById(loginUser.getNo());
         session.setAttribute("loginUser", updatedUser);
 
-        return ResponseEntity.ok().body("주문번호: "+ order.getFormattedOrderNo());
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("orderCode", order.getOrderCode()));
     }// end of public ResponseEntity<?>  confirmOrder () -----------------------------
 
 }

@@ -47,7 +47,7 @@ public class OrderService {
             Product product = productService.getEntityById(request.getProductNo());
             OrderDraftItem orderDraftItem = new OrderDraftItem(product, request.getQuantity());
 
-            // 2. 주문회원 정보 입력
+            // 2. 주문 정보 입력
             return OrderDraft.builder()
                     .draftId(UUID.randomUUID().toString())
                     .userNo(loginUser.getNo())
@@ -90,6 +90,7 @@ public class OrderService {
                 throw new IllegalArgumentException("유효하지 않은 상품정보 입니다.");
             }
 
+            // 2. 주문 정보 입력
             return OrderDraft.builder()
                     .draftId(UUID.randomUUID().toString())
                     .userNo(loginUser.getNo())
@@ -141,7 +142,10 @@ public class OrderService {
             product.decreaseInventory(item.getQuantity());      // 재고 감소
         }// end of for() --------------
 
+        order = orderRepository.save(order);
+        order.initializeOrderCode(order.getFormattedOrderNo());     // 주문코드 생성
+//        orderRepository.save(order);        // 주문코드 update 를 위한 추가 save
 
-        return orderRepository.save(order);
+        return order;
     }// end of public Long confirmOrder(OrderDraft draft, User loginUser) -------------------------
 }

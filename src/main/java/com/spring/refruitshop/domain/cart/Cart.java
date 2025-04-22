@@ -19,7 +19,7 @@ public class Cart {
      */
 
     @Id
-    @Column(unique = true, nullable = false)
+    @Column(name = "cart_no", nullable = false, updatable = false)
     @SequenceGenerator(name = "SEQ_CART_GENERATOR", sequenceName = "cart_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CART_GENERATOR")
     private Long cartNo;    // 장바구니 번호

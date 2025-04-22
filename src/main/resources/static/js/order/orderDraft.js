@@ -123,7 +123,7 @@ function getOrderName() {
 
 // 배송지 입력 정보를 확인하는 함수
 function shipInfoValidation() {
-    const name = $("input#name").val().trim();
+    const name = document.querySelector('input#name').value.trim();
     if (name == "") {
         Swal.fire({
             icon: "warning",
@@ -132,9 +132,9 @@ function shipInfoValidation() {
         return false;
     }
 
-    const postcode = $("input#postcode").val().trim();
-    const address = $("input#address").val().trim();
-    const extraAddress = $("input#extraAddress").val().trim();
+    const postcode = document.querySelector('input#postcode').value.trim();
+    const address = document.querySelector('input#address').value.trim();
+    const extraAddress = document.querySelector('input#extraAddress').value.trim();
 
     if (postcode == "" || address == "" || extraAddress == "") {
         Swal.fire({
@@ -146,8 +146,8 @@ function shipInfoValidation() {
 
     const regExp_hp2 = new RegExp(/^[1-9][0-9]{3}$/);
     const regExp_hp3 = new RegExp(/^[\d]{4}$/);
-    const hp2 = $("input#hp2").val().trim();
-    const hp3 = $("input#hp3").val().trim();
+    const hp2 = document.querySelector('input#hp2').value.trim();
+    const hp3 = document.querySelector('input#hp3').value.trim();
 
     if (!regExp_hp2.test(hp2) || !regExp_hp3.test(hp3)) {
         // 연락처 국번이 형식에 맞지 않은 경우
@@ -159,7 +159,7 @@ function shipInfoValidation() {
     }
 
     const regExp_email = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
-    const email = $("input#email").val().trim();
+    const email = document.querySelector('input#email').value.trim();
 
     if (!regExp_email.test(email)) {
         Swal.fire({
@@ -199,7 +199,7 @@ async function paymentInit() {
         pay_method : 'card',	// 결제 수단
         merchant_uid : 'fruit_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
         name : getOrderName(),   // 주문페이지 상품명
-        amount : 100,  // '${coinmoney}'  결제 금액 number 타입. 필수항목.
+        amount : 100,  // 'finalPrice'  결제 금액 number 타입. 필수항목.
         buyer_email : ordererEmail,  // 구매자 email
         buyer_name : ordererName,	   // 구매자 이름
         buyer_tel : ordererTel,   // 구매자 전화번호 (필수항목)
@@ -222,7 +222,35 @@ async function paymentInit() {
 
         } else {
             // 취소했을 경우
-            alert("결제에 실패하였습니다.");
+
+            fetch("/api/orders/confirm", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: madeOrderInfo()
+            })
+                .then(response => {
+                    if (response.status === 200 || response.status === 201) {
+                        return response.json();
+                    }
+                    else {
+                        return false;
+                    }
+                })
+                .then(data => {
+                  if (!data) {
+                      Swal.fire({
+                          icon: "error",
+                          title: "결제에 실패했습니다."
+                      })
+                  }
+                  else {
+                      // 주문 정보 상세를 보여주는 페이지로 이동
+                      const orderCode = data.orderCode;
+                      alert(orderCode);
+                  }
+                });
         }
 
     }); // end of IMP.request_pay()----------------------------
@@ -307,3 +335,50 @@ function useWriteInfo() {
     document.querySelector("input#hp2").value = "";
     document.querySelector("input#hp3").value = "";
 }// end of function useUserInfo() --------------------
+
+
+
+// 결제 시 주문정보를 만들어주는 함수
+function madeOrderInfo() {
+
+    // 수신인 관련
+    const receiverName = document.querySelector('input#name').value.trim();  // 수신인
+    const hp2 = document.querySelector('input#hp2').value.trim();
+    const hp3 = document.querySelector('input#hp3').value.trim();
+    const receiverTel = "010-"+ hp2 +"-"+ hp3;  // 전화번호
+    const zipCode = document.querySelector('input#postcode').value.trim();
+    const address = document.querySelector('input#address').value.trim();
+    const detailAddress = document.querySelector('input#detailAddress').value.trim();
+    const extraAddress = document.querySelector('input#extraAddress').value.trim();
+
+
+
+    // 결제금액 관련
+    const totalPrice = parseInt(document.querySelector('span#total_oprice').textContent.replace(/[^0-9]/g, '')) || 0;   // 상품 총 가격
+    const discount = parseInt(document.querySelector('span#discount').textContent.replace(/[^0-9]/g, '')) || 0;         // 할인액
+    const deliveryFee = 2500;       // 배송비
+    const finalPrice = totalPrice + deliveryFee - discount;     // 결제 가격
+    const point = Math.floor(totalPrice * 0.01);        // 포인트
+
+    // 배송 요청사항
+    const requestNote = document.querySelector('input[name="order_request"]').value;
+
+    // 기본 배송지 설정여부
+    const isDefaultShip = document.querySelector('input[name="setDefaultShip"]:checked') ? "Y" : "N";
+
+    const body = {
+        receiverName: receiverName,
+        receiverTel: receiverTel,
+        zipCode: zipCode,
+        address: address,
+        detailAddress: detailAddress,
+        extraAddress: extraAddress,
+        totalPrice: totalPrice,
+        discount: discount,
+        finalPrice: finalPrice,
+        point: point,
+        requestNote: requestNote,
+        isDefaultShip: isDefaultShip
+    }
+    return JSON.stringify(body);
+}// end of function madeOrderInfo() ----------------------------------

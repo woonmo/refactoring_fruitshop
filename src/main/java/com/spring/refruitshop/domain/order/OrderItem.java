@@ -22,7 +22,7 @@ public class OrderItem {
      */
 
     @Id
-    @Column(nullable = false, unique = true, name = "order_itemno")
+    @Column(name = "orderitem_no", nullable = false, updatable = false)
     @SequenceGenerator(name = "SEQ_ORDER_DETAIL_GENERATOR", sequenceName = "orderitem_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ORDER_DETAIL_GENERATOR")
     private Long no;    // 주문상세번호

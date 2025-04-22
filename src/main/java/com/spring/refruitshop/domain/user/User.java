@@ -30,7 +30,7 @@ public class User implements UserDetails {
      */
 
     @Id
-    @Column(unique = true, nullable = false, name = "user_no")
+    @Column(name = "user_no", nullable = false, updatable = false)
     @SequenceGenerator(name="SEQ_USER_GENERATOR", sequenceName="user_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="SEQ_USER_GENERATOR")
     private Long no;        // 유저번호, 시퀀스

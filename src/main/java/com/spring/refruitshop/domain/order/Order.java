@@ -26,7 +26,7 @@ public class Order {
      */
 
     @Id
-    @Column(nullable = false, unique = true, name = "order_no")
+    @Column(nullable = false, unique = true, name = "order_no", updatable = false)
     @SequenceGenerator(name = "SEQ_ORDER_GENERATOR", sequenceName = "order_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ORDER_GENERATOR")
     @NotNull
@@ -62,6 +62,9 @@ public class Order {
     @Column(name = "order_payprice")
     private int paymentPrice;   // 결제 금액
 
+    @Column(name = "order_code", unique = true)
+    private String orderCode;   // 포매팅 된 주문번호 20250422110716-1 형태
+
 
     @AttributeOverrides({
             @AttributeOverride(name = "zipcode", column = @Column(name = "receive_zipcode")),
@@ -89,12 +92,16 @@ public class Order {
         orderItem.setOrder(this);
     }
 
+    public void initializeOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
     // 주문번호를 (20250412-1) 형식으로 만들어주는 메소드
     public String getFormattedOrderNo() {
         if (orderDate == null) {
             throw new IllegalStateException("주문일자가 설정되지 않았습니다.");
         }
-        String datePart = orderDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String datePart = orderDate.format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
         return datePart + "-" + orderNo;
     }
 }

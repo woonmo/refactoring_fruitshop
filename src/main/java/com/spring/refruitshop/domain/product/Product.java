@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Product {
      */
 
     @Id
-    @Column(unique = true, nullable = false, name = "prod_no")
+    @Column(name = "prod_no", nullable = false, updatable = false)
     @SequenceGenerator(name = "SEQ_PRODUCT_GENERATOR", sequenceName = "prod_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PRODUCT_GENERATOR")
     private Long no;    // 상품 번호
@@ -102,8 +103,8 @@ public class Product {
                 ", cost=" + cost +
                 ", price=" + price +
                 ", inventory=" + inventory +
-                ", createdAt=" + createdAt +
-                ", updateAt=" + updateAt +
+                ", createdAt=" + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                ", updateAt=" + updateAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
                 ", thumbnail='" + thumbnail + '\'' +
                 ", description='" + description + '\'' +
                 ", season=" + season +

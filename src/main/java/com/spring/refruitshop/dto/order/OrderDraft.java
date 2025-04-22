@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -46,6 +47,38 @@ public class OrderDraft {
     // 6. 기본 배송지 설정 여부
     private String isDefaultShip;
 
+
+    // 7. 주문서 생성 시간(5분간 유효)
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+
+
+    // 클라이언트의 주문서 입력 정보를 업데이트하는 메소드
+    public void updateDraft(OrderConfirmRequest request) {
+        // 배송지 주소관련
+        this.zipCode = request.getZipCode();
+        this.address = request.getAddress();
+        this.detailAddress = request.getDetailAddress();
+        this.extraAddress = request.getExtraAddress();
+
+        // 결제 금액 관련
+        this.totalPrice = request.getTotalPrice();
+        this.discount = request.getDiscount();
+        this.finalPrice = request.getFinalPrice();
+        this.point = request.getPoint();
+
+        // 수신인 관련
+        this.receiverName = request.getReceiverName();
+        this.receiverTel = request.getReceiverTel();
+
+        // 요청 사항
+        this.requestNote = request.getRequestNote();
+
+        // 기본 배송지 설정 여부
+        this.isDefaultShip = request.getIsDefaultShip();
+    }
+
     @Override
     public String toString() {
         return "OrderDraft{" +
@@ -67,6 +100,7 @@ public class OrderDraft {
                 ", point=" + point +
                 ", requestNote='" + requestNote + '\'' +
                 ", isDefaultShip='" + isDefaultShip + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

@@ -13,22 +13,22 @@
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 <a th:href="@{/products}">Fruit Shop</a>
-                <a>Team Story</a>
-                <a>Community</a>
+                <a href="#">Team Story</a>
+                <a href="#">Community</a>
                 <br>
 
                 <!-- Login & Logout -->
                 <a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
                 <form name="logout" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-                    <a onclick="document.logout.submit()">Logout</a>
+                    <a href="#" onclick="this.parentNode.submit()">Logout</a><!-- this.parentNode: 현재 태그의 부모 태그 -->
                 </form>
 
                 <!-- MyPage & AdminPage -->
-                <a sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="nav-link menu">Admin Page</a>
-                <a sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-link menu">My Page</a>
+                <a href="#" sec:authorize="isAuthenticated() && hasRole('ADMIN')">Admin Page</a>
+                <a href="#" sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN'))">My Page</a>
 
-                <a>Order List</a>
-                <a>Cart</a>
+                <a href="#">Order List</a>
+                <a th:href="@{/carts}">Cart</a>
 
             </div>
             <!-- 슬라이드 메뉴 끝 -->

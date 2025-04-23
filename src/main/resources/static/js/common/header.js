@@ -1,5 +1,4 @@
 $("a.menu").hover(function(e) {
-    //alert("야야호");
     $(e.target).css({"color": "red", "transition": '0.75s'});
 }, function(e) {
     $(e.target).css({"color": "black", "transition": '0.75s'});

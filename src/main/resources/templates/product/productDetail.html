@@ -93,8 +93,8 @@
                         <li><a href="#goinquire" class="detailBar">문의하기</a></li>
                     </ul>
                     <p>
-<!--                        <img th:src="@{/images/product/description/${product.description}}" style="width: 850px; height: auto;">--> <!-- 상품 설명 이미지 -->
-                        <span th:text="${product.description}"></span>
+                        <img th:src="@{'/images/product/description/'+${product.description}}" style="width: 850px; height: auto;">
+<!--                        <span th:text="${product.description}"></span>-->
                         <div id="goguide" class="guideEmptyDiv"></div>
                     </p>
                 </div>

@@ -38,6 +38,7 @@ function httpRequest(url, method, body, success, fail) {
             }
         })
         .then(data => {
+            console.log(data);
             success(data);
         })
         .catch(err => {

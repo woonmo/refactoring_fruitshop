@@ -1,5 +1,9 @@
 // 초기 합계 계산
-updateCartSummary();
+const $cartItemList = document.querySelector("div.cart_item");
+if ($cartItemList != null) {
+    updateCartSummary();
+}
+
 
 // 장바구니 선택 등에 따른 상품 총액을 계산해주는 함수
 function updateCartSummary() {
@@ -134,16 +138,15 @@ document.querySelectorAll("button.removeItem").forEach(button => {
 
         const cartNo = parseInt(e.target.value);
 
-        function success() {
-            const cartItem = e.target.closest('div.cart_item');   // 속한 div 태그를
-            cartItem.remove();    // DOM 에서 제거
-            updateCartSummary();  // 상품 합계 수정
+        function success(data) {
+            window.location.reload();
         }
 
-        function fail() {
+        function fail(err) {
             Swal.fire({
                 icon: "error",
-                title: "수량 변경에 실패했습니다."
+                title: "상품 삭제에 실패했습니다.",
+                text: err
             })
         }
 
@@ -170,10 +173,10 @@ function emptyCart() {
     })
         .then((result) => {
             if (result.isConfirmed) {
-                function success() {
+                function success(data) {
                     Swal.fire({
                         icon: "success",
-                        title: "장바구니를 비웠습니다.",
+                        title: data.message,
                         confirmButtonText: "확인",
                     })
                         .then((result) => {
@@ -182,10 +185,11 @@ function emptyCart() {
 
                 }
 
-                function fail() {
+                function fail(err) {
                     Swal.fire({
                         icon: "error",
                         title: "장바구니를 비우는 중 오류가 발생했습니다.",
+                        text: err,
                         confirmButtonText: "확인",
                     });
                 }

@@ -18,7 +18,9 @@ div#container {
 
 /* 상품 카테고리 메뉴(+검색창) 전체 틀 */
 div#seasonList {
-    /* 	border: solid 2px blue; */
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 1.5% auto;
 }
 
 
@@ -140,38 +142,11 @@ i.searchIcon:hover {
 
 
 /* 페이지 바 */
+
 div#pageBar {
+    margin-top: 1.5%;
     text-align: center;
 }
-
-div.pagination {
-    display: inline-block;
-}
-
-
-div.pagination a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    transition: background-color .3s;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12pt;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-div.pagination a.active {
-    background-color: black;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-div.pagination a:hover:not(.active) {
-    background-color: #ddd;
-}
-
 /* 페이지 바 끝 */
 
 

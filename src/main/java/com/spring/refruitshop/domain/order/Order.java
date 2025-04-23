@@ -65,12 +65,14 @@ public class Order {
     @Column(name = "order_code", unique = true)
     private String orderCode;   // 포매팅 된 주문번호 20250422110716-1 형태
 
+    @Column(name = "order_receiver")
+    private String receiverName;    // 받는 사람
 
     @AttributeOverrides({
             @AttributeOverride(name = "zipcode", column = @Column(name = "receive_zipcode")),
             @AttributeOverride(name = "address", column = @Column(name = "receive_address")),
-            @AttributeOverride(name = "detail_address", column = @Column(name = "receive_detailaddress")),
-            @AttributeOverride(name = "extra_address", column = @Column(name = "receive_extraaddress"))
+            @AttributeOverride(name = "detailAddress", column = @Column(name = "receive_detailaddress")),
+            @AttributeOverride(name = "extraAddress", column = @Column(name = "receive_extraaddress"))
     })
     @Embedded
     private Address receiveAddress;    // 배송지  주소

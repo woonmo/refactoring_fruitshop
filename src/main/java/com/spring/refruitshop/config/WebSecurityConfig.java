@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/", "/login", "/signUp", "/api/users", "/iframe/agree.html", "/api/users/duplicate").permitAll()
-                        .requestMatchers("/products/**", "/product/**").permitAll()
+                        .requestMatchers("/products/**", "/product/**", "/h2-console/**").permitAll()
                         .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")    // 관리자만 접근 가능하도록
                         .anyRequest().authenticated()
                 )

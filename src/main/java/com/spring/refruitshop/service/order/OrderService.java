@@ -140,6 +140,7 @@ public class OrderService {
                 .orderChangeDate(LocalDateTime.now())
                 .orderDiscount(draft.getDiscount())
                 .paymentPrice(draft.getFinalPrice())
+                .receiverName(draft.getReceiverName())
                 .receiveAddress(address)
                 .build();
 

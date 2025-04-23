@@ -56,7 +56,7 @@
                 <!-- 개별 상품 출력 시작 -->
                 <div th:each="product : ${productList}" class="product-item" data-aos="fade-up" data-aos-delay="0">
                     <div class="my-5" style="position: relative;">
-                        <img th:src="@{/images/product/thumbnail/kiwi.png}" class="thumnail" style="width: 100%; height: auto;" th:onclick="|showProductDetail(${product.no})|">
+                        <img th:src="@{'/images/product/thumbnail/'+${product.thumbnail}}" class="thumnail" style="width: 100%; height: auto;" th:onclick="|showProductDetail(${product.no})|">
                         <!-- 재고 수량이 0이라면, 이미지 상단에 품절 이미지 표시 -->
                         <img th:if="${product.inventory == 0}" th:src="@{/images/product/soldout.png}" style="position: absolute; top: 0; left: 0; width: 37px; height: 20px; opacity: 1.0; cursor: pointer;" th:onclick="|showProductDetail(${product.no})|">
 

@@ -56,7 +56,7 @@ public class CartService {
                         .product(product)
                         .quantity(dto.getQuantity())
                         .build();
-                    log.info("Add Cart info: {}", newCart);
+                    log.info("장바구니 추가 정보: {}", newCart);
                     return newCart;
                 });
 

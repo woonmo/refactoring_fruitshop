@@ -75,12 +75,12 @@ public class ProductService {
         }
         else {
             // 검색 키워드가 없을 경우
-            log.info("전체 상품 조회");
+//            log.info("전체 상품 조회");
             pageable = request.toPageable(ProductSearchRequest.SORT_FIELD_JPQL);
             page = productRepository.findAll(pageable)
                     .map(product -> new ProductSearchResponse(product));
         }
-        log.info("전체 상품 조회 결과: {}", page.getContent());
+        log.info("페이지 상품 조회 개수: {}", page.getSize());
         return page;
     }// end of public Page<Product> pagingProductList(ProductSearchRequest request) -----------------
 
@@ -115,7 +115,7 @@ public class ProductService {
                     .map(product -> new ProductSearchResponse(product));
         }
 
-        log.info("계절별 상품 조회 결과: {}", page.getContent());
+        log.info("계절별 상품 조회 개수: {}", page.getSize());
         return page;
     }// end of public Page<ProductSearchResponse> pagingProductListBySeason(ProductSearchRequest request) -------------------
 

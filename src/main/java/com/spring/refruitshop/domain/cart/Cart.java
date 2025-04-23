@@ -67,10 +67,10 @@ public class Cart {
         return "Cart{" +
                 "cartNo=" + cartNo +
                 ", userNo=" + user.getNo() +
-                ", userId=" + user.getUserId() +
-                ", userName=" + user.getName() +
+                ", userId='" + user.getUserId() + '\'' +
+                ", userId='" + user.getName() + '\'' +
                 ", productNo=" + product.getNo() +
-                ", productName=" + product.getName() +
+                ", productName='" + product.getName() + '\'' +
                 ", quantity=" + quantity +
                 '}';
     }

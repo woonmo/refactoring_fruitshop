@@ -211,48 +211,46 @@ async function paymentInit() {
 
         if ( rsp.success ) { // PC 데스크탑용
             // === 결제 성공 시 주문 테이블에 insert 완료 후 주문상세, 결제 테이블에 정보를 insert 한다 === //
+            function success(data) {
+                const orderCode = data.orderCode;
+                Swal.fire({
+                    icon: "success",
+                    title: "주문이 완료되었습니다.",
+                    text: `주문번호: ${orderCode}`,
+                    confirmButtonText: "주문보러가기",
+                    showCancelButton: true,
+                    cancelButtonText: "메인페이지 이동"
+                })
+                    .then(response => {
+                        if (response.isConfirmed) {
+                            // 주문 정보 상세를 보여주는 페이지로 이동
+                            alert("준비중입니다..");
+                            window.location.replace("/");
+                        }
+                        else {
+                            window.location.replace("/");
+                        }
+                    })
+            }
 
-            var msg = '결제가 완료되었습니다.';
-            msg += '고유ID : ' + rsp.imp_uid;
-            msg += '상점 거래ID : ' + rsp.merchant_uid;
-            msg += '결제 금액 : ' + rsp.paid_amount;
-            msg += '카드 승인번호 : ' + rsp.apply_num;
+            function fail(err) {
+                Swal.fire({
+                    icon: "error",
+                    title: "결제에 실패했습니다.",
+                    text: err
+                })
+            }
+            const body = madeOrderInfo();
 
-            alert(msg);
+            httpRequest("/api/orders/confirm", "POST", body, success, fail);
 
         } else {
             // 취소했을 경우
-
-            fetch("/api/orders/confirm", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: madeOrderInfo()
+            Swal.fire({
+                icon: "error",
+                title: "결제에 실패했습니다.",
             })
-                .then(response => {
-                    if (response.status === 200 || response.status === 201) {
-                        return response.json();
-                    }
-                    else {
-                        return false;
-                    }
-                })
-                .then(data => {
-                  if (!data) {
-                      Swal.fire({
-                          icon: "error",
-                          title: "결제에 실패했습니다."
-                      })
-                  }
-                  else {
-                      // 주문 정보 상세를 보여주는 페이지로 이동
-                      const orderCode = data.orderCode;
-                      alert(orderCode);
-                  }
-                });
         }
-
     }); // end of IMP.request_pay()----------------------------
 }// end of function paymentInit() ----------------------
 

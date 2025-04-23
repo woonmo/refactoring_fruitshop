@@ -55,12 +55,12 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 	- Tomcat 10.1
 ### 리팩토링 환경
 - **언어 / 프레임워크**:
-	- Spring Boot 3.4.4. (Gradle)
+	- Spring Boot 3.4.4 (Gradle)
 	- JDK 17
 	- Thymeleaf
 - 데이터베이스:
 	- Local: H2
-	- Prod: Oracle 18c
+	- Prod: PostgreSQL 15
 	- Spring Data JPA
 - 배포:
 	- Ubuntu 24.04
@@ -77,7 +77,7 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 ### 2. REST API 설계
 - **도전**: 기존 Servlet-JSP 방식을 REST API 로 변환
 - 결과:
-	- `@RestController`와 `@Controller` 로 비즈니스 로직과 뷰 로직을 구분
+	- `@RestController`와 `@Controller`로 비즈니스 로직과 뷰 로직을 구분
 	- `@ControllerAdvice`를 활용한 예외 처리 및 예외 메시지 응답
 
 
@@ -95,9 +95,8 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 		- `SEQUENCE` 채번이 `INSERT`와 별도로 이루어져 성능 최적화에 유리
 
 - **결정**:
-	- 오라클은 12c 이후 `IDENTITY` 전략을 지원하지만 `SEQUENCE` 전략을 활용
-		- 쿼리는 한 시점에 작동하는 것으로 서버 자원 부담을 줄일 수 있다
-		- 오라클의 `SEQUENCE` 전략을 활용해 JPA와 `SEQUENCE` 동기화 경험치 (allocationSize 설정)
-		- 주문번호 생성 `날짜-시퀀스`형태로 비즈니스 로직 구현 가능성 확인
+	- 쿼리는 한 시점에 작동하는 것으로 서버 자원 부담을 줄일 수 있다
+	- 오라클의 `SEQUENCE` 전략을 활용해 JPA와 `SEQUENCE` 동기화 경험치 (allocationSize 설정)
+	- 주문번호 생성 시 `날짜-시퀀스`형태로 비즈니스 로직 구현 가능성 확인
 
 

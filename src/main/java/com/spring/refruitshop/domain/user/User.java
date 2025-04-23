@@ -154,7 +154,6 @@ public class User implements UserDetails {
         return "User{" +
                 "no=" + no +
                 ", userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", birthday=" + birthday +
                 ", tel='" + tel + '\'' +
@@ -163,7 +162,6 @@ public class User implements UserDetails {
                 ", gender=" + gender +
                 ", point=" + point +
                 ", createdAt=" + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
-                ", lastPwdChangeDate=" + lastPwdChangeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
                 ", status=" + status +
                 ", role=" + role +
                 '}';

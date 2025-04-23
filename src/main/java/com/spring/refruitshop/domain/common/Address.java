@@ -33,4 +33,14 @@ public class Address {
         this.detailAddress = detailAddress;
         this.extraAddress = extraAddress;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "zipcode='" + zipcode + '\'' +
+                ", address='" + address + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", extraAddress='" + extraAddress + '\'' +
+                '}';
+    }
 }

@@ -23,7 +23,6 @@ services:
 #      # 사용할 Dockerfile 경로
 #      dockerfile: deploy/Dockerfile
 
-
   groupware:
     container_name: groupware
     image: wonmo151/syoffice:latest
@@ -32,6 +31,13 @@ services:
     ports:
       - "8082:8080"   # 호스트 8082 -> 컨테이너 8080 내부 포트 충돌방지
     restart: unless-stopped
+
+
+  react:
+    container_name: fruitshop_front
+    image: wonmo151/fruitshop_front:latest
+    ports:
+      - "3000:80"
 
 
   # Nginx 서비스 정의

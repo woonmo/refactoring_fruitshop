@@ -35,12 +35,17 @@ public class OrderService {
     private final CartService cartService;
 
 
-    // 결제 전 주문서를 생성하는 비즈니스 로직
-    public OrderDraft prepareOrder(OrderInitRequest request, User loginUser) {
+    // 유효한 유저인지 판별하는 메소드
+    private void validationUser(User loginUser) {
         if (loginUser == null || loginUser.getNo() == null) {
             throw new IllegalArgumentException("유효하지 않은 사용자입니다.");
         }
+    }// end of private void validationUser(User loginUser) ----------------------
 
+
+    // 결제 전 주문서를 생성하는 비즈니스 로직
+    public OrderDraft prepareOrder(OrderInitRequest request, User loginUser) {
+        validationUser(loginUser);
 
         // 개별 상품 주문상황과 장바구니 주문 상황에 따라 분기한다.
         String draftId = UUID.randomUUID().toString();
@@ -120,6 +125,7 @@ public class OrderService {
     @Transactional
     public Order confirmOrder(OrderDraft draft, User loginUser, HttpSession session) {
 
+        validationUser(loginUser);
         // 주문 처리 시 해야할 것
         // 상품 재고 차감, 회원 포인트 증가, 주문 정보 저장 주문 상세 저장, 결제 정보 저장, 배송지 변경 혹은 생성(추후 확장)
 
@@ -168,9 +174,7 @@ public class OrderService {
     // 주문 상세 내용을 반환하는 메소드
     @Transactional(readOnly = true)
     public OrderDetailResponse getOrderDetail(String orderCode, User loginUser) {
-        if (loginUser == null || loginUser.getNo() == null) {
-            throw new IllegalArgumentException("유효하지 않은 사용자입니다.");
-        }
+        validationUser(loginUser);
 
         // 한개 의 주문 정보를 조회
         Order order = orderRepository.findByOrderCodeAndUserNo(orderCode, loginUser.getNo())
@@ -188,4 +192,16 @@ public class OrderService {
 
         return new OrderDetailResponse(order, orderDetailItems);
     }// end of public OrderDetailResponse getOrderDetail(OrderDetailRequest request, User loginUser) --------------------------
+
+
+    // 회원의 주문 목록을 반환하는 메소드
+    public OrderListResponse getOrderList(OrderListRequest request, User loginUser) {
+        validationUser(loginUser);
+
+        // 회원의 주문 목록과 주문상품을 조회한다.
+        return null;
+    }// end of public OrderListResponse getOrderList(OrderListRequest request, User loginUser) ---------------------------
+
+
+
 }

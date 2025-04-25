@@ -15,6 +15,8 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+    networks:
+      - fruitshop-network
 
 # 이미지 빌드 설정: Dockerfile 위치와 빌드 컨텍스트 지정
 #    build: # 로컬에서 도커 이미지를 만들때만 사용
@@ -31,6 +33,8 @@ services:
     ports:
       - "8082:8080"   # 호스트 8082 -> 컨테이너 8080 내부 포트 충돌방지
     restart: unless-stopped
+    networks:
+      - fruitshop-network
 
 
   fruitshop_front:
@@ -38,6 +42,9 @@ services:
     image: wonmo151/fruitshop_front:latest
     ports:
       - "3000:80"
+    restart: unless-stopped
+    networks:
+      - fruitshop-network
 
 
   # Nginx 서비스 정의
@@ -64,3 +71,11 @@ services:
       - fruitshop
       - groupware
       - fruitshop_front
+    networks:
+      - fruitshop-network
+
+
+# 컨테이너간 연결을 용이하도록 네트워크 지정
+networks:
+  fruitshop-network:
+    driver: bridge

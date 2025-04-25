@@ -80,4 +80,14 @@ public class OrderApiController {
     }// end of public ResponseEntity<OrderDetailResponse> getOrderDetail(@RequestBody OrderDetailRequest, @ModelAttribute("loginUser") User loginUser) ------------------------
 
 
+
+    // 회원의 주문 목록을 반환하는 메소드
+    @GetMapping("/api/orders")
+    public ResponseEntity<OrderListResponse> getOrderList(@ModelAttribute OrderListRequest request, @ModelAttribute("loginUser") User loginUser) {
+        OrderListResponse response = orderService.getOrderList(request, loginUser);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }// end of public ResponseEntity<OrderListResponse> getOrderList(@ModelAttribute OrderListRequest request, @ModelAttribute("loginUser") User loginUser) -------------------
+
+
 }

@@ -33,7 +33,7 @@ services:
     restart: unless-stopped
 
 
-  react:
+  fruitshop_front:
     container_name: fruitshop_front
     image: wonmo151/fruitshop_front:latest
     ports:
@@ -63,3 +63,4 @@ services:
     depends_on:
       - fruitshop
       - groupware
+      - fruitshop_front

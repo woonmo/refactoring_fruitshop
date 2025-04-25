@@ -68,6 +68,9 @@ public class Order {
     @Column(name = "order_receiver")
     private String receiverName;    // 받는 사람
 
+    @Column(name = "order_receivertel")
+    private String receiverTel;     // 받는 사람 연락처
+
     @AttributeOverrides({
             @AttributeOverride(name = "zipcode", column = @Column(name = "receive_zipcode")),
             @AttributeOverride(name = "address", column = @Column(name = "receive_address")),

@@ -1,6 +1,7 @@
 package com.spring.refruitshop.domain.product;
 
 import com.spring.refruitshop.domain.cart.Cart;
+import com.spring.refruitshop.domain.order.OrderItem;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -64,6 +65,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cart> carts;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems;
 
     @PrePersist
     protected void prePersist() {

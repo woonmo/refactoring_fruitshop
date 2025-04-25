@@ -6,19 +6,17 @@ import com.spring.refruitshop.domain.order.OrderItem;
 import com.spring.refruitshop.domain.order.OrderStatus;
 import com.spring.refruitshop.domain.product.Product;
 import com.spring.refruitshop.domain.user.User;
-import com.spring.refruitshop.dto.order.CartItemRequest;
-import com.spring.refruitshop.dto.order.OrderDraft;
-import com.spring.refruitshop.dto.order.OrderDraftItem;
-import com.spring.refruitshop.dto.order.OrderInitRequest;
+import com.spring.refruitshop.dto.order.*;
+import com.spring.refruitshop.repository.order.OrderItemRepository;
 import com.spring.refruitshop.repository.order.OrderRepository;
 import com.spring.refruitshop.service.cart.CartService;
 import com.spring.refruitshop.service.product.ProductService;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +29,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
     private final ProductService productService;
     private final UserService userService;
     private final CartService cartService;
@@ -88,7 +87,6 @@ public class OrderService {
                                                                     .findFirst()
                                                                     .orElseThrow(() -> new IllegalArgumentException("장바구니 요청 상품 정보가 없습니다."));
 
-                                                            System.out.println("생성된 DraftItem: " + matchedCartItem);
                                                             return new OrderDraftItem(product, matchedCartItem.getQuantity(), matchedCartItem.isFromCart());
                                                         })
                                                         .collect(Collectors.toList());
@@ -141,6 +139,7 @@ public class OrderService {
                 .orderDiscount(draft.getDiscount())
                 .paymentPrice(draft.getFinalPrice())
                 .receiverName(draft.getReceiverName())
+                .receiverTel(draft.getReceiverTel())
                 .receiveAddress(address)
                 .build();
 
@@ -164,4 +163,29 @@ public class OrderService {
 
         return order;
     }// end of public Long confirmOrder(OrderDraft draft, User loginUser) -------------------------
+
+
+    // 주문 상세 내용을 반환하는 메소드
+    @Transactional(readOnly = true)
+    public OrderDetailResponse getOrderDetail(String orderCode, User loginUser) {
+        if (loginUser == null || loginUser.getNo() == null) {
+            throw new IllegalArgumentException("유효하지 않은 사용자입니다.");
+        }
+
+        // 한개 의 주문 정보를 조회
+        Order order = orderRepository.findByOrderCodeAndUserNo(orderCode, loginUser.getNo())
+                                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+
+        // 주문 정보를 조회
+        List<OrderDetailItem> orderDetailItems = orderItemRepository.findAllByOrderNo(order.getOrderNo())
+                                    .stream()
+                                    .map(orderItem -> {
+                                        return new OrderDetailItem(orderItem);
+                                    })
+                                    .collect(Collectors.toList());
+
+        log.info("조회된 주문 상세 정보: {}", orderDetailItems);
+
+        return new OrderDetailResponse(order, orderDetailItems);
+    }// end of public OrderDetailResponse getOrderDetail(OrderDetailRequest request, User loginUser) --------------------------
 }

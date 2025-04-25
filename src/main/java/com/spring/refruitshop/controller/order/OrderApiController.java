@@ -2,9 +2,7 @@ package com.spring.refruitshop.controller.order;
 
 import com.spring.refruitshop.domain.order.Order;
 import com.spring.refruitshop.domain.user.User;
-import com.spring.refruitshop.dto.order.OrderConfirmRequest;
-import com.spring.refruitshop.dto.order.OrderDraft;
-import com.spring.refruitshop.dto.order.OrderInitRequest;
+import com.spring.refruitshop.dto.order.*;
 import com.spring.refruitshop.service.order.OrderService;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -71,5 +69,15 @@ public class OrderApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("orderCode", order.getOrderCode()));
     }// end of public ResponseEntity<?>  confirmOrder () -----------------------------
+
+
+    // 한 개 주문 상세 내용을 반환하는 메소드
+    @GetMapping("/api/orders/{orderCode}")
+    public ResponseEntity<OrderDetailResponse> getOrderDetail(@PathVariable("orderCode") String orderCode, @ModelAttribute("loginUser") User loginUser) {
+        OrderDetailResponse response = orderService.getOrderDetail(orderCode, loginUser);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }// end of public ResponseEntity<OrderDetailResponse> getOrderDetail(@RequestBody OrderDetailRequest, @ModelAttribute("loginUser") User loginUser) ------------------------
+
 
 }

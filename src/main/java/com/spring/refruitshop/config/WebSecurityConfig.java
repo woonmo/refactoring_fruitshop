@@ -13,6 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 
 @Configuration
@@ -38,6 +43,7 @@ public class WebSecurityConfig {
 
         http
                 .csrf((csrfConfig) -> csrfConfig.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests((auth) -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
@@ -64,6 +70,21 @@ public class WebSecurityConfig {
 
         return http.build();
     }// end of public SecurityFilterChain filterChain(HttpSecurity http) throws Exception ------------------
+
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://fruitshop.kro.kr"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
     // == login을 성공하면 연이어서 처리해야할 작업을 해주는 bean 생성하기 == //

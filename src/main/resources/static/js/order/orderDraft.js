@@ -224,8 +224,8 @@ async function paymentInit() {
                     .then(response => {
                         if (response.isConfirmed) {
                             // 주문 정보 상세를 보여주는 페이지로 이동
-                            alert("준비중입니다..");
-                            window.location.replace("/");
+                            // alert("준비중입니다..");
+                            window.location.replace(`/orders/${orderCode}`);
                         }
                         else {
                             window.location.replace("/");
@@ -246,10 +246,42 @@ async function paymentInit() {
 
         } else {
             // 취소했을 경우
-            Swal.fire({
-                icon: "error",
-                title: "결제에 실패했습니다.",
-            })
+            // Swal.fire({
+            //     icon: "error",
+            //     title: "결제에 실패했습니다.",
+            // });
+            function success(data) {
+                const orderCode = data.orderCode;
+                Swal.fire({
+                    icon: "success",
+                    title: "주문이 완료되었습니다.",
+                    text: `주문번호: ${orderCode}`,
+                    confirmButtonText: "주문보러가기",
+                    showCancelButton: true,
+                    cancelButtonText: "메인페이지 이동"
+                })
+                    .then(response => {
+                        if (response.isConfirmed) {
+                            // 주문 정보 상세를 보여주는 페이지로 이동
+                            // alert("준비중입니다..");
+                            window.location.replace(`/orders/${orderCode}`);
+                        }
+                        else {
+                            window.location.replace("/");
+                        }
+                    })
+            }
+
+            function fail(err) {
+                Swal.fire({
+                    icon: "error",
+                    title: "결제에 실패했습니다.",
+                    text: err
+                })
+            }
+            const body = madeOrderInfo();
+
+            httpRequest("/api/orders/confirm", "POST", body, success, fail);
         }
     }); // end of IMP.request_pay()----------------------------
 }// end of function paymentInit() ----------------------

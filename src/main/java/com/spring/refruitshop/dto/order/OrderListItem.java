@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Setter
 public class OrderListItem {
 
-    // 주문 목록 리스트 반환 DTO
+    // 회원의 주문 목록 리스트 DTO
 
 
     // 주문 관련

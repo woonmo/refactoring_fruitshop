@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class OrderListDetailItem {
 
+    // 주문 목록에서 사용하는 상품 정보 DTO
+
     private Long prodNo;        // 상품 번호
     private String prodName;    // 상품명
     private String thumbnail;   // 이미지 썸네일

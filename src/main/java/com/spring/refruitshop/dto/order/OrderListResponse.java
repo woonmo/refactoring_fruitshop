@@ -10,6 +10,8 @@ import java.util.List;
 @Setter
 public class OrderListResponse {
 
+    // 가공한 주문 목록 정보를 반환하는 DTO
+
     // 주문 정보
     private List<OrderListItem> orderList;
 

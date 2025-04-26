@@ -12,13 +12,19 @@ import com.spring.refruitshop.repository.order.OrderRepository;
 import com.spring.refruitshop.service.cart.CartService;
 import com.spring.refruitshop.service.product.ProductService;
 import com.spring.refruitshop.service.user.UserService;
+import com.spring.refruitshop.util.Pagination;
+import com.spring.refruitshop.util.PagingUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -194,12 +200,36 @@ public class OrderService {
     }// end of public OrderDetailResponse getOrderDetail(OrderDetailRequest request, User loginUser) --------------------------
 
 
-    // 회원의 주문 목록을 반환하는 메소드
+    // 회원의 주문 목록을 반환하는 메소드(페이징 처리
     public OrderListResponse getOrderList(OrderListRequest request, User loginUser) {
         validationUser(loginUser);
+        String searchOrderCode = "%"+request.getOrderCode()+"%";
+        LocalDateTime fromDate = request.getFromDate().atStartOfDay();
+        LocalDateTime endDate = request.getEndDate().atTime(LocalTime.MAX);
+        String searchOrderStatus = "%"+request.getOrderStatus()+"%";
 
-        // 회원의 주문 목록과 주문상품을 조회한다.
-        return null;
+        Pageable pageable;
+        Page<Order> page;   // 초기화
+        // 검색 조건
+        // 시작일 & 끝일 기본, 필터만 검색, 주문코드만 검색, 둘 모두 있는 검색 (총 3가지)
+
+        // 검색이 있을 경우
+//        if (searchOrderCode != null && !searchOrderCode.isEmpty()) {
+            log.info("회원번호: {}, 주문번호: {}, 검색조건: {}, 시작일: {}, 마지막일: {}", loginUser.getNo(), searchOrderCode, searchOrderStatus, fromDate, endDate);
+
+            pageable = request.toPageable(OrderListRequest.SORT_FIELD_JPQL);   // LIKE 연산자 사용 시 네이티브 쿼리 사용해야
+
+            page = orderRepository.findByOrderDateAndOrderStatusAndOrderCodeContaining(loginUser.getNo(), fromDate, endDate, searchOrderCode, searchOrderStatus, pageable);
+//        }
+
+        Pagination pagination = PagingUtil.getPagination(page, 5);   // 페이징 정보 생성
+
+        List<OrderListItem> orderLists = page.getContent().stream()
+                .map(order -> new OrderListItem(order))
+                .collect(Collectors.toList());
+
+
+        return new OrderListResponse(orderLists, pagination);
     }// end of public OrderListResponse getOrderList(OrderListRequest request, User loginUser) ---------------------------
 
 

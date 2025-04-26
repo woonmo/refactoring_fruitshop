@@ -7,10 +7,12 @@ import com.spring.refruitshop.service.order.OrderService;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -44,14 +46,14 @@ public class OrderApiController {
 
     // 주문을 처리해주는 메소드
     @PostMapping("/api/orders/confirm")
-    public ResponseEntity<?> confirmOrder(@RequestBody OrderConfirmRequest request, HttpSession session
+    public ResponseEntity<Map<String, String>> confirmOrder(@RequestBody OrderConfirmRequest request, HttpSession session
                                         , @ModelAttribute("loginUser") User loginUser) {
 
         // 세션에 있는 주문서 가져오기
         OrderDraft draft = (OrderDraft) session.getAttribute("draft");
 
         if (draft == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문 정보가 없습니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message","주문 정보가 없습니다."));
         }
 
         // 클라이언트 입력 정보를 주문서에 업데이트
@@ -84,6 +86,9 @@ public class OrderApiController {
     // 회원의 주문 목록을 반환하는 메소드
     @GetMapping("/api/orders")
     public ResponseEntity<OrderListResponse> getOrderList(@ModelAttribute OrderListRequest request, @ModelAttribute("loginUser") User loginUser) {
+
+        log.info("검색조건 (컨트롤러): {}", request);
+
         OrderListResponse response = orderService.getOrderList(request, loginUser);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

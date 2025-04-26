@@ -10,6 +10,10 @@
   - [3.1 장바구니 추가 & 수정](#31-장바구니-추가--수정)
   - [3.2 장바구니 상품 삭제](#32-장바구니-상품--삭제)
 - [4. 주문](#4-주문)
+  - [4.1 주문서 생성](#41-주문서-생성)
+  - [4.2 주문 처리](#42-주문-처리)
+  - [4.3 주문 목록](#43-주문-목록)
+  - [4.4 주문 상세](#44-주문-상세)
 
 
 ## 1.  회원 API
@@ -65,8 +69,6 @@
   - `product` (Optional, String): 상품명 검색어
 - **Response**:
 ```json
-List<ProductSearchResponse> productList
-
 [ProductSearchResponse{no=4, name='수박', price=7500, thumbnail='watermelon.png', season='SUMMER', inventory=20}, 
 ProductSearchResponse{no=3, name='딸기', price=4500, thumbnail='strawberry.png', season='SPRING', inventory=0}, 
 ProductSearchResponse{no=2, name='배', price=3500, thumbnail='pear.png', season='AUTUMN', inventory=30}, 
@@ -82,8 +84,6 @@ ProductSearchResponse{no=1, name='사과', price=3000, thumbnail='apple.png', se
   - `product` (Optional, String): 상품명 검색어
 - **Response**:
 ```json
-List<ProductSearchResponse> productList
-
 [ProductSearchResponse{no=24, name='참외', price=3000, thumbnail='korean_melon.png', season='SUMMER', inventory=30}, ProductSearchResponse{no=21, name='산딸기', price=5000, thumbnail='raspberry.png', season='SUMMER', inventory=0}, ProductSearchResponse{no=8, name='망고', price=6000, thumbnail='mango.png', season='SUMMER', inventory=25}, 
 ProductSearchResponse{no=4, name='수박', price=7500, thumbnail='watermelon.png', season='SUMMER', inventory=20}...]
 ```
@@ -195,7 +195,7 @@ ProductSearchResponse{no=4, name='수박', price=7500, thumbnail='watermelon.png
 ```
 
 ### 4.2 주문 처리
-- **URL** : `/api/orders/confirm`
+- **URL** : `/api/orders/confirm`
 - **Method**:  `POST`
 - **Request Parameter**:
 ```json
@@ -218,5 +218,109 @@ ProductSearchResponse{no=4, name='수박', price=7500, thumbnail='watermelon.png
 ```json
 {
   "orderCode": "20250422113117-1"
+}
+```
+
+### 4.3 주문 목록
+- **URL** : `/api/orders`
+- **Method**:  `GET`
+- **Request Parameter**:
+  - `fromDate`: 조회기간 시작일, `yyyy-MM-dd` 형식
+  - `endDate`: 조회기간 끝일, `yyyy-MM-dd` 형식
+  - `page`: 현재 페이지 번호, 기본값: 1
+  - `orderCode`: 주문코드 검색, `20250422113117-1` 형식, 일부검색 가능
+  - `orderStatus`: 주문 상태 필터
+- **Response** :
+```json
+{
+  "orderList": [
+      {
+          "orderNo": 2,
+          "orderCode": "20250426112912-2",
+          "orderDate": "2025-04-26 11:29:12",
+          "orderStatus": "COMPLETED",
+          "paymentPrice": 7950,
+          "items": [
+              {
+                  "prodNo": 195,
+                  "prodName": "포도_39",
+                  "thumbnail": "grape_39.png"
+              }
+          ]
+      },
+      {
+          "orderNo": 1,
+          "orderCode": "20250426112903-1",
+          "orderDate": "2025-04-26 11:29:03",
+          "orderStatus": "COMPLETED",
+          "paymentPrice": 24500,
+          "items": [
+              {
+                  "prodNo": 1,
+                  "prodName": "사과",
+                  "thumbnail": "apple.png"
+              },
+              {
+                  "prodNo": 2,
+                  "prodName": "배",
+                  "thumbnail": "pear.png"
+              }
+          ]
+      }
+  ],
+  "pagination": {
+      "blockSize": 5,
+      "startPage": 1,
+      "endPage": 1,
+      "currentPage": 1,
+      "totalPages": 1,
+      "hasPrev": false,
+      "hasNext": false
+  }
+}
+```
+
+
+### 4.4 주문 상세
+- **URL** : `/api/orders/{orderCode}`
+- **Method**:  `GET`
+- **Request Parameter**:
+  - `orderCode`: 주문코드 (unique), `20250426112903-1` 형태
+- **Response** :
+```json
+{
+  "items": [
+      {
+          "prodNo": 1,
+          "prodName": "사과",
+          "price": 3000,
+          "quantity": 5,
+          "thumbnail": "apple.png",
+          "deliveryDate": "",
+          "shipStatus": "PREPARED"
+      },
+      {
+          "prodNo": 2,
+          "prodName": "배",
+          "price": 3500,
+          "quantity": 2,
+          "thumbnail": "pear.png",
+          "deliveryDate": "",
+          "shipStatus": "PREPARED"
+      }
+  ],
+  "orderNo": 1,
+  "orderCode": "20250426112903-1",
+  "orderDate": "2025-04-26 11:29:03",
+  "orderStatus": "COMPLETED",
+  "receiverName": "홍길동",
+  "receiverTel": "010-2322-3211",
+  "zipCode": "12345",
+  "address": "안산시",
+  "detailAddress": "김김동",
+  "extraAddress": "아아동",
+  "totalPrice": 22000,
+  "discount": 0,
+  "paymentPrice": 24500
 }
 ```

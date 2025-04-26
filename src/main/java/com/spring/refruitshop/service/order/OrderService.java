@@ -146,7 +146,7 @@ public class OrderService {
                 .orderDate(LocalDateTime.now())
                 .request(draft.getRequestNote())
                 .orderTprice((long) draft.getTotalPrice())
-                .orderStatus(OrderStatus.COMPLETED)
+                .orderStatus(OrderStatus.PENDING)
                 .orderChangeDate(LocalDateTime.now())
                 .orderDiscount(draft.getDiscount())
                 .paymentPrice(draft.getFinalPrice())
@@ -203,24 +203,19 @@ public class OrderService {
     // 회원의 주문 목록을 반환하는 메소드(페이징 처리)
     public OrderListResponse getOrderList(OrderListRequest request, User loginUser) {
         validationUser(loginUser);
-        String searchOrderCode = "%"+request.getOrderCode()+"%";
+        String searchOrderCode = request.getOrderCode().isEmpty() ? null : "%"+request.getOrderCode()+"%";
         LocalDateTime fromDate = request.getFromDate().atStartOfDay();
         LocalDateTime endDate = request.getEndDate().atTime(LocalTime.MAX);
-        String searchOrderStatus = "%"+request.getOrderStatus()+"%";
+        OrderStatus searchOrderStatus = request.getOrderStatus().isEmpty() ? null : OrderStatus.valueOf(request.getOrderStatus());
 
-        Pageable pageable;
-        Page<Order> page;   // 초기화
+
         // 검색 조건
         // 시작일 & 끝일 기본, 필터만 검색, 주문코드만 검색, 둘 모두 있는 검색 (총 3가지)
 
-        // 검색이 있을 경우
-//        if (searchOrderCode != null && !searchOrderCode.isEmpty()) {
-            log.info("회원번호: {}, 주문번호: {}, 검색조건: {}, 시작일: {}, 마지막일: {}", loginUser.getNo(), searchOrderCode, searchOrderStatus, fromDate, endDate);
+        Pageable pageable = request.toPageable(OrderListRequest.SORT_FIELD_JPQL);
+        Page<Order> page = orderRepository.findByOrderDateAndOrderStatusAndOrderCodeContaining(loginUser.getNo(), fromDate, endDate, searchOrderCode, searchOrderStatus, pageable);;
 
-            pageable = request.toPageable(OrderListRequest.SORT_FIELD_JPQL);   // LIKE 연산자 사용 시 네이티브 쿼리 사용해야
-
-            page = orderRepository.findByOrderDateAndOrderStatusAndOrderCodeContaining(loginUser.getNo(), fromDate, endDate, searchOrderCode, searchOrderStatus, pageable);
-//        }
+        log.info("회원번호: {}, 주문번호: {}, 검색조건: {}, 시작일: {}, 마지막일: {}", loginUser.getNo(), searchOrderCode, searchOrderStatus, fromDate, endDate);
 
         Pagination pagination = PagingUtil.getPagination(page, 5);   // 페이징 정보 생성
 

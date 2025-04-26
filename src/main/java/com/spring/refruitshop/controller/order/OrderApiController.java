@@ -7,12 +7,10 @@ import com.spring.refruitshop.service.order.OrderService;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -86,8 +84,6 @@ public class OrderApiController {
     // 회원의 주문 목록을 반환하는 메소드
     @GetMapping("/api/orders")
     public ResponseEntity<OrderListResponse> getOrderList(@ModelAttribute OrderListRequest request, @ModelAttribute("loginUser") User loginUser) {
-
-        log.info("검색조건 (컨트롤러): {}", request);
 
         OrderListResponse response = orderService.getOrderList(request, loginUser);
 

@@ -106,7 +106,7 @@ public class Order {
         if (orderDate == null) {
             throw new IllegalStateException("주문일자가 설정되지 않았습니다.");
         }
-        String datePart = orderDate.format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+        String datePart = orderDate.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         return datePart + "-" + orderNo;
     }
 }

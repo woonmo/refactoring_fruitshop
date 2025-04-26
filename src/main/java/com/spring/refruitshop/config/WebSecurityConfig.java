@@ -3,6 +3,7 @@ package com.spring.refruitshop.config;
 import com.spring.refruitshop.service.cart.CartService;
 import com.spring.refruitshop.service.user.UserService;
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,7 +67,16 @@ public class WebSecurityConfig {
                 )
                 .headers((headerconfig) -> headerconfig
                         .frameOptions((frameOptionsConfig -> frameOptionsConfig.sameOrigin()))
-                );
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(((request, response, authException) -> {
+                            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With")) || request.getRequestURI().startsWith("/api")) {
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            }
+                            else {
+                                response.sendRedirect("/login");
+                            }
+                })));
 
         return http.build();
     }// end of public SecurityFilterChain filterChain(HttpSecurity http) throws Exception ------------------

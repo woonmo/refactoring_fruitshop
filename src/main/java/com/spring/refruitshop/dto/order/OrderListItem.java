@@ -30,7 +30,7 @@ public class OrderListItem {
     public OrderListItem (Order order) {
         this.orderNo = order.getOrderNo();
         this.orderCode = order.getOrderCode();
-        this.orderDate = order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.orderDate = order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.orderStatus = order.getOrderStatus().toString();
         this.paymentPrice = order.getPaymentPrice();
 

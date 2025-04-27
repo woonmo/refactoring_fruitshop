@@ -17,9 +17,11 @@ import java.util.Map;
 public class CartApiController {
 
     private final CartService cartService;
+    private final CartSSEController cartSSEController;
 
-    public CartApiController(CartService cartService) {
+    public CartApiController(CartService cartService, CartSSEController cartSSEController) {
         this.cartService = cartService;
+        this.cartSSEController = cartSSEController;
     }
 
 
@@ -28,6 +30,9 @@ public class CartApiController {
     public ResponseEntity<AddItemResponse> addItemCart(@RequestBody @Validated AddItemRequest request,
                                                        @ModelAttribute("loginUser") User loginUser, HttpSession session) {
         AddItemResponse addItemResponse = cartService.save(request, loginUser, session);
+
+        // 클라이언트에 장바구니 변경 정보 전달
+        cartSSEController.notifyCartUpdate();
 
         return ResponseEntity.status(HttpStatus.OK).body(addItemResponse);
     }// end of public ResponseEntity<CartDTO> addCart(@RequestBody AddItemRequest request) ----------------------
@@ -39,6 +44,9 @@ public class CartApiController {
                                                  HttpSession session) {
         cartService.delete(id, loginUser, session);
 
+        // 클라이언트에 장바구니 변경 정보 전달
+        cartSSEController.notifyCartUpdate();
+
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "장바구니 항목이 삭제되었습니다."));
     }// end of public ResponseEntity<Void> deleteItemCart(@PathVariable Long id) ---------------------
 
@@ -47,6 +55,9 @@ public class CartApiController {
     @DeleteMapping
     public ResponseEntity<Map<String, String>> emptyCart(@ModelAttribute("loginUser") User loginUser, HttpSession session) {
         cartService.deleteAll(loginUser, session);
+
+        // 클라이언트에 장바구니 변경 정보 전달
+        cartSSEController.notifyCartUpdate();
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "장바구니를 비웠습니다."));
     }// end of public ResponseEntity<String> emptyCart(@ModelAttribute("loginUser") User loginUser) --------------------------

@@ -2,6 +2,7 @@ package com.spring.refruitshop.controller.user;
 
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.dto.user.*;
+import com.spring.refruitshop.service.cart.CartService;
 import com.spring.refruitshop.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiController {
 
     private final UserService userService;
+    private final CartService cartService;
 
-    public UserApiController(UserService userService) {
+    public UserApiController(UserService userService, CartService cartService) {
         this.userService = userService;
+        this.cartService = cartService;
     }
 
 
@@ -34,6 +37,10 @@ public class UserApiController {
     // 로그인 한 회원의 정보를 반환하는 메소드
     @GetMapping("/me")
     public ResponseEntity<LoginUser> getMyInfo(@ModelAttribute("loginUser") User loginUser) {
+        if (loginUser == null) {
+            return ResponseEntity.ok().body(null);
+        }
+
         return ResponseEntity.ok().body(new LoginUser(loginUser));
     }// end of public ResponseEntity<LoginUser> getMyInfo(@ModelAttribute("loginUser") User loginUser) ----------------
 

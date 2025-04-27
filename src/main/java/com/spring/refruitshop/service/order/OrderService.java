@@ -203,6 +203,7 @@ public class OrderService {
     // 회원의 주문 목록을 반환하는 메소드(페이징 처리)
     public OrderListResponse getOrderList(OrderListRequest request, User loginUser) {
         validationUser(loginUser);
+
         String searchOrderCode = request.getOrderCode().isEmpty() ? null : "%"+request.getOrderCode()+"%";
         LocalDateTime fromDate = request.getFromDate().atStartOfDay();
         LocalDateTime endDate = request.getEndDate().atTime(LocalTime.MAX);

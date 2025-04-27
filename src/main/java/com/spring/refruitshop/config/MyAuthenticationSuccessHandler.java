@@ -27,7 +27,6 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 
 
     // 로그인을 성공했을 시 처리 핸들러
-    @SuppressWarnings("unused")
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request
             , HttpServletResponse response

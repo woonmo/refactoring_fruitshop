@@ -36,6 +36,8 @@ public class LoginUser {
 
     private String createdAt;   // 가입일자
 
+    private String role;        // 권한
+
     public LoginUser(User user) {
         this.userNo = user.getNo();
         this.userId = user.getUserId();
@@ -50,5 +52,6 @@ public class LoginUser {
         this.gender = user.getGender().toString();
         this.point = user.getPoint();
         this.createdAt = user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.role = user.getRole().toString();
     }
 }

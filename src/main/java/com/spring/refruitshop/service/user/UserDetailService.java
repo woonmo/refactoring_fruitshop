@@ -19,6 +19,6 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public User loadUserByUsername (String userid) {
         return userRepository.findByUserId(userid)
-                .orElseThrow(() -> new IllegalArgumentException(userid + " not found"));
+                .orElseThrow(() -> new IllegalArgumentException(userid + " 는(은) 존재하지 않는 ID 입니다."));
     }// end of public User loadUserByUsername (String email) --------
 }

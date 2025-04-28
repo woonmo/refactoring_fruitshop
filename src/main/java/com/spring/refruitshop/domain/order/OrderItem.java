@@ -50,7 +50,7 @@ public class OrderItem {
     @Enumerated(EnumType.STRING)
     @Column(name = "ship_status")
     @Builder.Default
-    private ShipStatus shipStatus = ShipStatus.PREPARED;     // 배송상태(PREPARED, SHIPPING, DELIVERED)
+    private ShipStatus shipStatus = ShipStatus.PREPARING;     // 배송상태(PREPARING, SHIPPING, DELIVERED)
 
     @LastModifiedDate
     @Column(name = "delivery_date")

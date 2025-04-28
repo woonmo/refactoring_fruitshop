@@ -55,4 +55,23 @@ public class UserApiController {
         return ResponseEntity.ok().body(duplicateResponse);
     }// end of public ResponseEntity<UserDuplicateResponse> userDuplicateCheck(@RequestBody UserDuplicateRequest request) ------------------
 
+
+    // 마이페이지 배송,쿠폰 정보를 반환하는 API
+    @GetMapping("/mypage")
+    public ResponseEntity<MyPageInfoResponse> myPageInfo (@ModelAttribute("loginUser") User loginUser) {
+        MyPageInfoResponse response = userService.findCouponAndDeliveryStatus(loginUser);
+
+        return ResponseEntity.ok().body(response);
+    }// end of public ResponseEntity<MyPageInfoResponse> myPageInfo (@ModelAttribute("loginUser") User loginUser) ------------------------
+
+
+    // 회원정보 수정 API
+    @PutMapping
+    public ResponseEntity<LoginUser> updateUserInfo (@RequestBody UpdateUserInfoRequest request, @ModelAttribute("loginUser") User loginUser) {
+        LoginUser response = userService.updateUserInfo(request, loginUser);
+
+        log.info("수정 후 회원정보: {}", response);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }// end of public ResponseEntity<UpdateUserInfoResponse> updateUserInfo (UpdateUserInfoRequest request, @ModelAttribute("loginUser") User loginUser) -------------------
 }

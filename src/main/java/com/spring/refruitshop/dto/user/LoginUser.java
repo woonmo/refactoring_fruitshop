@@ -54,4 +54,24 @@ public class LoginUser {
         this.createdAt = user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.role = user.getRole().toString();
     }
+
+    @Override
+    public String toString() {
+        return "LoginUser{" +
+                "userNo=" + userNo +
+                ", userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", tel='" + tel + '\'' +
+                ", email='" + email + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                ", address='" + address + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", extraAddress='" + extraAddress + '\'' +
+                ", gender='" + gender + '\'' +
+                ", point=" + point +
+                ", createdAt='" + createdAt + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

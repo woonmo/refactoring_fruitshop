@@ -2,6 +2,7 @@ package com.spring.refruitshop.domain.user;
 
 import com.spring.refruitshop.domain.cart.Cart;
 import com.spring.refruitshop.domain.common.Address;
+import com.spring.refruitshop.dto.user.UpdateUserInfoRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -147,6 +148,22 @@ public class User implements UserDetails {
     public void increasePoint(int point) {
         this.point += point;
     }
+
+
+    public void updateInfo(UpdateUserInfoRequest request) {
+        Address _address = new Address(request.getZipcode(), request.getAddress(), request.getDetailAddress(), request.getExtraAddress());
+        this.name = request.getName();
+        this.email = request.getEmail();
+        this.tel = request.getTel();
+        this.address = _address;
+    }
+
+    public void updatePassword (String password) {
+        this.password = password;
+    }
+
+
+
 
     // logging
     @Override

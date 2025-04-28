@@ -5,11 +5,13 @@ import com.spring.refruitshop.domain.user.LoginHistory;
 import com.spring.refruitshop.domain.user.User;
 import com.spring.refruitshop.repository.user.LoginHistoryRepository;
 import com.spring.refruitshop.repository.user.UserRepository;
+import com.spring.refruitshop.service.order.OrderItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -20,11 +22,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final LoginHistoryRepository loginHistoryRepository;
+    private final OrderItemService orderItemService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, LoginHistoryRepository loginHistoryRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, LoginHistoryRepository loginHistoryRepository, OrderItemService orderItemService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.loginHistoryRepository = loginHistoryRepository;
+        this.orderItemService = orderItemService;
     }
 
     // 회원 가입
@@ -53,23 +57,23 @@ public class UserService {
 
     // 로그인 처리
     // 시큐리티 적용시 수정 필요
-    public LoginUser login(HttpServletRequest request, LoginRequest loginRequest) {
-
-        log.info("Login request: {}", loginRequest.getUserid());
-
-        User user = userRepository.findByUserId(loginRequest.getUserid())
-                .orElseThrow(() -> new IllegalArgumentException("아이디 혹은 비밀번호가 틀립니다."));
-
-        if (!user.getPassword().equals(loginRequest.getPassword())) {
-            throw new IllegalArgumentException("아이디 혹은 비밀번호가 틀립니다.");
-        }
-
-        log.info("Login User: {}", user);
-        LoginUser loginUser = new LoginUser(user);
-
-        request.getSession().setAttribute("user", loginUser);
-        return loginUser;
-    }// end of public void login(HttpServletRequest request, LoginRequest loginRequest) -------------------
+//    public LoginUser login(HttpServletRequest request, LoginRequest loginRequest) {
+//
+//        log.info("Login request: {}", loginRequest.getUserid());
+//
+//        User user = userRepository.findByUserId(loginRequest.getUserid())
+//                .orElseThrow(() -> new IllegalArgumentException("아이디 혹은 비밀번호가 틀립니다."));
+//
+//        if (!user.getPassword().equals(loginRequest.getPassword())) {
+//            throw new IllegalArgumentException("아이디 혹은 비밀번호가 틀립니다.");
+//        }
+//
+//        log.info("Login User: {}", user);
+//        LoginUser loginUser = new LoginUser(user);
+//
+//        request.getSession().setAttribute("user", loginUser);
+//        return loginUser;
+//    }// end of public void login(HttpServletRequest request, LoginRequest loginRequest) -------------------
 
 
     // userid 로 회원을 조회하는 메소드
@@ -119,4 +123,40 @@ public class UserService {
 
         return new UserDuplicateResponse(userIdExist, emailExist);
     }// end of public UserDuplicateResponse duplicateCheckUserIdAndEmail(UserDuplicateRequest request) -----------------
+
+
+    // 회원의 쿠폰, 상품배송 상태를 반환하는 메소드(마이페이지용)
+    @Transactional(readOnly = true)
+    public MyPageInfoResponse findCouponAndDeliveryStatus(User loginUser) {
+        List<MyPageShipItem> shipStatusCount = orderItemService.findShipStatusCount(loginUser.getNo());
+
+        return new MyPageInfoResponse(shipStatusCount, null);
+    }// end of public MyPageInfoResponse findCouponAndDeliveryStatus(User loginUser) ---------------------
+
+
+    // 회원 정보를 수정하는 메소드
+    @Transactional
+    public LoginUser updateUserInfo(UpdateUserInfoRequest request, User loginUser) {
+
+        log.info("수정 전 회원정보: {}", request);
+
+        // 회원 정보를 조회 후 정보를 변경한다.
+        User user = userRepository.findByUserId(request.getUserid())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+
+        // 로그인을 하지 않았거나 다른 유저의 정보를 수정요청한 경우
+        if (loginUser == null || user.getNo() != loginUser.getNo()) {
+            throw new IllegalArgumentException("다른 회원의 정보는 수정할 수 없습니다.");
+        }
+
+        // 패스워드 변경 요청 시 암호화
+        if (StringUtils.hasText(request.getPassword())) {
+            user.updatePassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        user.updateInfo(request);
+
+        return new LoginUser(user);
+    }// end of public UpdateUserInfoResponse updateUserInfo(UpdateUserInfoRequest request, User loginUser) -------------------
 }

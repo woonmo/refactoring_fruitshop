@@ -25,9 +25,9 @@
 
                 <!-- MyPage & AdminPage -->
                 <a href="#" sec:authorize="isAuthenticated() && hasRole('ADMIN')">Admin Page</a>
-                <a href="#" sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN'))">My Page</a>
+                <a th:href="@{/mypage}" sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN'))">My Page</a>
 
-                <a href="#">Order List</a>
+                <a th:href="@{/orders}">Order List</a>
                 <a th:href="@{/carts}">Cart</a>
 
             </div>
@@ -70,7 +70,7 @@
 
                         <li class="nav-item active mr-3">
                             <a sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="nav-link menu">Admin Page</a>
-                            <a sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-link menu">My Page</a>
+                            <a th:href="@{/mypage}" sec:authorize="isAnonymous() || (isAuthenticated() && !hasRole('ADMIN')) " class="nav-link menu">My Page</a>
 <!--                            <div>Debug: <span sec:authentication="name"></span></div>-->
 <!--                            <div>Debug: <span sec:authentication="authorities"></span></div>-->
                         </li>

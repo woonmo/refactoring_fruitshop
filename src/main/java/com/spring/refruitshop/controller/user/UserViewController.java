@@ -52,10 +52,17 @@ public class UserViewController {
         return "user/signUp";
     }// end of public String signUp() ------------
 
-    // 휴면 복구 페이지
-    @GetMapping("/idle")
-    public String idle() {
-        return "idle";
+    // 정지 유저 안내 페이지
+    @GetMapping("/ban/blocked")
+    public String blocked() {
+        return "user/blocked";
+    }
+
+
+    // 탈퇴 유저 안내 페이지
+    @GetMapping("/ban/deleted")
+    public String deleted() {
+        return "user/deleted";
     }
 
 }

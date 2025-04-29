@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/users")
 @Slf4j
@@ -74,4 +76,14 @@ public class UserApiController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }// end of public ResponseEntity<UpdateUserInfoResponse> updateUserInfo (UpdateUserInfoRequest request, @ModelAttribute("loginUser") User loginUser) -------------------
+
+
+    // 휴면유저 비밀번호 변경
+    @PostMapping("/check-password")
+    public ResponseEntity<Map<String, Boolean>> changePassword (@RequestBody String newPassword, @ModelAttribute("loginUser") User loginUser) {
+
+        boolean isChanged = userService.changePassword(newPassword, loginUser);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("isChanged", isChanged));
+    }// end of public ResponseEntity<Map<String, Boolean>> checkAlreadyPassword (@RequestBody String newPassword, @ModelAttribute("loginUser") User loginUser) ----------------
 }

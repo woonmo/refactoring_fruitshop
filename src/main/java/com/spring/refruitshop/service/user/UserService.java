@@ -159,4 +159,26 @@ public class UserService {
 
         return new LoginUser(user);
     }// end of public UpdateUserInfoResponse updateUserInfo(UpdateUserInfoRequest request, User loginUser) -------------------
+
+
+    // 비밀번호 변경 페이지에서 비밀번호 변경
+    @Transactional
+    public boolean changePassword(String newPassword, User loginUser) {
+
+        User user = userRepository.findById(loginUser.getNo())
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원입니다."));
+
+        log.info("비밀번호 변경 요청, 전달받은 새로운 비밀번호: {}", newPassword);
+
+        // 새 비밀번호와 기존 비밀번호가 같은지 확인
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            log.info("기존 비밀번호와 같으므로 비밀번호 변경 불가");
+            return false;
+        }
+
+        // 새 비밀번호로 변경
+        user.updatePassword(passwordEncoder.encode(newPassword));
+        log.info("비밀번호 변경 성공! 변경된 비밀번호: {}", user.getPassword());
+        return true;
+    }// end of public boolean checkAlreadyUsePassword(String newPassword, User loginUser) -----------------
 }

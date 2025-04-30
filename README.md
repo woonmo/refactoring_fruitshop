@@ -15,7 +15,6 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 	- JDBC의 수동 트랜잭션에서 JPA로 관리 전환하여 데이터 무결성 확보
 	- 코드 가독성, 유지보수 및 확장성 향상
 
-
 ## 리팩토링 동기
 기존 JSP / Servlet 코드의 문제점:
 
@@ -32,15 +31,14 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 
 - **JDBC → JPA**: Entity 연관관계 매핑으로 쿼리 관리 간소화
 - **Servlet → REST API**: REST API 설계로 프론트엔드와 백엔드 분리
-- **JSP → Thymeleaf**: 뷰 템플릿 관리 간소화
+- **JSP → Thymeleaf**: 뷰 템플릿 관리 간소화, 일부 페이지 **React 프레임워크**로 전환(완전한 RESTful API 방식)
 
 ## ERD
+
 [FruitShop ERD](https://www.erdcloud.com/d/7S9xt8SMDxY87zEFz)
 
-
 ## API 정의
-자세한 정보는 [API 정의서](docs/api-definition.md) 문서를 참조해주세요.
-
+자세한 API 정보는 [[API 정의서]] 문서를 참조 해주세요
 
 ##  개발환경
 ### 기존 환경
@@ -64,12 +62,12 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 	- Spring Data JPA
 - 배포:
 	- Ubuntu 24.04
- 	- Docker(Dockerfile 및 Docker compose 사용) 예정 
+	- Docker
 
 
 ## 기술적 도전
 ### 1. JDBC → JPA 전환
-- **도전**: 
+- **도전**:
 	- 기존 SQL 강의존 방식에서 ORM 방식으로 전환
 - **결과**:
 	- Entity 연관관계 설정 `@OneToMany`, `@ManyToOne` 활용
@@ -97,6 +95,42 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 - **결정**:
 	- 쿼리는 한 시점에 작동하는 것으로 서버 자원 부담을 줄일 수 있다
 	- 오라클의 `SEQUENCE` 전략을 활용해 JPA와 `SEQUENCE` 동기화 경험치 (allocationSize 설정)
-	- 주문번호 생성 시 `날짜-시퀀스`형태로 비즈니스 로직 구현 가능성 확인
+	- 주문번호 생성 시`날짜-시퀀스`형태로 비즈니스 로직 구현 가능성 확인
+
+
+
+## 개선 사항
+### 1. 로그인 로직
+
+#### 기존 로그인 처리 로직
+
+![기존로그인1](./docs/images/CleanShot 2025-04-30 at 11.09.42.png)
+![기존로그인2](./docs/images/CleanShot 2025-04-30 at 11.10.58.png)
+
+
+쿼리함수, 조건에 따른 if 문 분기 등 SQL 의존적, 코드 가독성 문제 존재
+
+#### 리팩토링 후 로그인 처리 로직
+
+![개선로그인1](./docs/images/CleanShot 2025-04-30 at 11.15.32.png)
+
+스프링 시큐리티, enum 타입 상태의 분기로 명확성, 조건에 따른 로그인 처리 로직 변경 시 SQL문 재작성 불필요
+
+
+### 2. 주문 처리 로직
+
+#### 기존 주문 처리 로직
+
+![기존주문1](./docs/images/CleanShot 2025-04-30 at 11.37.31.png)
+... 중략
+![기존주문2](./docs/images/CleanShot 2025-04-30 at 11.38.04.png)
+
+주문 처리 시 기존 200 줄 가량의 테이블 처리 관련 로직과 수동 트랜지션으로 유지보수 난이도 가 높았음.
+
+#### 리팩토링 후 주문 처리 로직
+
+![개선주문1](./docs/images/CleanShot 2025-04-30 at 11.41.44.png)
+
+`@Transitional` 어노테이션으로 예외 발생 시 커밋, 롤백을 스프링 컨테이너에 위임함으로써 데이터 무결성 유지, 엔티티 영속성에 따른 재고 감소, 회원 포인트 처리를 도메인 로직을 활용하여 코드라인 수 감소
 
 

@@ -55,32 +55,10 @@ public class UserService {
     }// end of public User save(UserRegisterRequest request) -----------------
 
 
-    // 로그인 처리
-    // 시큐리티 적용시 수정 필요
-//    public LoginUser login(HttpServletRequest request, LoginRequest loginRequest) {
-//
-//        log.info("Login request: {}", loginRequest.getUserid());
-//
-//        User user = userRepository.findByUserId(loginRequest.getUserid())
-//                .orElseThrow(() -> new IllegalArgumentException("아이디 혹은 비밀번호가 틀립니다."));
-//
-//        if (!user.getPassword().equals(loginRequest.getPassword())) {
-//            throw new IllegalArgumentException("아이디 혹은 비밀번호가 틀립니다.");
-//        }
-//
-//        log.info("Login User: {}", user);
-//        LoginUser loginUser = new LoginUser(user);
-//
-//        request.getSession().setAttribute("user", loginUser);
-//        return loginUser;
-//    }// end of public void login(HttpServletRequest request, LoginRequest loginRequest) -------------------
-
-
-    // userid 로 회원을 조회하는 메소드
+    // userid 로 회원을 조회하는 메소드(비즈니스 로직용)
     public User findByUserId(String userid) {
-        User user = userRepository.findByUserId(userid)
+        return userRepository.findByUserId(userid)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 USERID 입니다."));
-        return user;
     }// end of public User findByUserId(String userid) ------------------
 
 

@@ -104,15 +104,15 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 
 #### 기존 로그인 처리 로직
 
-![기존로그인1](./docs/images/CleanShot 2025-04-30 at 11.09.42.png)
-![기존로그인2](./docs/images/CleanShot 2025-04-30 at 11.10.58.png)
+![기존로그인1](docs/images/asisLogin1.png)
+![기존로그인2](docs/images/asisLogin2.png)
 
 
 쿼리함수, 조건에 따른 if 문 분기 등 SQL 의존적, 코드 가독성 문제 존재
 
 #### 리팩토링 후 로그인 처리 로직
 
-![개선로그인1](./docs/images/CleanShot 2025-04-30 at 11.15.32.png)
+![개선로그인1](docs/images/tobeLogin.png)
 
 스프링 시큐리티, enum 타입 상태의 분기로 명확성, 조건에 따른 로그인 처리 로직 변경 시 SQL문 재작성 불필요
 
@@ -121,15 +121,15 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 
 #### 기존 주문 처리 로직
 
-![기존주문1](./docs/images/CleanShot 2025-04-30 at 11.37.31.png)
+![기존주문1](docs/images/asisOrder1.png)
 ... 중략
-![기존주문2](./docs/images/CleanShot 2025-04-30 at 11.38.04.png)
+![기존주문2](docs/images/asisOrder2.png)
 
 주문 처리 시 기존 200 줄 가량의 테이블 처리 관련 로직과 수동 트랜지션으로 유지보수 난이도 가 높았음.
 
 #### 리팩토링 후 주문 처리 로직
 
-![개선주문1](./docs/images/CleanShot 2025-04-30 at 11.41.44.png)
+![개선주문1](docs/images/tobeOrder.png)
 
 `@Transitional` 어노테이션으로 예외 발생 시 커밋, 롤백을 스프링 컨테이너에 위임함으로써 데이터 무결성 유지, 엔티티 영속성에 따른 재고 감소, 회원 포인트 처리를 도메인 로직을 활용하여 코드라인 수 감소
 

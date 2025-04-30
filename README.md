@@ -31,7 +31,7 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 
 - **JDBC → JPA**: Entity 연관관계 매핑으로 쿼리 관리 간소화
 - **Servlet → REST API**: REST API 설계로 프론트엔드와 백엔드 분리
-- **JSP → Thymeleaf**: 뷰 템플릿 관리 간소화, 일부 페이지 **React 프레임워크**로 전환(완전한 RESTful API 방식)
+- **JSP → Thymeleaf**: 뷰 템플릿 관리 간소화, 일부 페이지 **React 프레임워크**로 전환(완전한 RESTful API 방식)
 
 ## ERD
 
@@ -95,7 +95,7 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 - **결정**:
 	- 쿼리는 한 시점에 작동하는 것으로 서버 자원 부담을 줄일 수 있다
 	- 오라클의 `SEQUENCE` 전략을 활용해 JPA와 `SEQUENCE` 동기화 경험치 (allocationSize 설정)
-	- 주문번호 생성 시`날짜-시퀀스`형태로 비즈니스 로직 구현 가능성 확인
+	- 주문번호 생성 시 `날짜-시퀀스`형태로 비즈니스 로직 구현 가능성 확인
 
 
 

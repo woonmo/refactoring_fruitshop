@@ -65,7 +65,7 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                 )
-                .headers((headerconfig) -> headerconfig
+                .headers((headerConfig) -> headerConfig
                         .frameOptions((frameOptionsConfig -> frameOptionsConfig.sameOrigin()))
                 )
                 .exceptionHandling(exception -> exception
@@ -86,7 +86,7 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://fruitshop.kro.kr"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:3000", "https://fruitshop.kro.kr"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

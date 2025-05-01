@@ -101,6 +101,10 @@ public class Order {
         this.orderCode = orderCode;
     }
 
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     // 주문번호를 (20250412-1) 형식으로 만들어주는 메소드
     public String getFormattedOrderNo() {
         if (orderDate == null) {

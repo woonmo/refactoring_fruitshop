@@ -43,7 +43,7 @@ public class CartSSEController {
         emitterList.add(emitter);
 
         emitter.onCompletion(() -> emitterList.remove(emitter));
-        emitter.onTimeout(() -> emitterList.remove(emitter));
+        emitter.onTimeout(() -> {emitterList.remove(emitter); emitter.complete();});
         emitter.onError(throwable -> emitterList.remove(emitter));
 
         // 최초 연결 시 현재 장바구니 개수 보내기

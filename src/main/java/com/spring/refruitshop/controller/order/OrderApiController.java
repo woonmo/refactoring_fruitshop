@@ -91,4 +91,11 @@ public class OrderApiController {
     }// end of public ResponseEntity<OrderListResponse> getOrderList(@ModelAttribute OrderListRequest request, @ModelAttribute("loginUser") User loginUser) -------------------
 
 
+    // 주문 상태를 변경하는 메소드
+    @PutMapping("/api/orders")
+    public ResponseEntity<Map<String, String>> updateOrderStatus(@RequestBody UpdateOrderStatusRequest request, @ModelAttribute("loginUser") User loginUser) {
+        orderService.updateOrderStatus(request, loginUser);
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "주문변경이 정상적으로 처리되었습니다."));
+    }// end of public ResponseEntity<Map<String, Boolean>> updateOrderStatus(@RequestBody UpdateOrderStatusRequest request, @ModelAttribute("loginUser") User loginUser) -----------------------
+
 }

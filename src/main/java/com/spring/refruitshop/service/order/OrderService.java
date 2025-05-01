@@ -229,5 +229,14 @@ public class OrderService {
     }// end of public OrderListResponse getOrderList(OrderListRequest request, User loginUser) ---------------------------
 
 
+    // 주문 상태를 변경해주는 메소드
+    @Transactional
+    public void updateOrderStatus(UpdateOrderStatusRequest request, User loginUser) {
+        validationUser(loginUser);
 
+        Order order = orderRepository.findByOrderCode(request.getOrderCode())
+                                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 주문입니다."));
+
+        order.updateOrderStatus(OrderStatus.valueOf(request.getOrderStatus()));
+    }// end of public boolean updateOrderStatus(UpdateOrderStatusRequest request, User loginUser) -------------------
 }

@@ -20,4 +20,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT DISTINCT o FROM Order o JOIN FETCH o.orderItems oi JOIN FETCH oi.product JOIN FETCH o.user " + "WHERE o.user.no = :userNo " + "AND o.orderDate BETWEEN :fromDate AND :endDate " + "AND (:searchOrderCode IS NULL OR o.orderCode LIKE :searchOrderCode) " + "AND (:searchOrderStatus IS NULL OR o.orderStatus = :searchOrderStatus)")
     Page<Order> findByOrderDateAndOrderStatusAndOrderCodeContaining( @Param("userNo") Long userNo, @Param("fromDate") LocalDateTime fromDate, @Param("endDate") LocalDateTime endDate, @Param("searchOrderCode") String searchOrderCode, @Param("searchOrderStatus") OrderStatus searchOrderStatus, Pageable pageable);
 
+
+    @Query("SELECT o FROM Order o WHERE o.orderCode = :orderCode")
+    Optional<Order> findByOrderCode(@Param("orderCode") String orderCode);
 }

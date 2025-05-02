@@ -32,6 +32,7 @@ JSP Servlet 기반 쇼핑몰 리팩토링 프로젝트
 - **JDBC → JPA**: Entity 연관관계 매핑으로 쿼리 관리 간소화
 - **Servlet → REST API**: REST API 설계로 프론트엔드와 백엔드 분리
 - **JSP → Thymeleaf**: 뷰 템플릿 관리 간소화, 일부 페이지 **React 프레임워크**로 전환(완전한 RESTful API 방식)
+- [프론트엔드 프로젝트](https://github.com/woonmo/refruitshop_front)
 
 ## ERD
 
